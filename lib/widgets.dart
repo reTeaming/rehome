@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:basic_app/theme.dart';
 import 'package:basic_app/screens/home.dart';
 import 'package:basic_app/screens/information.dart';
+import 'package:basic_app/screens/profile.dart';
 
 /// This library contains all custom widgets of the ReHome app
 
@@ -193,6 +194,8 @@ class ImpRouter {
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case '/information':
         return createRoute(infoScreen);
+      case '/profile':
+        return createRoute(profileScreen);
       default:
         return MaterialPageRoute(builder: (_) => HomeScreen());
     }

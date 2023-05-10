@@ -19,4 +19,6 @@ class HomeScreen extends StatelessWidget {
 final mainMenu = <MainMenuItem>[
   SectionItem("Modul 1",
       Image.asset(iconSports, height: defaultMainMenuIconSize), '/information'),
+  SectionItem("Profil",
+      Image.asset(iconSports, height: defaultMainMenuIconSize), '/profile'),
 ];
