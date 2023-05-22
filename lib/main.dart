@@ -22,6 +22,8 @@ void main() async {
  * The main Widgets 
  */
 
+// added new comment
+
 /// Representation of the root node of the Impuls App
 class ReHomeApp extends StatefulWidget {
   final UserModel userModel;
