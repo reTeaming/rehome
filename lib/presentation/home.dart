@@ -28,6 +28,7 @@ class HomePage extends StatelessWidget {
             ElevatedButton(
               child: const Text('Ausloggen'),
               onPressed: () {
+                // übermittle dme 'AuthBloc' das Event: 'AuthLogoutRequested'
                 context.read<AuthBloc>().add(AuthLogoutRequested());
               },
             ),

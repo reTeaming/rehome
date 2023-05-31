@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'presentation/splash.dart';
 
+// Gerüst um alle Repositorys, Grundlegende-Blocs, etc. zu initialisieren
 class App extends StatefulWidget {
   const App({super.key});
 
@@ -28,14 +29,17 @@ class _AppState extends State<App> {
 
   @override
   void dispose() {
+    // alle 'Streams' von 'AuthRepository' werden geschlossen
     _authRepository.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // Reppositories werden dem Rest des Widget-Baums zugünglich gemacht
     return RepositoryProvider.value(
       value: _authRepository,
+      // Blocs werden dem Rest des Widget Baumes zugägnlich gemacht
       child: BlocProvider(
         create: (_) => AuthBloc(
           authRepository: _authRepository,
@@ -47,6 +51,7 @@ class _AppState extends State<App> {
   }
 }
 
+// 'AppView' stellt das Theme sowie den Navigator
 class AppView extends StatefulWidget {
   const AppView({super.key});
 
@@ -64,6 +69,8 @@ class _AppViewState extends State<AppView> {
     return MaterialApp(
       navigatorKey: _navigatorKey,
       builder: (context, child) {
+        // rounting basierend auf dem Authentifizierungszustand
+        // 'AuthBloc' stellt die zugrundelegende Logik
         return BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             switch (state.status) {
@@ -74,7 +81,6 @@ class _AppViewState extends State<AppView> {
                 );
               case AuthStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  //replace with: LoginPage.route(),
                   LoginPage.route(),
                   (route) => false,
                 );
@@ -85,6 +91,7 @@ class _AppViewState extends State<AppView> {
           child: child,
         );
       },
+      // initial wird auf die SplashPage geleitet
       onGenerateRoute: (_) => SplashPage.route(),
     );
   }

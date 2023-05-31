@@ -1,5 +1,6 @@
 part of 'login_bloc.dart';
 
+// Mögliche Input-Events für den 'LoginBloc'
 sealed class LoginEvent extends Equatable {
   const LoginEvent();
 

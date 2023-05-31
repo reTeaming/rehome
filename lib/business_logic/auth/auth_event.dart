@@ -1,5 +1,6 @@
 part of 'auth_bloc.dart';
 
+// Events für den AuthBloc
 sealed class AuthEvent {
   const AuthEvent();
 }

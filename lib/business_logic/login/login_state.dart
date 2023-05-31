@@ -1,5 +1,6 @@
 part of 'login_bloc.dart';
 
+// Mögliche Zustände des 'LoginBlocs'
 final class LoginState extends Equatable {
   const LoginState({
     this.status = FormzSubmissionStatus.initial,

@@ -1,5 +1,6 @@
 part of 'auth_bloc.dart';
 
+// Mögliche Zustände des AuthBlocs
 class AuthState extends Equatable {
   const AuthState._({
     this.status = AuthStatus.unknown,

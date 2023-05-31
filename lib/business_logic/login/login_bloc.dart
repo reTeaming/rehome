@@ -7,11 +7,15 @@ import 'package:ReHome/domain/models/auth/models.dart';
 part 'login_event.dart';
 part 'login_state.dart';
 
+/// 'LoginBloc' befasst sich nur mit der verarbeitung des LoginForms.
+/// Die Authentifizierung und weiterleitung bei erfolgreichem Anmelden wird alles vom
+/// 'AuthBloc' übernommen.
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
     required AuthRepository authRepository,
   })  : _authRepository = authRepository,
         super(const LoginState()) {
+    // registriere Handler für gegebene Events
     on<LoginUsernameChanged>(_onUsernameChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onSubmitted);

@@ -6,6 +6,7 @@ import 'package:ReHome/domain/repositories/auth_repository.dart';
 import 'package:ReHome/domain/repositories/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:ReHome/domain/models/user.dart';
+import 'package:equatable/equatable.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -17,6 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
         super(const AuthState.unknown()) {
+    // registriere passende Handler
     on<AuthStatusChanged>(_onAuthStatusChanged);
     on<AuthLogoutRequested>(_onAuthLogoutRequested);
     _authStatusSubscription = _authRepository.status.listen(
@@ -34,6 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return super.close();
   }
 
+  // Handler für Authentifizierungsstatusänderungen
   Future<void> _onAuthStatusChanged(
     AuthStatusChanged event,
     Emitter<AuthState> emit,
@@ -53,6 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
+  // Handler für Logount Event
   void _onAuthLogoutRequested(
     AuthLogoutRequested event,
     Emitter<AuthState> emit,
