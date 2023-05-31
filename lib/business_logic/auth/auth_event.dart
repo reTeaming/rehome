@@ -1,4 +1,4 @@
-import 'package:ReHome/domain/repositories/auth_repository.dart';
+part of 'auth_bloc.dart';
 
 sealed class AuthEvent {
   const AuthEvent();

@@ -7,11 +7,8 @@ import 'package:ReHome/domain/repositories/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:ReHome/domain/models/user.dart';
 
-import './auth_event.dart';
-import './auth_state.dart';
-
-export './auth_event.dart';
-export './auth_state.dart';
+part 'auth_event.dart';
+part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({

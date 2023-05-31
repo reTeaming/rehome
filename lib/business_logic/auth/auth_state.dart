@@ -1,6 +1,4 @@
-import 'package:ReHome/domain/models/user.dart';
-import 'package:ReHome/domain/repositories/auth_repository.dart';
-import 'package:equatable/equatable.dart';
+part of 'auth_bloc.dart';
 
 class AuthState extends Equatable {
   const AuthState._({
