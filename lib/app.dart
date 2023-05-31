@@ -1,6 +1,8 @@
 import 'package:ReHome/business_logic/auth/auth_bloc.dart';
 import 'package:ReHome/domain/repositories/auth_repository.dart';
 import 'package:ReHome/domain/repositories/user_repository.dart';
+import 'package:ReHome/presentation/home.dart';
+import 'package:ReHome/presentation/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -67,14 +69,13 @@ class _AppViewState extends State<AppView> {
             switch (state.status) {
               case AuthStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  //replace with: HomePage.route(),
-                  MaterialPageRoute<void>(builder: (_) => const SplashPage()),
+                  HomePage.route(),
                   (route) => false,
                 );
               case AuthStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   //replace with: LoginPage.route(),
-                  MaterialPageRoute<void>(builder: (_) => const SplashPage()),
+                  LoginPage.route(),
                   (route) => false,
                 );
               case AuthStatus.unknown:
