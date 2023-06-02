@@ -1,0 +1,142 @@
+@startuml
+
+title Daten Model - Rehome
+
+
+class Institution {
+		organisation_id : String
+		name : String
+		department : String
+}
+
+class Password {
+		inner : String
+}
+
+class Username {
+		inner : String
+}
+
+class AuthData {
+		password : Password  
+		username : Username
+		..  
+		password sollte nur als hash gespeichert werden
+    +User authenticate() 
+}
+
+class Name {
+	name : String
+	surname : String
+}
+
+class Id {
+		inner: String
+}
+
+class User {
+		id : Id
+		name : Name
+		username : Username
+		institution : Institution
+}
+
+Password <|-- AuthData
+Username <|-- AuthData
+
+Id <|-- User 
+Name <|-- User 
+Username <|-- User 
+Institution <|-- User 
+
+enum Sex {
+		Male
+		Female
+		Other
+		Unspecified
+}
+
+class Patient {
+	name : Name
+	sex : Sex
+	birthDate : DateTime
+	therapyStart : DateTime
+  goals : Goals		
+}
+
+class Goals{
+	inner : Goals[]
+}
+
+enum Status {
+		inactive
+		active
+		achieved
+		inProcess
+}
+
+class Goal {
+		status : Status
+		description : String
+}
+
+Enum ParesisSide{
+		Left
+		Right
+		Both
+}
+
+class ClinicalData {
+	paresisSide : ParesisSide
+	lastStroke: DateTime
+	clinicalTests: ClinicalTest[]
+}
+
+abstract class ClinicalTest{
+		String name
+}
+
+class FugiMeyerScale {
+	 sensitivity : int
+	 reflexes : int 
+	 hand : int 
+	 arm : int
+	 pain: int
+}
+
+class BroetzScale {
+		score1 : int
+		score2 : int
+		score3 : int
+		score4 : int
+}
+
+
+class Homework {
+  ...
+}
+
+class Exercise {
+ ...
+
+}
+
+Sex <|-- Patient
+Name <|-- Patient
+Goals <|-- Patient
+ClinicalData <|-- Patient
+Homework <|-- Patient
+
+Goal <|-- Goals
+Status <|-- Goal
+
+ClinicalTest <|-- ClinicalData
+ParesisSide <|-- ClinicalData
+FugiMeyerScale --> ClinicalTest
+BroetzScale --> ClinicalTest
+
+
+
+
+
+@enduml
