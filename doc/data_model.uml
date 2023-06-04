@@ -4,10 +4,12 @@ title Daten Model - Rehome
 
 
 class Institution {
-		organisation_id : String
+		organisation_id : Id
 		name : String
 		department : String
 }
+
+Id <|-- Institution
 
 class Password {
 		inner : String
@@ -76,7 +78,6 @@ enum Status {
 		inactive
 		active
 		achieved
-		inProcess
 }
 
 class Goal {
@@ -115,6 +116,18 @@ class BroetzScale {
 		score4 : int
 }
 
+<<<<<<< HEAD
+enum Day {
+		Monday
+		Thuesday
+		Wednesday
+		Thursday
+		Friday
+		Saturday
+		Sunday
+}
+||||||| parent of 782b4d3 (data_model Homework and ExerciseDefaultData)
+=======
 enum Day {
 		Monday
 		Thuesday
@@ -125,7 +138,14 @@ enum Day {
 		Sunday
 }
 
+class Week {
+		week_number: Int
+		year: Int
+}
+>>>>>>> 782b4d3 (data_model Homework and ExerciseDefaultData)
+
 class Homework {
+<<<<<<< HEAD
 	repeated : WeekHomework
 	weeks : WeekHomework
 }
@@ -138,6 +158,23 @@ class WeekHomework {
 
 class ExerciseDefaultData {
   exercises : Exercise[]
+||||||| parent of 782b4d3 (data_model Homework and ExerciseDefaultData)
+  ...
+=======
+	repeated : WeekHomework
+	repeated_since: DateTime
+	weeks : Map<Week, WeekHomework>
+}
+
+class WeekHomework {
+   exercises : Map<Day, Exercise[]>
+}
+
+Week <|-- WeekHomework
+
+class ExerciseDefaultData {
+  exercises : Exercise[]
+>>>>>>> 782b4d3 (data_model Homework and ExerciseDefaultData)
 }
 
 class Exercise {
@@ -145,6 +182,7 @@ class Exercise {
 	parameters: ParameterSet[]
 }
 
+<<<<<<< HEAD
 class ParameterValue {
 		inner: double
 		-- 
@@ -181,6 +219,46 @@ class Jerk {
 
 
 
+||||||| parent of 782b4d3 (data_model Homework and ExerciseDefaultData)
+=======
+class ParameterValue {
+		inner: double
+		-- 
+		only accepts values between 0 und 1
+}
+
+abstract class ParameterSet {
+		name: String
+		repetition: int
+}
+
+enum Joint {
+		Ellbow
+		Wrist
+		Shoulder
+}
+
+class RangeOfMotion {
+		joint : Joint
+		value: ParameterValue
+}
+
+class Cocontraction {
+		extensor1 : ParameterValue
+		extensor2 : ParameterValue
+		extensor3 : ParameterValue
+		flexor1 : ParameterValue
+		flexor2 : ParameterValue
+		flexor3 : ParameterValue
+}
+
+class Jerk {
+		value : ParameterValue
+}
+
+
+
+>>>>>>> 782b4d3 (data_model Homework and ExerciseDefaultData)
 Sex <|-- Patient
 Name <|-- Patient
 Goals <|-- Patient
