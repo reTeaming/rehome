@@ -62,6 +62,10 @@ class Patient {
 	birthDate : DateTime
 	therapyStart : DateTime
   goals : Goals		
+	clinicalData : ClinicalData
+	exerciseDefaultData : ExerciseDefaultData
+	homework : Homework
+
 }
 
 class Goals{
@@ -111,21 +115,78 @@ class BroetzScale {
 		score4 : int
 }
 
+enum Day {
+		Monday
+		Thuesday
+		Wednesday
+		Thursday
+		Friday
+		Saturday
+		Sunday
+}
 
 class Homework {
-  ...
+	repeated : WeekHomework
+	weeks : WeekHomework
+}
+
+class WeekHomework {
+	 weekNumber : Int
+	 year : Int
+   exercises : Map<Day, Exercise[]>
+}
+
+class ExerciseDefaultData {
+  exercises : Exercise[]
 }
 
 class Exercise {
- ...
-
+	id: Id
+	parameters: ParameterSet[]
 }
+
+class ParameterValue {
+		inner: double
+		-- 
+		only accepts values between 0 und 1
+}
+
+abstract class ParameterSet {
+		name: String
+}
+
+enum Joint {
+		Ellbow
+		Wrist
+		Shoulder
+}
+
+class RangeOfMotion {
+		joint : Joint
+		value: ParameterValue
+}
+
+class Cocontraction {
+		extensor1 : ParameterValue
+		extensor2 : ParameterValue
+		extensor3 : ParameterValue
+		flexor1 : ParameterValue
+		felxor2 : ParameterValue
+		felxor3 : ParameterValue
+}
+
+class Jerk {
+		value : ParameterValue
+}
+
+
 
 Sex <|-- Patient
 Name <|-- Patient
 Goals <|-- Patient
 ClinicalData <|-- Patient
 Homework <|-- Patient
+ExerciseDefaultData <|-- Patient
 
 Goal <|-- Goals
 Status <|-- Goal
@@ -135,6 +196,24 @@ ParesisSide <|-- ClinicalData
 FugiMeyerScale --> ClinicalTest
 BroetzScale --> ClinicalTest
 
+WeekHomework <|-- Homework
+
+Exercise <|-- WeekHomework
+Day <|-- WeekHomework
+
+Exercise <|-- ExerciseDefaultData
+
+ParameterSet <|-- Exercise
+
+Cocontraction --> ParameterSet
+Jerk --> ParameterSet
+RangeOfMotion --> ParameterSet
+
+Joint <|-- RangeOfMotion
+
+ParameterValue <|-- Cocontraction
+ParameterValue <|-- Jerk
+ParameterValue <|-- RangeOfMotion
 
 
 
