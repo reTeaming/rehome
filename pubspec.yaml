@@ -19,6 +19,7 @@ dependencies:
   formz: ^0.6.0
 
   cupertino_icons: ^1.0.2
+  sidebarx: ^0.15.0
 
 dev_dependencies:
   flutter_test:
