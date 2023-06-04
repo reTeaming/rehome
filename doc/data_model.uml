@@ -116,18 +116,6 @@ class BroetzScale {
 		score4 : int
 }
 
-<<<<<<< HEAD
-enum Day {
-		Monday
-		Thuesday
-		Wednesday
-		Thursday
-		Friday
-		Saturday
-		Sunday
-}
-||||||| parent of 782b4d3 (data_model Homework and ExerciseDefaultData)
-=======
 enum Day {
 		Monday
 		Thuesday
@@ -142,25 +130,8 @@ class Week {
 		week_number: Int
 		year: Int
 }
->>>>>>> 782b4d3 (data_model Homework and ExerciseDefaultData)
 
 class Homework {
-<<<<<<< HEAD
-	repeated : WeekHomework
-	weeks : WeekHomework
-}
-
-class WeekHomework {
-	 weekNumber : Int
-	 year : Int
-   exercises : Map<Day, Exercise[]>
-}
-
-class ExerciseDefaultData {
-  exercises : Exercise[]
-||||||| parent of 782b4d3 (data_model Homework and ExerciseDefaultData)
-  ...
-=======
 	repeated : WeekHomework
 	repeated_since: DateTime
 	weeks : Map<Week, WeekHomework>
@@ -174,7 +145,6 @@ Week <|-- WeekHomework
 
 class ExerciseDefaultData {
   exercises : Exercise[]
->>>>>>> 782b4d3 (data_model Homework and ExerciseDefaultData)
 }
 
 class Exercise {
@@ -182,45 +152,6 @@ class Exercise {
 	parameters: ParameterSet[]
 }
 
-<<<<<<< HEAD
-class ParameterValue {
-		inner: double
-		-- 
-		only accepts values between 0 und 1
-}
-
-abstract class ParameterSet {
-		name: String
-}
-
-enum Joint {
-		Ellbow
-		Wrist
-		Shoulder
-}
-
-class RangeOfMotion {
-		joint : Joint
-		value: ParameterValue
-}
-
-class Cocontraction {
-		extensor1 : ParameterValue
-		extensor2 : ParameterValue
-		extensor3 : ParameterValue
-		flexor1 : ParameterValue
-		felxor2 : ParameterValue
-		felxor3 : ParameterValue
-}
-
-class Jerk {
-		value : ParameterValue
-}
-
-
-
-||||||| parent of 782b4d3 (data_model Homework and ExerciseDefaultData)
-=======
 class ParameterValue {
 		inner: double
 		-- 
@@ -258,7 +189,6 @@ class Jerk {
 
 
 
->>>>>>> 782b4d3 (data_model Homework and ExerciseDefaultData)
 Sex <|-- Patient
 Name <|-- Patient
 Goals <|-- Patient
