@@ -58,15 +58,22 @@ enum Sex {
 		Unspecified
 }
 
+enum PatientStatus {
+		inactive
+		active
+		archived
+}
+
 class Patient {
 	name : Name
 	sex : Sex
 	birthDate : DateTime
 	therapyStart : DateTime
-  goals : Goals		
+    goals : Goals		
 	clinicalData : ClinicalData
 	exerciseDefaultData : ExerciseDefaultData
 	homework : Homework
+	status : PatientStatus
 
 }
 
@@ -74,14 +81,14 @@ class Goals{
 	inner : Goals[]
 }
 
-enum Status {
+enum GoalStatus {
 		inactive
 		active
 		achieved
 }
 
 class Goal {
-		status : Status
+		status : GoalStatus
 		description : String
 }
 
@@ -101,7 +108,7 @@ abstract class ClinicalTest{
 		String name
 }
 
-class FugiMeyerScale {
+class FuglMeyerScale {
 	 sensitivity : int
 	 reflexes : int 
 	 hand : int 
@@ -118,7 +125,7 @@ class BroetzScale {
 
 enum Day {
 		Monday
-		Thuesday
+		Tuesday
 		Wednesday
 		Thursday
 		Friday
@@ -141,15 +148,28 @@ class WeekHomework {
    exercises : Map<Day, Exercise[]>
 }
 
-Week <|-- WeekHomework
+Week <|-- Homework
 
 class ExerciseDefaultData {
   exercises : Exercise[]
 }
 
+class ExerciseBlock {
+	block : Exercise[]
+	status : BlockStatus
+}
+
+enum BlockStatus {
+	finished
+	unfinished
+}
+
+BlockStatus <|-- ExerciseBlock
+
 class Exercise {
 	id: Id
 	parameters: ParameterSet[]
+	results : Map<DateTime, ParameterSet[]>
 }
 
 class ParameterValue {
@@ -195,18 +215,20 @@ Goals <|-- Patient
 ClinicalData <|-- Patient
 Homework <|-- Patient
 ExerciseDefaultData <|-- Patient
+PatientStatus <|-- Patient
 
 Goal <|-- Goals
-Status <|-- Goal
+GoalStatus <|-- Goal
 
 ClinicalTest <|-- ClinicalData
 ParesisSide <|-- ClinicalData
-FugiMeyerScale --> ClinicalTest
+FuglMeyerScale --> ClinicalTest
 BroetzScale --> ClinicalTest
 
 WeekHomework <|-- Homework
 
-Exercise <|-- WeekHomework
+ExerciseBlock <|-- WeekHomework
+Exercise <|-- ExerciseBlock
 Day <|-- WeekHomework
 
 Exercise <|-- ExerciseDefaultData
