@@ -3,17 +3,43 @@ import 'package:ReHome/domain/models/patient/exerciseDefaultData.dart';
 import 'package:ReHome/domain/models/patient/goals.dart';
 import 'package:ReHome/domain/models/patient/sex.dart';
 import 'package:ReHome/domain/models/user/name.dart';
-import 'package:ReHome/domain/models/user/homework.dart';
+import 'package:ReHome/domain/models/patient/homework.dart';
+import 'package:equatable/equatable.dart';
 
-class Patient {
-  Name name;
-  Sex sex;
-  DateTime birthDate;
-  List<ExerciseDefaultData> exerciseDefaults;
-  ClinicalData clinicalData;
-  Goals goals;
-  Homework homework;
+class Patient extends Equatable {
+  const Patient(
+      this.name,
+      this.sex,
+      this.birthDate,
+      this.therapyStart,
+      this.exerciseDefaults,
+      this.clinicalData,
+      this.goals,
+      this.homework,
+      this.status);
 
-  Patient(this.name, this.sex, this.birthDate, this.exerciseDefaults,
-      this.clinicalData, this.goals, this.homework);
+  final Name name;
+  final Sex sex;
+  final DateTime birthDate;
+  final DateTime therapyStart;
+  final ExerciseDefaultData exerciseDefaults;
+  final ClinicalData clinicalData;
+  final Goals goals;
+  final Homework homework;
+  final PatientStatus status;
+
+  @override
+  List<Object> get props => [
+        name,
+        sex,
+        birthDate,
+        therapyStart,
+        exerciseDefaults,
+        clinicalData,
+        goals,
+        homework,
+        status
+      ];
 }
+
+enum PatientStatus { INACTIVE, ACTIVE, ARCHIVED }

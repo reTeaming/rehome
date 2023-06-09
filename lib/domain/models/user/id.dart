@@ -8,5 +8,5 @@ class Id extends Equatable {
   @override
   List<Object> get props => [id];
 
-  static const empty = Id('-');
+  static const mock = Id('-');
 }

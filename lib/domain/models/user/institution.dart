@@ -1,14 +1,15 @@
 import 'package:equatable/equatable.dart';
+import 'package:ReHome/domain/models/user/id.dart';
 
 class Institution extends Equatable {
   const Institution(this.organisationId, this.name, this.departement);
 
-  final String organisationId;
+  final Id organisationId;
   final String name;
   final String departement;
 
   @override
   List<Object> get props => [organisationId, name, departement];
 
-  static const empty = Institution('-', '-', '-');
+  static const mock = Institution(Id.mock, '-', '-');
 }
