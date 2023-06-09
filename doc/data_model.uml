@@ -145,7 +145,7 @@ class Homework {
 }
 
 class WeekHomework {
-   exercises : Map<Day, Exercise[]>
+   exercises : Map<Day, ExerciseBlock[]>
 }
 
 Week <|-- Homework
