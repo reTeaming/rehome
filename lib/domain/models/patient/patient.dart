@@ -1,7 +1,6 @@
 import 'package:ReHome/domain/models/patient/clinicalData.dart';
 import 'package:ReHome/domain/models/patient/exerciseDefaultData.dart';
 import 'package:ReHome/domain/models/patient/goals.dart';
-import 'package:ReHome/domain/models/patient/sex.dart';
 import 'package:ReHome/domain/models/user/name.dart';
 import 'package:ReHome/domain/models/patient/homework.dart';
 import 'package:equatable/equatable.dart';
@@ -43,3 +42,5 @@ class Patient extends Equatable {
 }
 
 enum PatientStatus { INACTIVE, ACTIVE, ARCHIVED }
+
+enum Sex { MALE, FEMALE, OTHER, UNSPECIFIED }

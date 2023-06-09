@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Goals extends Equatable{
+class Goals extends Equatable {
   const Goals(this.goals);
 
   final List<Goal> goals;
@@ -14,10 +14,13 @@ class Goals extends Equatable{
 }
 
 class Goal extends Equatable {
-  const Goal(this.status, this.description)
-  Status status;
-  String description;
-  Goal(this.status, this.description);
+  const Goal(this.status, this.description);
+
+  final GoalStatus status;
+  final String description;
+
+  @override
+  List<Object> get props => [status, description];
 }
 
-enum Status { inactive, active, achieved, inProcess }
+enum GoalStatus { inactive, active, achieved, inProcess }
