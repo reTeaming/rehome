@@ -1,4 +1,5 @@
 import 'package:ReHome/domain/models/auth/models.dart';
+import 'package:ReHome/domain/models/user/id.dart';
 import 'package:ReHome/domain/models/user/institution.dart';
 import 'package:ReHome/domain/models/user/name.dart';
 import 'package:equatable/equatable.dart';
@@ -8,7 +9,7 @@ import 'package:equatable/equatable.dart';
 class User extends Equatable {
   const User(this.id, this.name, this.username, this.institution);
 
-  final String id;
+  final Id id;
   final Name name;
   final Username username;
   final Institution institution;
@@ -17,5 +18,5 @@ class User extends Equatable {
   List<Object> get props => [id, name, username, institution];
 
   static const empty =
-      User('-', Name.empty, Username.pure(), Institution.empty);
+      User(Id.mock, Name.empty, Username.pure(), Institution.mock);
 }

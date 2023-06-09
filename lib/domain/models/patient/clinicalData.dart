@@ -12,17 +12,24 @@ class ClinicalData extends Equatable {
 
 enum ParesisSide { LEFT, RIGHT, BOTH }
 
-abstract class ClinicalTest {
-  String name;
-  FuglMeyerScale resultsF;
-  BroetzScale resultsB;
+abstract class ClinicalTest extends Equatable {
+  const ClinicalTest(this.name);
 
-  ClinicalTest(this.name, this.resultsF, this.resultsB);
+  final String name;
+
+  @override
+  List<Object> get props => [name];
 }
 
-class FuglMeyerScale extends Equatable {
+class FuglMeyerScale extends ClinicalTest {
   const FuglMeyerScale(
-      this.sensivity, this.reflexes, this.hand, this.arm, this.pain);
+    this.sensivity,
+    this.reflexes,
+    this.hand,
+    this.arm,
+    this.pain,
+    String name,
+  ) : super(name);
 
   final int sensivity;
   final int reflexes;
@@ -30,22 +37,29 @@ class FuglMeyerScale extends Equatable {
   final int arm;
   final int pain;
 
-  @override
-  List<Object> get props => [sensivity, reflexes, hand, arm, pain];
+  static const empty = FuglMeyerScale(0, 0, 0, 0, 0, '');
 
-  static const empty = FuglMeyerScale(0, 0, 0, 0, 0);
+  @override
+  List<Object> get props =>
+      super.props + [sensivity, reflexes, hand, arm, pain];
 }
 
-class BroetzScale extends Equatable {
-  const BroetzScale(this.score1, this.score2, this.score3, this.score4);
+class BroetzScale extends ClinicalTest {
+  const BroetzScale(
+    String name,
+    this.score1,
+    this.score2,
+    this.score3,
+    this.score4,
+  ) : super(name);
 
   final int score1;
   final int score2;
   final int score3;
   final int score4;
 
-  @override
-  List<Object> get props => [score1, score2, score3, score4];
+  static const empty = BroetzScale('', 0, 0, 0, 0);
 
-  static const empty = BroetzScale(0, 0, 0, 0);
+  @override
+  List<Object> get props => super.props + [score1, score2, score3, score4];
 }

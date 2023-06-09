@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ReHome/domain/models/auth/username.dart';
+import 'package:ReHome/domain/models/user/id.dart';
 import 'package:ReHome/domain/models/user/institution.dart';
 import 'package:ReHome/domain/models/user/name.dart';
 import 'package:ReHome/domain/models/user/user.dart';
@@ -17,8 +18,8 @@ class UserRepository {
     // Mock für den Nutzer
     return Future.delayed(
       const Duration(milliseconds: 300),
-      () => _user = User(
-          const Uuid().v4(), Name.empty, Username.pure(), Institution.empty),
+      () => _user =
+          const User(Id.mock, Name.empty, Username.pure(), Institution.mock),
     );
   }
 }
