@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:ReHome/data/backend_login.dart';
 
 // Mögliche Authentifizierungszustände
 enum AuthStatus { unknown, authenticated, unauthenticated }
@@ -19,11 +20,14 @@ class AuthRepository {
     required String username,
     required String password,
   }) async {
-    // Mock für backend
-    await Future.delayed(
-      const Duration(milliseconds: 300),
-      () => _controller.add(AuthStatus.authenticated),
-    );
+    // backend Anbindung wird aufgerufen und user wird authentifiziert
+    var success = await UserAuth().authUser(username, password);
+    // Bei erfolgreicher Authentifizierung wird AuthStatus geändert
+    if (success) {
+      _controller.add(AuthStatus.authenticated);
+    } else {
+      _controller.add(AuthStatus.unauthenticated);
+    }
   }
 
   void logOut() {
