@@ -4,7 +4,7 @@ class UserAuth {
   // Authentifizierung von Endbenutzern durch Backend
   // User wird anhand vom gegebenem Nutzernamen und Passwort authentifiziert
   Future<bool> authUser(String username, String password) async {
-    final user = ParseUser(username, password, null);
+    final user = ParseUser(username.trim(), password, null);
 
     var respone = await user.login();
 
