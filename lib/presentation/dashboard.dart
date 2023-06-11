@@ -6,7 +6,7 @@ import 'package:ReHome/presentation/searchwidget.dart';
 
 class DashBoard extends StatelessWidget {
   const DashBoard({super.key});
-  
+
 
   static Route<void> route() {
     return MaterialPageRoute<void>(builder: (_) => const DashBoard());
@@ -14,10 +14,19 @@ class DashBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return  MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: const Text('ReorderableListView Sample')),
-        body:  SearchWidget(dummyList), 
+        appBar: AppBar(title: const Text('Dashboard Sample ')),
+        body:  Row(
+          children: [
+            const Expanded(
+              flex: 1,
+              child: SizedBox(height: 100, width: 100,)),
+            Expanded(
+              flex: 2,
+              child: SearchWidget(dummyList)),
+          ],
+        ), 
       ),
     );
   }
