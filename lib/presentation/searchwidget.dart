@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
+// Dumme Objekte damit ich iwas anzeigen kann 
 class DummyObject {
   const DummyObject(this.name, this.birthDate, this.active); 
 
@@ -11,6 +13,7 @@ class DummyObject {
   final bool active;
 }
 
+// Liste aus dummen Objekten 
 
 List<DummyObject> dummyList = [
     DummyObject('John Doe', DateTime(1990, 10, 15), true),
@@ -22,6 +25,8 @@ List<DummyObject> dummyList = [
 
 
 
+//Bloc Sachen die glaub ich in ne andere Datei müssten (ich checks noch nicht wirklich):
+ 
 abstract class SearchEvent {}
 
 class SearchTextChanged extends SearchEvent {
@@ -42,19 +47,20 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   SearchBloc(this.objectList) : super(SearchState(objectList));
 
-  @override
+//Das filtern der liste zum Suchen von Objekten: 
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
     if (event is SearchTextChanged) {
       final query = event.query.toLowerCase();
 
-      final filteredItems = objectList.where((object) {
+      final filteredObjects = objectList.where((object) {
         return
+          //Dinge nachdenen gefiltert werden soll 
             object.name.toLowerCase().contains(query) ||
             object.active.toString().toLowerCase().contains(query) ||
             object.birthDate.toString().toLowerCase().contains(query); 
       }).toList();
 
-      yield SearchState(filteredItems);
+      yield SearchState(filteredObjects);
     }
   }
 }
@@ -75,7 +81,7 @@ class SearchWidget extends StatelessWidget{
         appBar: AppBar(
           title: TextField(
             onChanged: (query) {
-              //BlocProvider.of<SearchBloc>(context).add(SearchTextChanged(query));
+              BlocProvider.of<SearchBloc>(context).add(SearchTextChanged(query));
             },
               // Suchen mit Bloc 
             decoration: const InputDecoration(
@@ -86,41 +92,43 @@ class SearchWidget extends StatelessWidget{
 
           ),
         ),
-      ),
+      ),),
       body: BlocBuilder<SearchBloc, SearchState> (
         builder: (context, state) {
-          return ReorderableListView(
-            onReorder: (int oldIndex, int newIndex) {
-            
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  final DummyObject object = objectList.removeAt(oldIndex);
-                  objectList.insert(newIndex, object);
-                  
-        },
-           children: <Widget> [
-              for(int index = 0; index < objectList.length; index +=1)
-                ListTile(
-                  key : Key('$index'),
-                  tileColor: Theme.of(context).primaryColor, 
-                  title: Text(objectList[index].name), 
-                ),
-
-           ],
-        
-        
-        );
-            
-            
-
+          return RefreshIndicator(
+            //key : 
+            color: Colors.white, 
+            backgroundColor: Colors.blue,
+            strokeWidth: 4.0,
+            onRefresh: () async {
+              //Logik hinter dem Refreshen 
+              return Future<void>.delayed(const Duration(milliseconds: 300));
+            },
+            child: ReorderableListView(
+              onReorder: (int oldIndex, int newIndex) {
+                if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+                    final DummyObject object = objectList.removeAt(oldIndex);
+                    objectList.insert(newIndex, object);
+          
+                    SearchState(objectList);
+                },
+             children: <Widget> [
+                for(int index = 0; index < objectList.length; index +=1)
+                  ListTile(
+                    key : Key('$index'),
+                    tileColor: Theme.of(context).primaryColor, 
+                    title: Text(objectList[index].name), 
+                  ),
+             ],
+                  ),
+          );
         }
-      
-      
-      
       ,)
 
       ),
+    
     );
    }
 
