@@ -25,7 +25,9 @@ List<DummyObject> dummyList = [
 
 
 
-//Bloc Sachen die glaub ich in ne andere Datei müssten (ich checks noch nicht wirklich):
+//Bloc Sachen die glaub ich in ne andere Datei müssten aber zum testen erstmal hier sind 
+//(ich checks noch nicht wirklich) ;) 
+
  
 abstract class SearchEvent {}
 
@@ -88,6 +90,7 @@ class SearchWidget extends StatelessWidget{
                 hintText: "Suche...", 
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(//color),
+                  // Farblich muss das ganze noch angepasst werden 
                 )
 
           ),
@@ -105,6 +108,7 @@ class SearchWidget extends StatelessWidget{
               return Future<void>.delayed(const Duration(milliseconds: 300));
             },
             child: ReorderableListView(
+              // Um die Listenelemente neu anzuordnen per drag & drop 
               onReorder: (int oldIndex, int newIndex) {
                 if (oldIndex < newIndex) {
                       newIndex -= 1;
@@ -115,6 +119,7 @@ class SearchWidget extends StatelessWidget{
                     SearchState(objectList);
                 },
              children: <Widget> [
+              // Erstellen der einzelnen Listenelemente :
                 for(int index = 0; index < objectList.length; index +=1)
                   ListTile(
                     key : Key('$index'),
