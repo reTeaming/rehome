@@ -23,4 +23,4 @@ class Goal extends Equatable {
   List<Object> get props => [status, description];
 }
 
-enum GoalStatus { inactive, active, achieved, inProcess }
+enum GoalStatus { inactive, active, achieved}
