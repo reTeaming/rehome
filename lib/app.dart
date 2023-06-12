@@ -2,7 +2,8 @@ import 'package:ReHome/business_logic/auth/auth_bloc.dart';
 import 'package:ReHome/domain/repositories/auth_repository.dart';
 import 'package:ReHome/domain/repositories/user_repository.dart';
 import 'package:ReHome/presentation/home.dart';
-import 'package:ReHome/presentation/login/login.dart';
+// import 'package:ReHome/presentation/login/login.dart';
+import 'package:ReHome/presentation/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -81,7 +82,7 @@ class _AppViewState extends State<AppView> {
                 );
               case AuthStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
+                  PatientsPage.route(),
                   (route) => false,
                 );
               case AuthStatus.unknown:
