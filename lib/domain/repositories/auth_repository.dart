@@ -21,9 +21,9 @@ class AuthRepository {
     required String password,
   }) async {
     // backend Anbindung wird aufgerufen und user wird authentifiziert
-    var success = await UserAuth().authUser(username, password);
-    // Bei erfolgreicher Authentifizierung wird AuthStatus geändert
-    if (success) {
+    var user = await UserAuth().authUser(username, password);
+    // Bei erfolgreicher Authentifizierung nutzer übergeben und AuthStatus wird geändert
+    if (user != null) {
       _controller.add(AuthStatus.authenticated);
     } else {
       _controller.add(AuthStatus.unauthenticated);
