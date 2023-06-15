@@ -1,4 +1,5 @@
 import 'package:ReHome/domain/models/patient/exercise.dart';
+import 'package:const_date_time/const_date_time.dart';
 import 'package:equatable/equatable.dart';
 
 class Homework extends Equatable {
@@ -10,6 +11,9 @@ class Homework extends Equatable {
 
   @override
   List<Object> get props => [repeated, repeatedSince, weeks];
+
+  static const mockhomework =
+      Homework(WeekHomework.mockweekhomework, ConstDateTime(2000), {});
 }
 
 class Week extends Equatable {
@@ -29,6 +33,8 @@ class WeekHomework extends Equatable {
 
   @override
   List<Object> get props => [exercises];
+
+  static const mockweekhomework = WeekHomework({});
 }
 
 enum Day { MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }

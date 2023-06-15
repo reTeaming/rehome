@@ -1,3 +1,4 @@
+import 'package:const_date_time/const_date_time.dart';
 import 'package:equatable/equatable.dart';
 
 class ClinicalData extends Equatable {
@@ -8,6 +9,9 @@ class ClinicalData extends Equatable {
 
   @override
   List<Object> get props => [paresisSide, lastStroke, clinicalTest];
+
+  static const mockdata =
+      ClinicalData(ParesisSide.LEFT, ConstDateTime(2000), []);
 }
 
 enum ParesisSide { LEFT, RIGHT, BOTH }

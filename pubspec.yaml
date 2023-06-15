@@ -19,6 +19,8 @@ dependencies:
   formz: ^0.6.0
 
   cupertino_icons: ^1.0.2
+  const_date_time: ^1.0.2
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

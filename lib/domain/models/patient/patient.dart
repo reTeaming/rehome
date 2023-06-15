@@ -4,6 +4,7 @@ import 'package:ReHome/domain/models/patient/goals.dart';
 import 'package:ReHome/domain/models/user/name.dart';
 import 'package:ReHome/domain/models/patient/homework.dart';
 import 'package:equatable/equatable.dart';
+import 'package:const_date_time/const_date_time.dart';
 
 class Patient extends Equatable {
   const Patient(
@@ -39,6 +40,17 @@ class Patient extends Equatable {
         homework,
         status
       ];
+
+  static const mock = Patient(
+      Name.empty,
+      Sex.MALE,
+      ConstDateTime(2000),
+      ConstDateTime(2000),
+      ExerciseDefaultData.defaultexercisedata,
+      ClinicalData.mockdata,
+      Goals([]),
+      Homework.mockhomework,
+      PatientStatus.ACTIVE);
 }
 
 enum PatientStatus { INACTIVE, ACTIVE, ARCHIVED }
