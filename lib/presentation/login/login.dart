@@ -17,14 +17,25 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: BlocProvider(
-          create: (context) {
-            return LoginBloc(
-              authRepository: RepositoryProvider.of<AuthRepository>(context),
-            );
-          },
-          child: const LoginForm(),
-        ),
+        child: Column(
+          children: [
+            Container(
+              height: 150,
+              width: 180,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/ReHomeLogo.png'))
+              ),
+            ),
+            BlocProvider(
+              create: (context) {
+                return LoginBloc(
+                  authRepository: RepositoryProvider.of<AuthRepository>(context),
+                );
+              },
+              child: const LoginForm(),
+            ),
+          ],)
       ),
     );
   }
