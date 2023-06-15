@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 void main() async {
   // aufruf der parser initialisierung für backend
+  WidgetsFlutterBinding.ensureInitialized();
   InitializerBackend().initParser();
   // startet die Flutter App
   runApp(const App());
