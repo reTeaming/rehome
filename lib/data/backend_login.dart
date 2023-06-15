@@ -14,10 +14,12 @@ class UserAuth {
 
   // Registrierung von Endbenutzern (NUR für Entwicklungszwecke)
   // Benutzer wird mit gegebenem Nutzernamen und Passwort einer generierten Email-Adresse (anhand von Nutzernamen) erstellt
-  Future<bool> createUser(String username, String password) async {
+  Future<bool> createUser(String username, String password,
+      [String? email]) async {
     final usernameTrimmed = username.trim();
     final passwordTrimmed = password.trim();
-    final emailTrimmed = "$usernameTrimmed@gmail.com".trim();
+    final emailTrimmed =
+        (email == null) ? "$usernameTrimmed@gmail.com".trim() : email.trim();
 
     final user =
         ParseUser.createUser(usernameTrimmed, passwordTrimmed, emailTrimmed);
