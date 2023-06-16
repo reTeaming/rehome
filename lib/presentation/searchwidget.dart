@@ -1,5 +1,7 @@
 //Implementierung von generischer SearchWidget 
 import 'dart:ui';
+import 'package:ReHome/business_logic/search/bloc/search_bloc.dart';
+import 'package:ReHome/domain/repositories/search_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,51 +26,6 @@ List<DummyObject> dummyList = [
   ];
 
 
-
-//Bloc Sachen die glaub ich in ne andere Datei müssten aber zum testen erstmal hier sind 
-//(ich checks noch nicht wirklich) ;) 
-
- 
-abstract class SearchEvent {}
-
-class SearchTextChanged extends SearchEvent {
-  final String query;
-
-  SearchTextChanged(this.query);
-}
-
-class SearchState {
-  final List<DummyObject> filteredObjects;
-
-  SearchState(this.filteredObjects);
-}
-
-
-class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final List<DummyObject> objectList;
-
-  SearchBloc(this.objectList) : super(SearchState(objectList));
-
-//Das filtern der liste zum Suchen von Objekten: 
-  Stream<SearchState> mapEventToState(SearchEvent event) async* {
-    if (event is SearchTextChanged) {
-      final query = event.query.toLowerCase();
-
-      final filteredObjects = objectList.where((object) {
-        return
-          //Dinge nachdenen gefiltert werden soll 
-            object.name.toLowerCase().contains(query) ||
-            object.active.toString().toLowerCase().contains(query) ||
-            object.birthDate.toString().toLowerCase().contains(query); 
-      }).toList();
-
-      yield SearchState(filteredObjects);
-    }
-  }
-}
-
-
-
 class SearchWidget extends StatelessWidget{
   final List<DummyObject> objectList; 
 
@@ -77,8 +34,14 @@ class SearchWidget extends StatelessWidget{
   
   @override
    Widget build (BuildContext context) {
-    return BlocProvider(
-      create: (context) => SearchBloc(objectList),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+         create: (context) => SearchBloc(searchRepository: SearchRepository()), 
+         ),
+         
+
+      ],
       child: Scaffold (
         appBar: AppBar(
           title: TextField(
@@ -96,9 +59,16 @@ class SearchWidget extends StatelessWidget{
           ),
         ),
       ),),
-      body: BlocBuilder<SearchBloc, SearchState> (
+      body: 
+      BlocBuilder<SearchBloc, SearchState> (
         builder: (context, state) {
-          return RefreshIndicator(
+      
+          if (state is SearchChanged){
+          //   final searchList = context.select(
+          //   (SearchBloc bloc) => bloc.state.changedList, 
+          // ); 
+
+            return RefreshIndicator(
             //key : 
             color: Colors.white, 
             backgroundColor: Colors.blue,
@@ -109,26 +79,23 @@ class SearchWidget extends StatelessWidget{
             },
             child: ReorderableListView(
               // Um die Listenelemente neu anzuordnen per drag & drop 
-              onReorder: (int oldIndex, int newIndex) {
-                if (oldIndex < newIndex) {
-                      newIndex -= 1;
-                    }
-                    final DummyObject object = objectList.removeAt(oldIndex);
-                    objectList.insert(newIndex, object);
-          
-                    SearchState(objectList);
+              onReorder:  (int oldIndex, int newIndex) {
+                context.read<SearchBloc>().add(SearchReordered(oldIndex, newIndex)); 
                 },
+
              children: <Widget> [
               // Erstellen der einzelnen Listenelemente :
-                for(int index = 0; index < objectList.length; index +=1)
+                for(int index = 0; index < state.changedList.length; index +=1)
                   ListTile(
                     key : Key('$index'),
                     tileColor: Theme.of(context).primaryColor, 
-                    title: Text(objectList[index].name), 
+                    title: Text(state.changedList.name), 
                   ),
              ],
                   ),
           );
+          };
+          return const SizedBox(); // damit nich Null 
         }
       ,)
 
