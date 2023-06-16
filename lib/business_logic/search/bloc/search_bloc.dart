@@ -12,7 +12,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchRepository repository = SearchRepository(); 
   
   SearchBloc({
-    required SearchRepository searchRepository || AuthRepository authrepository, 
+    required SearchRepository searchRepository, 
   }) : super(SearchChanged(changedList: dummyList)) {
     
     on<EmptySearchInput>((event, emit)  {

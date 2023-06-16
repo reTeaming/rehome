@@ -1,7 +1,9 @@
 //Implementierung von generischer SearchWidget 
 import 'dart:ui';
+
 import 'package:ReHome/business_logic/search/bloc/search_bloc.dart';
 import 'package:ReHome/domain/repositories/search_repository.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,6 +28,8 @@ List<DummyObject> dummyList = [
   ];
 
 
+
+
 class SearchWidget extends StatelessWidget{
   final List<DummyObject> objectList; 
 
@@ -39,8 +43,6 @@ class SearchWidget extends StatelessWidget{
         BlocProvider(
          create: (context) => SearchBloc(searchRepository: SearchRepository()), 
          ),
-         
-
       ],
       child: Scaffold (
         appBar: AppBar(
@@ -59,16 +61,10 @@ class SearchWidget extends StatelessWidget{
           ),
         ),
       ),),
-      body: 
-      BlocBuilder<SearchBloc, SearchState> (
-        builder: (context, state) {
-      
-          if (state is SearchChanged){
-          //   final searchList = context.select(
-          //   (SearchBloc bloc) => bloc.state.changedList, 
-          // ); 
 
-            return RefreshIndicator(
+      body: BlocBuilder<SearchBloc, SearchState> (
+        builder: (context, state) {
+          return RefreshIndicator(
             //key : 
             color: Colors.white, 
             backgroundColor: Colors.blue,
@@ -90,12 +86,15 @@ class SearchWidget extends StatelessWidget{
                     key : Key('$index'),
                     tileColor: Theme.of(context).primaryColor, 
                     title: Text(state.changedList.name), 
+
                   ),
              ],
                   ),
           );
-          };
-          return const SizedBox(); // damit nich Null 
+
+        
+        
+
         }
       ,)
 
