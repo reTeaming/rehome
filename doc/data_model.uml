@@ -1,0 +1,251 @@
+@startuml
+
+title Daten Model - Rehome
+
+
+class Institution {
+		organisation_id : Id
+		name : String
+		department : String
+}
+
+Id <|-- Institution
+
+class Password {
+		inner : String
+}
+
+class Username {
+		inner : String
+}
+
+class AuthData {
+		password : Password  
+		username : Username
+		..  
+		password sollte nur als hash gespeichert werden
+    +User authenticate() 
+}
+
+class Name {
+	name : String
+	surname : String
+}
+
+class Id {
+		inner: String
+}
+
+class User {
+		id : Id
+		name : Name
+		username : Username
+		institution : Institution
+}
+
+Password <|-- AuthData
+Username <|-- AuthData
+
+Id <|-- User 
+Name <|-- User 
+Username <|-- User 
+Institution <|-- User 
+
+enum Sex {
+		Male
+		Female
+		Other
+		Unspecified
+}
+
+enum PatientStatus {
+		inactive
+		active
+		archived
+}
+
+class Patient {
+	name : Name
+	sex : Sex
+	birthDate : DateTime
+	therapyStart : DateTime
+    goals : Goals		
+	clinicalData : ClinicalData
+	exerciseDefaultData : ExerciseDefaultData
+	homework : Homework
+	status : PatientStatus
+
+}
+
+class Goals{
+	inner : Goals[]
+}
+
+enum GoalStatus {
+		inactive
+		active
+		achieved
+}
+
+class Goal {
+		status : GoalStatus
+		description : String
+}
+
+Enum ParesisSide{
+		Left
+		Right
+		Both
+}
+
+class ClinicalData {
+	paresisSide : ParesisSide
+	lastStroke: DateTime
+	clinicalTests: ClinicalTest[]
+}
+
+abstract class ClinicalTest{
+		String name
+}
+
+class FuglMeyerScale {
+	 sensitivity : int
+	 reflexes : int 
+	 hand : int 
+	 arm : int
+	 pain: int
+}
+
+class BroetzScale {
+		score1 : int
+		score2 : int
+		score3 : int
+		score4 : int
+}
+
+enum Day {
+		Monday
+		Tuesday
+		Wednesday
+		Thursday
+		Friday
+		Saturday
+		Sunday
+}
+
+class Week {
+		week_number: Int
+		year: Int
+}
+
+class Homework {
+	repeated : WeekHomework
+	repeated_since: DateTime
+	weeks : Map<Week, WeekHomework>
+}
+
+class WeekHomework {
+   exercises : Map<Day, ExerciseBlock[]>
+}
+
+Week <|-- Homework
+
+class ExerciseDefaultData {
+  exercises : Exercise[]
+}
+
+class ExerciseBlock {
+	block : Exercise[]
+	status : BlockStatus
+}
+
+enum BlockStatus {
+	finished
+	unfinished
+}
+
+BlockStatus <|-- ExerciseBlock
+
+class Exercise {
+	id: Id
+	parameters: ParameterSet[]
+	results : Map<DateTime, ParameterSet[]>
+}
+
+class ParameterValue {
+		inner: double
+		-- 
+		only accepts values between 0 und 1
+}
+
+abstract class ParameterSet {
+		name: String
+		repetition: int
+}
+
+enum Joint {
+		Ellbow
+		Wrist
+		Shoulder
+}
+
+class RangeOfMotion {
+		joint : Joint
+		value: ParameterValue
+}
+
+class Cocontraction {
+		extensor1 : ParameterValue
+		extensor2 : ParameterValue
+		extensor3 : ParameterValue
+		flexor1 : ParameterValue
+		flexor2 : ParameterValue
+		flexor3 : ParameterValue
+}
+
+class Jerk {
+		value : ParameterValue
+}
+
+
+
+Sex <|-- Patient
+Name <|-- Patient
+Goals <|-- Patient
+ClinicalData <|-- Patient
+Homework <|-- Patient
+ExerciseDefaultData <|-- Patient
+PatientStatus <|-- Patient
+
+Goal <|-- Goals
+GoalStatus <|-- Goal
+
+ClinicalTest <|-- ClinicalData
+ParesisSide <|-- ClinicalData
+FuglMeyerScale --> ClinicalTest
+BroetzScale --> ClinicalTest
+
+WeekHomework <|-- Homework
+
+ExerciseBlock <|-- WeekHomework
+Exercise <|-- ExerciseBlock
+Day <|-- WeekHomework
+
+Exercise <|-- ExerciseDefaultData
+
+ParameterSet <|-- Exercise
+
+Cocontraction --> ParameterSet
+Jerk --> ParameterSet
+RangeOfMotion --> ParameterSet
+
+Joint <|-- RangeOfMotion
+
+ParameterValue <|-- Cocontraction
+ParameterValue <|-- Jerk
+ParameterValue <|-- RangeOfMotion
+
+
+
+
+@enduml
