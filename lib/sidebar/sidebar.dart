@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 
-void main() {
-  runApp(Sidebar());
-}
-
 class Sidebar extends StatelessWidget {
   Sidebar({Key? key}) : super(key: key);
 
-  final _controller = SidebarXController(selectedIndex: 0, extended: true);
+  final _controller = SidebarXController(selectedIndex: 0, extended: false);
   final _key = GlobalKey<ScaffoldState>();
 
   static Route<void> route() {
@@ -34,28 +30,11 @@ class Sidebar extends StatelessWidget {
       ),
       home: Builder(
         builder: (context) {
-          final isSmallScreen = MediaQuery.of(context).size.width < 600;
           return Scaffold(
             key: _key,
-            appBar: isSmallScreen
-                ? AppBar(
-                    backgroundColor: canvasColor,
-                    title: Text(_getTitleByIndex(_controller.selectedIndex)),
-                    leading: IconButton(
-                      onPressed: () {
-                        // if (!Platform.isAndroid && !Platform.isIOS) {
-                        //   _controller.setExtended(true);
-                        // }
-                        _key.currentState?.openDrawer();
-                      },
-                      icon: const Icon(Icons.menu),
-                    ),
-                  )
-                : null,
-            drawer: ExampleSidebarX(controller: _controller),
             body: Row(
               children: [
-                if (!isSmallScreen) ExampleSidebarX(controller: _controller),
+                ExampleSidebarX(controller: _controller),
                 Expanded(
                   child: Center(
                     child: _ScreensExample(
@@ -184,27 +163,10 @@ class _ScreensExample extends StatelessWidget {
       animation: controller,
       builder: (context, child) {
         final pageTitle = _getTitleByIndex(controller.selectedIndex);
-        switch (controller.selectedIndex) {
-          case 7:
-            return ListView.builder(
-              padding: const EdgeInsets.only(top: 10),
-              itemBuilder: (context, index) => Container(
-                height: 100,
-                width: double.infinity,
-                margin: const EdgeInsets.only(bottom: 10, right: 10, left: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Theme.of(context).canvasColor,
-                  boxShadow: const [BoxShadow()],
-                ),
-              ),
-            );
-          default:
-            return Text(
-              pageTitle,
-              style: theme.textTheme.headlineSmall,
-            );
-        }
+        return Text(
+          pageTitle,
+          style: theme.textTheme.headlineSmall,
+        );
       },
     );
   }
