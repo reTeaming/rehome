@@ -20,6 +20,8 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
+  parse_server_sdk_flutter: ^3.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
