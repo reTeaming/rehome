@@ -15,20 +15,23 @@ class PatientsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // übergibt Patient aus dem Repository
     return BlocProvider(
       create: (context) => PatientsBloc(patientRepository: PatientRepository()),
+      // User Interface
       child: Scaffold(
         body: CustomScrollView(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
           slivers: <Widget>[
-            // scrollbare Appbar mit Namen, Geburtstag und Therapiestart des Patienten
+            // scrollbare Appbar
             SliverAppBar(
               stretch: true,
               onStretchTrigger: () {
                 return Future<void>.value();
               },
               expandedHeight: 250.0,
+              backgroundColor: Colors.black,
               flexibleSpace: FlexibleSpaceBar(
                 // Mode für das "Nach-Oben-Ziehen"- des Screens
                 stretchModes: const <StretchMode>[
@@ -36,17 +39,25 @@ class PatientsPage extends StatelessWidget {
                   StretchMode.blurBackground,
                   StretchMode.fadeTitle,
                 ],
+                // Titel der Seite (Namen, Geburtstag und Therapiestart des Patienten)
                 centerTitle: false,
-                title: Builder(
-                  builder: (context) {
+                title: BlocBuilder<PatientsBloc, PatientsState>(
+                    builder: (context, state) {
+                  return Text(
+                      '${state.patient.name}, geb. am: ${DateFormat.yMMMMd().format(state.patient.birthDate)}, in Therapie seit: ${DateFormat.yMMMMd().format(state.patient.therapyStart)}');
+                }
+                    /* builder: (context) {
                     final patient = context.select(
                       (PatientsBloc bloc) => bloc.state.patient,
-                    );
+                    ); 
                     return Text(
                         '${patient.name}, geb. am: ${DateFormat.yMMMMd().format(patient.birthDate)}, in Therapie seit: ${DateFormat.yMMMMd().format(patient.therapyStart)}');
-                  },
+                  },*/
+                    ),
+                background: const Image(
+                  image: AssetImage('assets/ReHomeLogo.png'),
+                  fit: BoxFit.fill,
                 ),
-                background: FlutterLogo(),
               ),
             ),
             // Blöcke für detaillierte Informationen über den Patienten
@@ -55,6 +66,7 @@ class PatientsPage extends StatelessWidget {
                 const <Widget>[
                   Column(
                     children: [
+                      ZieleWidget(),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -67,10 +79,6 @@ class PatientsPage extends StatelessWidget {
                                 width: 600,
                                 child: Card(child: Text('Übungen'))),
                           ]),
-                      SizedBox(
-                          height: 400,
-                          width: 1200,
-                          child: Card(child: Text('Ziele'))),
                     ],
                   ),
                 ],
@@ -80,5 +88,17 @@ class PatientsPage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ZieleWidget extends StatelessWidget {
+  const ZieleWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+        height: 400, width: 1200, child: Card(child: Text('Ziele')));
   }
 }
