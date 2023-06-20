@@ -1,12 +1,13 @@
 import 'package:ReHome/business_logic/auth/auth_bloc.dart';
+import 'package:ReHome/business_logic/navigation/navigation_cubit.dart';
 import 'package:ReHome/domain/repositories/auth_repository.dart';
 import 'package:ReHome/domain/repositories/user_repository.dart';
-import 'package:ReHome/presentation/home.dart';
 import 'package:ReHome/presentation/login/login.dart';
 import 'package:ReHome/presentation/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'presentation/home.dart';
 import 'presentation/splash.dart';
 
 // Gerüst um alle Repositorys, Grundlegende-Blocs, etc. zu initialisieren
@@ -41,11 +42,15 @@ class _AppState extends State<App> {
     return RepositoryProvider.value(
       value: _authRepository,
       // Blocs werden dem Rest des Widget Baumes zugägnlich gemacht
-      child: BlocProvider(
-        create: (_) => AuthBloc(
-          authRepository: _authRepository,
-          userRepository: _userRepository,
-        ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(
+              create: (_) => AuthBloc(
+                    authRepository: _authRepository,
+                    userRepository: _userRepository,
+                  )),
+          BlocProvider<NavigationCubit>(create: (_) => NavigationCubit())
+        ],
         child: const AppView(),
       ),
     );
@@ -77,7 +82,7 @@ class _AppViewState extends State<AppView> {
             switch (state.status) {
               case AuthStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
+                  Home.route(),
                   (route) => false,
                 );
               case AuthStatus.unauthenticated:

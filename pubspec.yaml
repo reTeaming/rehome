@@ -21,6 +21,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   const_date_time: ^1.0.2
   intl: ^0.18.1
+  sidebarx: ^0.15.0
+
+  parse_server_sdk_flutter:
+    git:
+      url: https://github.com/parse-community/Parse-SDK-Flutter.git
+      ref: f8942ac
+      path: packages/flutter
 
 dev_dependencies:
   flutter_test:
