@@ -2,57 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 class Sidebar extends StatelessWidget {
-  Sidebar({Key? key}) : super(key: key);
-
-  final _controller = SidebarXController(selectedIndex: 0, extended: false);
-  final _key = GlobalKey<ScaffoldState>();
-
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => Sidebar());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sidebar',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: primaryColor,
-        canvasColor: canvasColor,
-        scaffoldBackgroundColor: scaffoldBackgroundColor,
-        textTheme: const TextTheme(
-          headlineSmall: TextStyle(
-            color: Colors.white,
-            fontSize: 46,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-      ),
-      home: Builder(
-        builder: (context) {
-          return Scaffold(
-            key: _key,
-            body: Row(
-              children: [
-                ExampleSidebarX(controller: _controller),
-                Expanded(
-                  child: Center(
-                    child: _ScreensExample(
-                      controller: _controller,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class ExampleSidebarX extends StatelessWidget {
-  const ExampleSidebarX({
+  const Sidebar({
     Key? key,
     required SidebarXController controller,
   })  : _controller = controller,
@@ -128,6 +78,9 @@ class ExampleSidebarX extends StatelessWidget {
 
       // Profilbild/Profil obere linke Ecke
 
+      toggleButtonBuilder: (context, extended) {
+        return const Center();
+      },
       headerBuilder: (context, extended) {
         return SizedBox(
           height: 60,
@@ -145,45 +98,6 @@ class ExampleSidebarX extends StatelessWidget {
         SidebarXItem(icon: Icons.settings, label: 'Einstellungen'),
       ],
     );
-  }
-}
-
-class _ScreensExample extends StatelessWidget {
-  const _ScreensExample({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
-
-  final SidebarXController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) {
-        final pageTitle = _getTitleByIndex(controller.selectedIndex);
-        return Text(
-          pageTitle,
-          style: theme.textTheme.headlineSmall,
-        );
-      },
-    );
-  }
-}
-
-String _getTitleByIndex(int index) {
-  switch (index) {
-    case 0:
-      return 'Dashboard';
-    case 1:
-      return 'Patienten';
-    case 2:
-      return 'Aufgaben';
-    case 3:
-      return 'Einstellungen';
-    default:
-      return 'Not found';
   }
 }
 
