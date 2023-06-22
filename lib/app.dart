@@ -3,7 +3,6 @@ import 'package:ReHome/business_logic/navigation/navigation_cubit.dart';
 import 'package:ReHome/domain/repositories/auth_repository.dart';
 import 'package:ReHome/domain/repositories/user_repository.dart';
 import 'package:ReHome/presentation/login/login.dart';
-import 'package:ReHome/presentation/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

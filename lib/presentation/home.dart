@@ -1,7 +1,7 @@
 import 'package:ReHome/business_logic/navigation/navigation_cubit.dart';
 import 'package:ReHome/presentation/exercise.dart';
 import 'package:ReHome/presentation/dashboard.dart';
-import 'package:ReHome/presentation/patients.dart';
+import 'package:ReHome/presentation/patient.dart';
 import 'package:ReHome/presentation/settings.dart';
 import 'package:ReHome/presentation/sidebar.dart';
 import 'package:flutter/material.dart';

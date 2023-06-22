@@ -6,12 +6,8 @@ import 'package:intl/intl.dart';
 import '../business_logic/patients/patients_bloc.dart';
 
 // Screen für die Patientendaten
-class PatientsPage extends StatelessWidget {
-  const PatientsPage({super.key});
-
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const PatientsPage());
-  }
+class PatientPage extends StatelessWidget {
+  const PatientPage({super.key});
 
   @override
   Widget build(BuildContext context) {
