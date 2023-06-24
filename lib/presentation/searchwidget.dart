@@ -74,53 +74,48 @@ class SearchWidget extends StatelessWidget {
             const Divider(height: 10),
             Flexible(
               flex: 7,
-              child: FutureBuilder<List<DummyObject>?>(
-                  future: SearchRepository().getList(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasData) {
-                      List<DummyObject> objectList = snapshot.data!;
-                      return BlocBuilder<SearchBloc, SearchState>(
-                          builder: (context, state) {
-                        return RefreshIndicator(
-                          //key :
-                          color: Colors.white,
-                          backgroundColor: Colors.blue,
-                          strokeWidth: 4.0,
-                          onRefresh: () async {
-                            //Logik hinter dem Refreshen
-                            return Future<void>.delayed(
-                                const Duration(milliseconds: 300));
-                          },
-                          child: ReorderableListView(
-                            // Um die Listenelemente neu anzuordnen per drag & drop
-                            onReorder: (int oldIndex, int newIndex) {
-                              context
-                                  .read<SearchBloc>()
-                                  .add(SearchReordered(oldIndex, newIndex));
-                            },
+              child: BlocBuilder<SearchBloc, SearchState>(
+                  builder: (context, state) {
+                context.read<SearchBloc>().add(EmptySearchInput());
+                if (state is SearchChanged) {
+                  return RefreshIndicator(
+                    //key :
+                    color: Colors.white,
+                    backgroundColor: Colors.blue,
+                    strokeWidth: 4.0,
+                    onRefresh: () async {
+                      //Logik hinter dem Refreshen
+                      return Future<void>.delayed(
+                          const Duration(milliseconds: 300));
+                    },
+                    child: ReorderableListView(
+                      // Um die Listenelemente neu anzuordnen per drag & drop
+                      onReorder: (int oldIndex, int newIndex) {
+                        context
+                            .read<SearchBloc>()
+                            .add(SearchReordered(oldIndex, newIndex));
+                      },
 
-                            children: <Widget>[
-                              // Erstellen der einzelnen Listenelemente :
-                              for (int index = 0;
-                                  index < objectList.length;
-                                  index += 1)
-                                ListTile(
-                                  key: Key('$index'),
-                                  tileColor: Theme.of(context).focusColor,
-                                  title: Text(objectList[index].name),
-                                ),
-                            ],
+                      children: <Widget>[
+                        // Erstellen der einzelnen Listenelemente :
+                        for (int index = 0;
+                            index < 5; //Länge von der Liste vom Repository
+                            index += 1)
+                          ListTile(
+                            key: Key('$index'),
+                            tileColor: Theme.of(context).focusColor,
+                            title: Text(state.changedList.name),
+                            onTap: () {
+                              // Hier darf die Weiterleitung zum Patienten rein
+                            },
                           ),
-                        );
-                      });
-                    } else {
-                      throw const Text("Error");
-                    }
-                  }),
+                      ],
+                    ),
+                  );
+                } else {
+                  return const Text("Error");
+                }
+              }),
             ),
           ],
         ));

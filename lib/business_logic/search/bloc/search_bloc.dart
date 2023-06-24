@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:ReHome/domain/models/patient/patient.dart';
 import 'package:ReHome/domain/repositories/search_repository.dart';
 import 'package:ReHome/presentation/searchwidget.dart';
@@ -14,7 +13,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchRepository repository = SearchRepository();
 
   SearchBloc({required SearchRepository searchRepository})
-      : super(SearchChanged(changedList: dummyList)) {
+      : super(SearchInitial()) {
     on<EmptySearchInput>((event, emit) {
       emit(SearchChanged(changedList: repository.getList()));
     }); //Brauch es den überhaupt?
@@ -30,8 +29,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               object.active.toString().toLowerCase().contains(query) ||
               object.birthDate.toString().toLowerCase().contains(query);
         });
+        final List<DummyObject> finalfiltered = filteredList.toList();
 
-        emit(SearchChanged(changedList: filteredList));
+        emit(SearchChanged(changedList: finalfiltered));
       } catch (error) {
         emit(const SearchChanged(changedList: []));
       }
@@ -54,6 +54,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         emit(SearchChanged(changedList: dummyList));
       }
     });
+
     on<FilterButtonPressed>((event, emit) {
       final newButtonColor =
           event.buttonColor == Colors.grey ? Colors.blue : Colors.grey;
