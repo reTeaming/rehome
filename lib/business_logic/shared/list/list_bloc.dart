@@ -45,7 +45,7 @@ abstract class ListBloc<ListElement, SearchTag>
     emit(newState);
   }
 
-  Future<List<ListElement>> onSearchQuerryChanged(
+  Future<List<ListElement>> onSearchQueryChanged(
       SearchInputChanged event, ListState<ListElement, SearchTag> state);
 
   Future<List<ListElement>> onSearchTagChanged(
