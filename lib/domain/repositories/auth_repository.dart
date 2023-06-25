@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:ReHome/data/backend_login.dart';
-import 'package:ReHome/domain/repositories/user_repository.dart';
 import 'package:ReHome/domain/models/user/user.dart';
 
 // Mögliche Authentifizierungszustände
@@ -27,7 +26,6 @@ class AuthRepository {
     // Bei erfolgreicher Authentifizierung wird User in UserRepository gesetzt und AuthStatus wird geändert
     if (user != null) {
       // TODO: User sollte in _userRepository gespeichert werden
-      UserRepository().setUser(user);
       _controller.add(AuthStatus.authenticated);
     } else {
       _controller.add(AuthStatus.unauthenticated);

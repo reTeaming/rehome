@@ -63,7 +63,7 @@ class RangeOfMotion extends ParameterSet {
   List<Object> get props => super.props + [joint, value];
 }
 
-enum Joint { ELLBOW, WRIST, SHOULDER }
+enum Joint { ellbow, wrist, shoulder }
 
 class ParameterValue extends Equatable {
   const ParameterValue(this.value);
@@ -73,9 +73,9 @@ class ParameterValue extends Equatable {
   @override
   List<Object> get props => [value];
 
-  set value(double _value) {
-    if (_value >= 0 && _value <= 1) {
-      value = _value;
+  set value(double value) {
+    if (value >= 0 && value <= 1) {
+      value = value;
     } else {
       throw ArgumentError('Component value must be between 0 and 1.');
     }

@@ -1,5 +1,5 @@
-import 'package:ReHome/domain/models/patient/clinicalData.dart';
-import 'package:ReHome/domain/models/patient/exerciseDefaultData.dart';
+import 'package:ReHome/domain/models/patient/clinical_data.dart';
+import 'package:ReHome/domain/models/patient/exercise_default_data.dart';
 import 'package:ReHome/domain/models/patient/goals.dart';
 import 'package:ReHome/domain/models/user/name.dart';
 import 'package:ReHome/domain/models/patient/homework.dart';
