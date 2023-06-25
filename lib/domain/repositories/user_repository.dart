@@ -22,8 +22,9 @@ class UserRepository {
     ParseResponse response =
         await UserBackend().updateBackendName(_user!.id, name);
     // falls Backend Änderung erfolgreich war, aktualisiere auch Nutzer in Repository
-    if (response.success)
+    if (response.success) {
       _user = User(_user!.id, name, _user!.username, _user!.institution);
+    }
   }
 
   // aktualisiert Namen des Benutzers und ruft Funktion für Backend Änderung auf
@@ -33,8 +34,9 @@ class UserRepository {
     ParseResponse response =
         await UserBackend().updateBackendUsername(_user!.id, username);
     // falls Backend Änderung erfolgreich war, aktualisiere auch Nutzer in Repository
-    if (response.success)
+    if (response.success) {
       _user = User(_user!.id, _user!.name, username, _user!.institution);
+    }
   }
 
   // aktualisiert Namen des Benutzers und ruft Funktion für Backend Änderung auf
@@ -44,8 +46,9 @@ class UserRepository {
     ParseResponse response =
         await UserBackend().updateBackendInstitution(_user!.id, institution);
     // falls Backend Änderung erfolgreich war, aktualisiere auch Nutzer in Repository
-    if (response.success)
+    if (response.success) {
       _user = User(_user!.id, _user!.name, _user!.username, institution);
+    }
   }
 
   Future<User?> getUser() async {
