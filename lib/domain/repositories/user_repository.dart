@@ -7,8 +7,6 @@ import 'package:ReHome/domain/models/user/user.dart';
 import 'package:ReHome/data/backend_user.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
-import 'package:uuid/uuid.dart';
-
 // Schnittstelle zum Backend für die Abfrage von NutzerDaten.
 // Die Authentifizierung (login/logout) wird vollständig vom 'AuthRepository'
 // übernommen
