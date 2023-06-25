@@ -8,11 +8,10 @@ class UserBackend {
   // aktualisiert den Namen eines Benutzers im Backend
   Future<ParseResponse> updateBackendName(Id id, Name newName) async {
     // formt die Daten aus dem Usermodel zu Strings um sie im Backend verarbeiten zu können
-    String nameString = newName.name + newName.surname;
+    String nameString = "${newName.name} ${newName.surname}";
     String idString = id.id;
-
     // aktualisert den Namen im Backend beim User mit gegebener Id
-    ParseObject user = ParseObject('User')
+    ParseObject user = ParseObject('_User')
       ..objectId = idString
       ..set('name', nameString);
     return await user.save();
@@ -26,7 +25,7 @@ class UserBackend {
     String idString = id.id;
 
     // aktualisert den Nutzernamen im Backend beim User mit gegebener Id
-    ParseObject user = ParseObject('User')
+    ParseObject user = ParseObject('_User')
       ..objectId = idString
       ..set('username', usernameString);
     return await user.save();
@@ -61,7 +60,7 @@ class UserBackend {
     }
 
     // aktualisiere Institution des Nutzers
-    ParseObject user = ParseObject('User')
+    ParseObject user = ParseObject('_User')
       ..objectId = idString
       ..set('institution', institutionParseObject);
 
