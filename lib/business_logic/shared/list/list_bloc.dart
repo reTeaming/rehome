@@ -26,7 +26,7 @@ abstract class ListBloc<ListElement, SearchTag>
       ListEvent event, Emitter<ListState<ListElement, SearchTag>> emit) async {
     final SearchInputChanged searchEvent = event as SearchInputChanged;
     final List<ListElement> list =
-        await onSearchQuerryChanged(searchEvent, state);
+        await onSearchQueryChanged(searchEvent, state);
 
     final newState = state.copyWith(
         currentListView: list, currentSearchQuerry: searchEvent.querry);
