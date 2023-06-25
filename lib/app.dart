@@ -1,18 +1,26 @@
 import 'package:ReHome/business_logic/auth/auth_bloc.dart';
+import 'package:ReHome/business_logic/navigation/navigation_cubit.dart';
 import 'package:ReHome/domain/repositories/auth_repository.dart';
+import 'package:ReHome/domain/repositories/secrets_repository.dart';
 import 'package:ReHome/domain/repositories/user_repository.dart';
+<<<<<<< HEAD
 import 'package:ReHome/presentation/dashboard.dart';
 import 'package:ReHome/presentation/home.dart';
+=======
+>>>>>>> b23904cc8575fd1dafb2d1caa35915c0d7bde863
 import 'package:ReHome/presentation/login/login.dart';
 import 'package:ReHome/presentation/searchwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'presentation/home.dart';
 import 'presentation/splash.dart';
 
 // Gerüst um alle Repositorys, Grundlegende-Blocs, etc. zu initialisieren
 class App extends StatefulWidget {
-  const App({super.key});
+  const App(this.secretsRepositroy, {super.key});
+
+  final SecretsRepositroy secretsRepositroy;
 
   @override
   State<App> createState() => _AppState();
@@ -39,14 +47,20 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     // Reppositories werden dem Rest des Widget-Baums zugünglich gemacht
-    return RepositoryProvider.value(
-      value: _authRepository,
-      // Blocs werden dem Rest des Widget Baumes zugägnlich gemacht
-      child: BlocProvider(
-        create: (_) => AuthBloc(
-          authRepository: _authRepository,
-          userRepository: _userRepository,
-        ),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: _authRepository),
+        RepositoryProvider.value(value: widget.secretsRepositroy)
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(
+              create: (_) => AuthBloc(
+                    authRepository: _authRepository,
+                    userRepository: _userRepository,
+                  )),
+          BlocProvider<NavigationCubit>(create: (_) => NavigationCubit())
+        ],
         child: const AppView(),
       ),
     );
@@ -78,7 +92,7 @@ class _AppViewState extends State<AppView> {
             switch (state.status) {
               case AuthStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
+                  Home.route(),
                   (route) => false,
                 );
               case AuthStatus.unauthenticated:

@@ -19,6 +19,14 @@ dependencies:
   formz: ^0.6.0
 
   cupertino_icons: ^1.0.2
+  sidebarx: ^0.15.0
+
+  parse_server_sdk_flutter:
+    git:
+      url: https://github.com/parse-community/Parse-SDK-Flutter.git
+      ref: f8942ac
+      path: packages/flutter
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -34,6 +42,7 @@ flutter:
 
   assets:
     - assets/
+    - .env
 
   # To add assets to your application, add an assets section, like this:
   # assets:
