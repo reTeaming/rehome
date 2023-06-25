@@ -1,6 +1,7 @@
 import 'package:ReHome/business_logic/auth/auth_bloc.dart';
 import 'package:ReHome/business_logic/navigation/navigation_cubit.dart';
 import 'package:ReHome/domain/repositories/auth_repository.dart';
+import 'package:ReHome/domain/repositories/secrets_repository.dart';
 import 'package:ReHome/domain/repositories/user_repository.dart';
 import 'package:ReHome/presentation/login/login.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,9 @@ import 'presentation/splash.dart';
 
 // Gerüst um alle Repositorys, Grundlegende-Blocs, etc. zu initialisieren
 class App extends StatefulWidget {
-  const App({super.key});
+  const App(this.secretsRepositroy, {super.key});
+
+  final SecretsRepositroy secretsRepositroy;
 
   @override
   State<App> createState() => _AppState();
@@ -38,9 +41,11 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     // Reppositories werden dem Rest des Widget-Baums zugünglich gemacht
-    return RepositoryProvider.value(
-      value: _authRepository,
-      // Blocs werden dem Rest des Widget Baumes zugägnlich gemacht
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: _authRepository),
+        RepositoryProvider.value(value: widget.secretsRepositroy)
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(
