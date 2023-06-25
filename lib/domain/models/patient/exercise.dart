@@ -1,4 +1,4 @@
-import 'package:ReHome/domain/models/user/id.dart';
+import 'package:rehome/domain/models/user/id.dart';
 import 'package:equatable/equatable.dart';
 
 class Exercise extends Equatable {

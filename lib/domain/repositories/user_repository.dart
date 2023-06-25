@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:ReHome/domain/models/auth/username.dart';
-import 'package:ReHome/domain/models/user/id.dart';
-import 'package:ReHome/domain/models/user/institution.dart';
-import 'package:ReHome/domain/models/user/name.dart';
-import 'package:ReHome/domain/models/user/user.dart';
-import 'package:ReHome/data/backend_user.dart';
+import 'package:rehome/domain/models/auth/username.dart';
+import 'package:rehome/domain/models/user/id.dart';
+import 'package:rehome/domain/models/user/institution.dart';
+import 'package:rehome/domain/models/user/name.dart';
+import 'package:rehome/domain/models/user/user.dart';
+import 'package:rehome/data/backend_user.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 // Schnittstelle zum Backend für die Abfrage von NutzerDaten.

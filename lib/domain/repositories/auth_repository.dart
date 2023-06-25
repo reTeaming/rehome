@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:ReHome/data/backend_login.dart';
-import 'package:ReHome/domain/models/user/user.dart';
+import 'package:rehome/data/backend_login.dart';
+import 'package:rehome/domain/models/user/user.dart';
 
 // Mögliche Authentifizierungszustände
 enum AuthStatus { unknown, authenticated, unauthenticated }
