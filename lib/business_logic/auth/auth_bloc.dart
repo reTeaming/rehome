@@ -21,14 +21,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // registriere passende Handler
     on<AuthStatusChanged>(_onAuthStatusChanged);
     on<AuthLogoutRequested>(_onAuthLogoutRequested);
-    _authStatusSubscription = _authRepository.status.listen(
-      (status) => add(AuthStatusChanged(status)),
-    );
+    _authStatusSubscription = _authRepository.status.listen((streamEvent) =>
+        add(AuthStatusChanged(streamEvent.$1, streamEvent.$2)));
   }
 
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
-  late StreamSubscription<AuthStatus> _authStatusSubscription;
+  late StreamSubscription<(AuthStatus, User?)> _authStatusSubscription;
 
   @override
   Future<void> close() {
@@ -45,12 +44,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       case AuthStatus.unauthenticated:
         return emit(const AuthState.unauthenticated());
       case AuthStatus.authenticated:
-        final user = await _tryGetUser();
-        return emit(
-          user != null
-              ? AuthState.authenticated(user)
-              : const AuthState.unauthenticated(),
-        );
+        if (event.user == null) return emit(const AuthState.unauthenticated());
+        // aktualisiere User im UserRepository
+        _userRepository.setUser(event.user!);
+        return emit(AuthState.authenticated(event.user!));
       case AuthStatus.unknown:
         return emit(const AuthState.unknown());
     }
@@ -62,14 +59,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) {
     _authRepository.logOut();
-  }
-
-  Future<User?> _tryGetUser() async {
-    try {
-      final user = await _userRepository.getUser();
-      return user;
-    } catch (_) {
-      return null;
-    }
   }
 }
