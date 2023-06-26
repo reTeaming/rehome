@@ -1,3 +1,4 @@
+import 'package:ReHome/domain/models/patient/homework.dart';
 import 'package:ReHome/domain/repositories/patient_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,64 +22,62 @@ class PatientPage extends StatelessWidget {
               parent: AlwaysScrollableScrollPhysics()),
           slivers: <Widget>[
             // scrollbare Appbar
-            SliverAppBar(
-              stretch: true,
-              onStretchTrigger: () {
-                return Future<void>.value();
-              },
-              expandedHeight: 250.0,
-              backgroundColor: Colors.black,
-              flexibleSpace: FlexibleSpaceBar(
-                // Mode für das "Nach-Oben-Ziehen"- des Screens
-                stretchModes: const <StretchMode>[
-                  StretchMode.zoomBackground,
-                  StretchMode.blurBackground,
-                  StretchMode.fadeTitle,
-                ],
-                // Titel der Seite (Namen, Geburtstag und Therapiestart des Patienten)
-                centerTitle: false,
-                title: BlocBuilder<PatientsBloc, PatientsState>(
-                    builder: (context, state) {
-                  return Text(
-                      '${state.patient.name}, geb. am: ${DateFormat.yMMMMd().format(state.patient.birthDate)}, in Therapie seit: ${DateFormat.yMMMMd().format(state.patient.therapyStart)}');
-                }
-                    /* builder: (context) {
-                    final patient = context.select(
-                      (PatientsBloc bloc) => bloc.state.patient,
-                    ); 
-                    return Text(
-                        '${patient.name}, geb. am: ${DateFormat.yMMMMd().format(patient.birthDate)}, in Therapie seit: ${DateFormat.yMMMMd().format(patient.therapyStart)}');
-                  },*/
+            BlocBuilder<PatientsBloc, PatientsState>(
+              builder: (context, state) {
+                return SliverAppBar(
+                  stretch: true,
+                  onStretchTrigger: () {
+                    return Future<void>.value();
+                  },
+                  expandedHeight: 250.0,
+                  backgroundColor: Colors.white38,
+                  flexibleSpace: FlexibleSpaceBar(
+                    // Mode für das "Nach-Oben-Ziehen"- des Screens
+                    stretchModes: const <StretchMode>[
+                      StretchMode.zoomBackground,
+                      StretchMode.blurBackground,
+                      StretchMode.fadeTitle,
+                    ],
+                    // Titel der Seite (Namen, Geburtstag und Therapiestart des Patienten)
+                    centerTitle: false,
+                    title: BlocBuilder<PatientsBloc, PatientsState>(
+                        builder: (context, state) {
+                      return Text(
+                        '${state.patient.name}, geb. am: ${DateFormat.yMMMMd().format(state.patient.birthDate)}, in Therapie seit: ${DateFormat.yMMMMd().format(state.patient.therapyStart)}',
+                        style: const TextStyle(color: Colors.black),
+                      );
+                    }),
+                    //Hintergrund
+                    background: const Image(
+                      image: AssetImage('assets/ReHomeLogo.png'),
+                      fit: BoxFit.fill,
                     ),
-                background: const Image(
-                  image: AssetImage('assets/ReHomeLogo.png'),
-                  fit: BoxFit.fill,
-                ),
-              ),
+                  ),
+                );
+              },
             ),
             // Blöcke für detaillierte Informationen über den Patienten
-            SliverList(
-              delegate: SliverChildListDelegate(
-                const <Widget>[
-                  Column(
-                    children: [
-                      ZieleWidget(),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                                height: 400,
-                                width: 600,
-                                child: Card(child: Text('HausaufgabenPlan'))),
-                            SizedBox(
-                                height: 400,
-                                width: 600,
-                                child: Card(child: Text('Übungen'))),
-                          ]),
+            BlocBuilder<PatientsBloc, PatientsState>(
+              builder: (context, state) {
+                return SliverList(
+                  delegate: SliverChildListDelegate(
+                    <Widget>[
+                      const Column(
+                        children: [
+                          //ZieleWidget
+                          ZieleWidget(),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                HausaufgabenWidget(),
+                                UebungenWidget(),
+                              ]),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ],
         ),
@@ -94,7 +93,206 @@ class ZieleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-        height: 400, width: 1200, child: Card(child: Text('Ziele')));
+    return ExpansionPanelList(
+      expansionCallback: (int index, bool isExpanded) {
+        //PatientsBloc.add(ExpansionChange());
+        BlocProvider.of<PatientsBloc>(context).add(ExpansionChange(isExpanded));
+      },
+      children: [
+        ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ListTile(
+                title: const Text('Aktuelles Ziel: '),
+                onTap: () {
+                  BlocProvider.of<PatientsBloc>(context)
+                      .add(ExpansionChange(isExpanded));
+                  //context.read<PatientsBloc>().add(ExpansionChange());
+                });
+          },
+          body: const ListTile(
+            title: Text('Vergangene Ziele: '),
+            subtitle: Text(''),
+          ),
+          //isExpanded: false,
+        ),
+      ],
+    );
+  }
+}
+
+class ZieleStateful extends StatefulWidget {
+  const ZieleStateful({super.key});
+
+  @override
+  _ZieleState createState() => _ZieleState();
+}
+
+class _ZieleState extends State<ZieleStateful> {
+  bool expand = false;
+
+  void setExpansion() {
+    setState(() {
+      expand = !expand;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionPanelList(
+      expansionCallback: (int index, bool isExpanded) {
+        setExpansion();
+      },
+      children: [
+        ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ListTile(title: BlocBuilder<PatientsBloc, PatientsState>(
+              builder: (context, state) {
+                return const Text('Aktuelles Ziel: ');
+              },
+            ), onTap: () {
+              setExpansion();
+            });
+          },
+          body: const ListTile(
+            title: Text('Vergangene Ziele: '),
+            subtitle: Text(''),
+          ),
+          isExpanded: expand,
+        ),
+      ],
+    );
+  }
+}
+
+class HausaufgabenWidget extends StatelessWidget {
+  const HausaufgabenWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    /* return Container(
+      width: 500,
+      height: 400,
+      child: BlocBuilder<PatientsBloc, PatientsState>(
+        builder: (context, state) {
+          return ListView(children: <Widget>[
+            Card(
+                child: ListTile(
+                    title: Text(
+                        'Hausaufgabe der Woche${state.patient.homework.repeated.exercises.toString()}'))),
+          ]);
+        },
+      ),
+    );
+    */
+    return BlocBuilder<PatientsBloc, PatientsState>(
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 400,
+            width: 500,
+            child: Column(
+              children: [
+                Expanded(
+                    child: Column(
+                  children: [
+                    const Text('Montag: '),
+                    Text(state.patient.homework.repeated.exercises[Day.MONDAY]
+                        .toString())
+                  ],
+                )),
+                const Divider(
+                  color: Colors.grey,
+                ),
+                Expanded(
+                    child: Column(
+                  children: [
+                    const Text('Dienstag: '),
+                    Text(state.patient.homework.repeated.exercises[Day.TUESDAY]
+                        .toString())
+                  ],
+                )),
+                const Divider(
+                  color: Colors.grey,
+                ),
+                Expanded(
+                    child: Column(
+                  children: [
+                    const Text('Mittwoch: '),
+                    Text(state
+                        .patient.homework.repeated.exercises[Day.WEDNESDAY]
+                        .toString())
+                  ],
+                )),
+                const Divider(
+                  color: Colors.grey,
+                ),
+                Expanded(
+                    child: Column(
+                  children: [
+                    const Text('Donnerstag: '),
+                    Text(state.patient.homework.repeated.exercises[Day.THURSDAY]
+                        .toString())
+                  ],
+                )),
+                const Divider(
+                  color: Colors.grey,
+                ),
+                Expanded(
+                    child: Column(
+                  children: [
+                    const Text('Freitag: '),
+                    Text(state.patient.homework.repeated.exercises[Day.FRIDAY]
+                        .toString())
+                  ],
+                )),
+                const Divider(
+                  color: Colors.grey,
+                ),
+                Expanded(
+                    child: Column(
+                  children: [
+                    const Text('Samstag: '),
+                    Text(state.patient.homework.repeated.exercises[Day.SATURDAY]
+                        .toString())
+                  ],
+                )),
+                const Divider(
+                  color: Colors.grey,
+                ),
+                Expanded(
+                    child: Column(
+                  children: [
+                    const Text('Sonntag: '),
+                    Text(state.patient.homework.repeated.exercises[Day.SUNDAY]
+                        .toString())
+                  ],
+                )),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class UebungenWidget extends StatelessWidget {
+  const UebungenWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 400,
+        width: 500,
+        child: BlocBuilder<PatientsBloc, PatientsState>(
+          builder: (context, state) {
+            return const Card(child: Text('Übungen'));
+          },
+        ));
   }
 }

@@ -40,13 +40,14 @@ class WeekHomework extends Equatable {
 enum Day { MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }
 
 class ExerciseBlock extends Equatable {
-  const ExerciseBlock(this.block, this.status);
+  const ExerciseBlock(this.name, this.block, this.status);
 
+  final String name;
   final List<Exercise> block;
   final BlockStatus status;
 
   @override
-  List<Object> get props => [block, status];
+  List<Object> get props => [name, block, status];
 }
 
 enum BlockStatus { FINISHED, UNFINISHED }
