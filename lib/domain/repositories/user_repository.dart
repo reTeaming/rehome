@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'package:ReHome/domain/models/auth/username.dart';
-import 'package:ReHome/domain/models/user/id.dart';
 import 'package:ReHome/domain/models/user/institution.dart';
 import 'package:ReHome/domain/models/user/name.dart';
 import 'package:ReHome/domain/models/user/user.dart';
@@ -12,6 +10,11 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 // übernommen
 class UserRepository {
   User? _user;
+
+  // wird vom AuthBloc aufgerufen, um den von AuthRepository erhaltenen User zu übergeben
+  void setUser(User user) {
+    _user = user;
+  }
 
   // aktualisiert Namen des Benutzers und ruft Funktion für Backend Änderung auf
   void updateName(Name name) async {
@@ -49,13 +52,5 @@ class UserRepository {
     }
   }
 
-  Future<User?> getUser() async {
-    if (_user != null) return _user;
-    // Mock für den Nutzer
-    return Future.delayed(
-      const Duration(milliseconds: 300),
-      () => _user =
-          const User(Id.mock, Name.empty, Username.pure(), Institution.mock),
-    );
-  }
+  User? get user => _user;
 }
