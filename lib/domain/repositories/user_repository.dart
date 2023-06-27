@@ -13,6 +13,11 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 class UserRepository {
   User? _user;
 
+  // wird vom AuthBloc aufgerufen, um den von AuthRepository erhaltenen User zu übergeben
+  void setUser(User user) {
+    _user = user;
+  }
+
   // aktualisiert Namen des Benutzers und ruft Funktion für Backend Änderung auf
   void updateName(Name name) async {
     if (_user == null) return;
@@ -49,13 +54,5 @@ class UserRepository {
     }
   }
 
-  Future<User?> getUser() async {
-    if (_user != null) return _user;
-    // Mock für den Nutzer
-    return Future.delayed(
-      const Duration(milliseconds: 300),
-      () => _user =
-          const User(Id.mock, Name.empty, Username.pure(), Institution.mock),
-    );
-  }
+  User? get user => _user;
 }
