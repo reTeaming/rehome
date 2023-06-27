@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:rehome/data/backend_login.dart';
 import 'package:rehome/domain/models/user/user.dart';
 
-
 // Mögliche Authentifizierungszustände
 enum AuthStatus { unknown, authenticated, unauthenticated }
 
