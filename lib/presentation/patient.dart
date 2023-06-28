@@ -65,11 +65,13 @@ class PatientPage extends StatelessWidget {
                       const Column(
                         children: [
                           //ZieleWidget
-                          ZieleWidget(),
+                          ZieleStateful(),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                //HausaufgabenWidget
                                 HausaufgabenWidget(),
+                                //ÜbungenWidget
                                 UebungenWidget(),
                               ]),
                         ],
@@ -171,21 +173,6 @@ class HausaufgabenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /* return Container(
-      width: 500,
-      height: 400,
-      child: BlocBuilder<PatientsBloc, PatientsState>(
-        builder: (context, state) {
-          return ListView(children: <Widget>[
-            Card(
-                child: ListTile(
-                    title: Text(
-                        'Hausaufgabe der Woche${state.patient.homework.repeated.exercises.toString()}'))),
-          ]);
-        },
-      ),
-    );
-    */
     return BlocBuilder<PatientsBloc, PatientsState>(
       builder: (context, state) {
         return Padding(
@@ -195,7 +182,7 @@ class HausaufgabenWidget extends StatelessWidget {
             width: 500,
             child: Column(
               children: [
-                Expanded(
+                /*Expanded(
                     child: Column(
                   children: [
                     const Text('Montag: '),
@@ -269,7 +256,20 @@ class HausaufgabenWidget extends StatelessWidget {
                     Text(state.patient.homework.repeated.exercises[Day.SUNDAY]
                         .toString())
                   ],
-                )),
+                )), */
+                _buildDailyExercise('Montag', Day.MONDAY),
+                const Divider(),
+                _buildDailyExercise('Dienstag', Day.TUESDAY),
+                const Divider(),
+                _buildDailyExercise('Mittwoch', Day.WEDNESDAY),
+                const Divider(),
+                _buildDailyExercise('Donnerstag', Day.THURSDAY),
+                const Divider(),
+                _buildDailyExercise('Freitag', Day.FRIDAY),
+                const Divider(),
+                _buildDailyExercise('Samstag', Day.SATURDAY),
+                const Divider(),
+                _buildDailyExercise('Sonntag', Day.SUNDAY),
               ],
             ),
           ),
@@ -277,6 +277,22 @@ class HausaufgabenWidget extends StatelessWidget {
       },
     );
   }
+}
+
+Widget _buildDailyExercise(String weekday, Day day) {
+  return BlocBuilder<PatientsBloc, PatientsState>(
+    builder: (context, state) {
+      return Expanded(
+        child: Column(
+          children: [
+            Text(weekday),
+            Text(state.patient.homework.repeated.exercises[day]?.toString() ??
+                ''),
+          ],
+        ),
+      );
+    },
+  );
 }
 
 class UebungenWidget extends StatelessWidget {
