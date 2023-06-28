@@ -25,16 +25,6 @@ class PatientsBloc extends Bloc<PatientsEvent, PatientsState> {
           emit(const PatientsState.nopatientselected());
         }
       }
-      //erste Idee
-      if (event is ExpansionChange) {
-        state.expansion
-            ? emit(const PatientsState.unexpanded())
-            : emit(const PatientsState.expanded());
-      }
     });
-    //zweite Idee
-    // on<ExpansionChange>((event, emit) async {
-    //   emit(state.copyWith(expansion: !state.expansion));
-    // });
   }
 }

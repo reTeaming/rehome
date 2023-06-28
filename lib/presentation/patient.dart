@@ -88,40 +88,6 @@ class PatientPage extends StatelessWidget {
   }
 }
 
-class ZieleWidget extends StatelessWidget {
-  const ZieleWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpansionPanelList(
-      expansionCallback: (int index, bool isExpanded) {
-        //PatientsBloc.add(ExpansionChange());
-        BlocProvider.of<PatientsBloc>(context).add(ExpansionChange(isExpanded));
-      },
-      children: [
-        ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-                title: const Text('Aktuelles Ziel: '),
-                onTap: () {
-                  BlocProvider.of<PatientsBloc>(context)
-                      .add(ExpansionChange(isExpanded));
-                  //context.read<PatientsBloc>().add(ExpansionChange());
-                });
-          },
-          body: const ListTile(
-            title: Text('Vergangene Ziele: '),
-            subtitle: Text(''),
-          ),
-          //isExpanded: false,
-        ),
-      ],
-    );
-  }
-}
-
 class ZieleStateful extends StatefulWidget {
   const ZieleStateful({super.key});
 
@@ -177,99 +143,24 @@ class HausaufgabenWidget extends StatelessWidget {
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
+          child: SizedBox(
             height: 400,
             width: 500,
             child: Column(
               children: [
-                /*Expanded(
-                    child: Column(
-                  children: [
-                    const Text('Montag: '),
-                    Text(state.patient.homework.repeated.exercises[Day.MONDAY]
-                        .toString())
-                  ],
-                )),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Expanded(
-                    child: Column(
-                  children: [
-                    const Text('Dienstag: '),
-                    Text(state.patient.homework.repeated.exercises[Day.TUESDAY]
-                        .toString())
-                  ],
-                )),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Expanded(
-                    child: Column(
-                  children: [
-                    const Text('Mittwoch: '),
-                    Text(state
-                        .patient.homework.repeated.exercises[Day.WEDNESDAY]
-                        .toString())
-                  ],
-                )),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Expanded(
-                    child: Column(
-                  children: [
-                    const Text('Donnerstag: '),
-                    Text(state.patient.homework.repeated.exercises[Day.THURSDAY]
-                        .toString())
-                  ],
-                )),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Expanded(
-                    child: Column(
-                  children: [
-                    const Text('Freitag: '),
-                    Text(state.patient.homework.repeated.exercises[Day.FRIDAY]
-                        .toString())
-                  ],
-                )),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Expanded(
-                    child: Column(
-                  children: [
-                    const Text('Samstag: '),
-                    Text(state.patient.homework.repeated.exercises[Day.SATURDAY]
-                        .toString())
-                  ],
-                )),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Expanded(
-                    child: Column(
-                  children: [
-                    const Text('Sonntag: '),
-                    Text(state.patient.homework.repeated.exercises[Day.SUNDAY]
-                        .toString())
-                  ],
-                )), */
-                _buildDailyExercise('Montag', Day.MONDAY),
+                _buildDayColumn('Montag', Day.MONDAY),
                 const Divider(),
-                _buildDailyExercise('Dienstag', Day.TUESDAY),
+                _buildDayColumn('Dienstag', Day.TUESDAY),
                 const Divider(),
-                _buildDailyExercise('Mittwoch', Day.WEDNESDAY),
+                _buildDayColumn('Mittwoch', Day.WEDNESDAY),
                 const Divider(),
-                _buildDailyExercise('Donnerstag', Day.THURSDAY),
+                _buildDayColumn('Donnerstag', Day.THURSDAY),
                 const Divider(),
-                _buildDailyExercise('Freitag', Day.FRIDAY),
+                _buildDayColumn('Freitag', Day.FRIDAY),
                 const Divider(),
-                _buildDailyExercise('Samstag', Day.SATURDAY),
+                _buildDayColumn('Samstag', Day.SATURDAY),
                 const Divider(),
-                _buildDailyExercise('Sonntag', Day.SUNDAY),
+                _buildDayColumn('Sonntag', Day.SUNDAY),
               ],
             ),
           ),
@@ -279,7 +170,7 @@ class HausaufgabenWidget extends StatelessWidget {
   }
 }
 
-Widget _buildDailyExercise(String weekday, Day day) {
+Widget _buildDayColumn(String weekday, Day day) {
   return BlocBuilder<PatientsBloc, PatientsState>(
     builder: (context, state) {
       return Expanded(
@@ -302,7 +193,7 @@ class UebungenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: 400,
         width: 500,
         child: BlocBuilder<PatientsBloc, PatientsState>(

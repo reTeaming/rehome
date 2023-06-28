@@ -16,13 +16,3 @@ class PatientSelection extends PatientsEvent {
   @override
   List<Object> get props => [patient];
 }
-
-//Event für das ein-/ausklappen der vergangenen Ziele
-class ExpansionChange extends PatientsEvent {
-  const ExpansionChange(this.expansion);
-
-  final bool expansion;
-
-  @override
-  List<Object> get props => [expansion];
-}
