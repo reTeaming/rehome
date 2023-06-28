@@ -1,4 +1,4 @@
-name: ReHome
+name: rehome
 description: therapist interface for training plans of stroke patients
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

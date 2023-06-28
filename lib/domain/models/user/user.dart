@@ -1,7 +1,7 @@
-import 'package:ReHome/domain/models/auth/models.dart';
-import 'package:ReHome/domain/models/user/id.dart';
-import 'package:ReHome/domain/models/user/institution.dart';
-import 'package:ReHome/domain/models/user/name.dart';
+import 'package:rehome/domain/models/auth/models.dart';
+import 'package:rehome/domain/models/user/id.dart';
+import 'package:rehome/domain/models/user/institution.dart';
+import 'package:rehome/domain/models/user/name.dart';
 import 'package:equatable/equatable.dart';
 
 // Daten Model, dass den Endnutzer der App beschreiben und eindeutig identifizieren soll.
