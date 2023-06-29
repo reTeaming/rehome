@@ -3,11 +3,27 @@ import 'package:sidebarx/sidebarx.dart';
 
 ThemeData rehomeTheme = ThemeData(
   brightness: Brightness.light,
-  scaffoldBackgroundColor: Color(0xFF464667),
+  scaffoldBackgroundColor: Colors.white,
   primaryColor: primaryColor,
-  canvasColor: Color(0xFF2E2E48),
-  dividerColor: Color.fromRGBO(255, 255, 255, 0.3),
+  canvasColor: Color(0xFFEDEDF4),
+  dividerColor: Colors.grey.withOpacity(0.5),
   iconTheme: IconThemeData(color: Colors.red.withOpacity(0.7), size: 20),
+  appBarTheme: AppBarTheme(
+    backgroundColor: Color(0xFF2E2E48),
+    foregroundColor: Colors.white,
+    iconTheme: IconThemeData(color: Colors.black),
+    elevation: 2,
+  ),
+  textTheme: TextTheme(
+    headline6: TextStyle(
+        fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+    bodyText2: TextStyle(fontSize: 14, color: Colors.black),
+  ),
+  buttonTheme: ButtonThemeData(
+    buttonColor: Color(0xFF2E2E48),
+    textTheme: ButtonTextTheme.primary,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  ),
 );
 
 SidebarXTheme sidebarTheme = SidebarXTheme(
