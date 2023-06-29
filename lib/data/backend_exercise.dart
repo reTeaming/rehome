@@ -5,32 +5,36 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 // Klasse zur Anbindung von Exercise spezifischen Funktionen an das Backend
 class ExerciseBackend {
   // konvertiert gegebenes Exercise Object zu einem ParseObject
-  static ParseObject parseExercise(Exercise exercise) {
-    // initialisiert vairablen des Exercise Objekts zur angenehmeren Benutzung
+  static Future<ParseObject?> parseExercise(Exercise exercise) async {
+    // initialisiert variablen des Exercise Objekts zur angenehmeren Benutzung
     Id id = exercise.id;
     List<ParameterSet> parameters = exercise.parameter;
     Map<DateTime, List<ParameterSet>> results = exercise.results;
 
     // Erstellung eines Parse Exercise Objects mit der Id
-    ParseObject parseExercise = ParseObject('Exercise')..set('id', id);
+    ParseObject parseExercise = ParseObject('Exercise')..set('typeId', id.id);
 
-    List parameterList = List.empty(growable: true);
+    List<ParseObject> parameterList = List.empty(growable: true);
 
     // konvertiere jeden Parameter zu einem ParseObject
     for (var parameter in parameters) {
-      parameterList.add(parseParameterSet(parameter, results));
+      var parsedParameter = await parseParameterSet(parameter, results);
+      if (parsedParameter != null) parameterList.add(parsedParameter);
     }
 
     // füge Liste mit Parse Parameter Objekten der Liste hinzu
-    parseExercise.set('parameters', parameterList);
+    parseExercise.addRelation('parameters', parameterList);
 
-    return parseExercise;
+    ParseResponse response = await parseExercise.save();
+    ParseObject? savedExercise = response.results?.first;
+
+    return savedExercise;
   }
 
   // konvertiert gegebenes ParameterSet Object zu einem ParseObject
   // setzt falls vorhanden das Datum, an welchem die Übung geschafft wurde
-  static ParseObject parseParameterSet(
-      ParameterSet parameter, Map<DateTime, List<ParameterSet>> results) {
+  static Future<ParseObject?> parseParameterSet(
+      ParameterSet parameter, Map<DateTime, List<ParameterSet>> results) async {
     // initialisiert vairablen des Exercise Objekts zur angenehmeren Benutzung
     int repetition = parameter.repetition;
     String name = parameter.name;
@@ -53,49 +57,69 @@ class ExerciseBackend {
     switch (parameter.runtimeType) {
       case Cocontraction:
         parameter as Cocontraction;
-        parseParameter.set('cocontraction', parseCocontraction(parameter));
+        var parsedParameter = await parseCocontraction(parameter);
+        if (parsedParameter != null) {
+          parseParameter.set('cocontraction', parsedParameter);
+        }
         break;
       case Jerk:
         parameter as Jerk;
-        parseParameter.set('jerk', parseJerk(parameter));
+        var parsedParameter = await parseJerk(parameter);
+        if (parsedParameter != null) {
+          parseParameter.set('jerk', parsedParameter);
+        }
         break;
       case RangeOfMotion:
         parameter as RangeOfMotion;
-        parseParameter.set('rangeOfMotion', parseRangeOfMotion(parameter));
+        var parsedParameter = await parseRangeOfMotion(parameter);
+        if (parsedParameter != null) {
+          parseParameter.set('rangeOfMotion', parsedParameter);
+        }
         break;
       // Hier sollte bestenfalls kein Parameter landen
       default:
     }
-    return parseParameter;
+
+    ParseResponse response = await parseParameter.save();
+    ParseObject? savedParameter = response.results?.first;
+    return savedParameter;
   }
 
   // konvertiert gegebenes ParameterSet Object zu einem RangeOfMotion ParseObject
-  static ParseObject parseRangeOfMotion(RangeOfMotion parameterSet) {
+  static Future<ParseObject?> parseRangeOfMotion(
+      RangeOfMotion parameterSet) async {
     ParseObject parameter = ParseObject('RangeOfMotion')
-      ..set('joint', parameterSet.joint)
-      ..set('value', parameterSet.value);
+      ..set('joint', parameterSet.joint.toString())
+      ..set('value', parameterSet.value.value);
 
-    return parameter;
+    ParseResponse response = await parameter.save();
+    ParseObject? savedParameter = response.results?.first;
+    return savedParameter;
   }
 
   // konvertiert gegebenes ParameterSet Object zu einem Jerk ParseObject
-  static ParseObject parseJerk(Jerk parameterSet) {
+  static Future<ParseObject?> parseJerk(Jerk parameterSet) async {
     ParseObject parameter = ParseObject('Jerk')
-      ..set('value', parameterSet.value);
+      ..set('value', parameterSet.value.value);
 
-    return parameter;
+    ParseResponse response = await parameter.save();
+    ParseObject? savedParameter = response.results?.first;
+    return savedParameter;
   }
 
   // konvertiert gegebenes ParameterSet Object zu einem Cocontraction ParseObject
-  static ParseObject parseCocontraction(Cocontraction parameterSet) {
+  static Future<ParseObject?> parseCocontraction(
+      Cocontraction parameterSet) async {
     ParseObject parameter = ParseObject('Cocontraction')
-      ..set('extensor1', parameterSet.extensor1)
-      ..set('extensor2', parameterSet.extensor2)
-      ..set('extensor3', parameterSet.extensor3)
-      ..set('flexor1', parameterSet.flexor1)
-      ..set('flexor2', parameterSet.flexor2)
-      ..set('flexor3', parameterSet.flexor3);
+      ..set('extensor1', parameterSet.extensor1.value)
+      ..set('extensor2', parameterSet.extensor2.value)
+      ..set('extensor3', parameterSet.extensor3.value)
+      ..set('flexor1', parameterSet.flexor1.value)
+      ..set('flexor2', parameterSet.flexor2.value)
+      ..set('flexor3', parameterSet.flexor3.value);
 
-    return parameter;
+    ParseResponse response = await parameter.save();
+    ParseObject? savedParameter = response.results?.first;
+    return savedParameter;
   }
 }
