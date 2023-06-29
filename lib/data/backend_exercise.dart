@@ -1,5 +1,5 @@
-import 'package:ReHome/domain/models/patient/exercise.dart';
-import 'package:ReHome/domain/models/user/id.dart';
+import 'package:rehome/domain/models/patient/exercise.dart';
+import 'package:rehome/domain/models/user/id.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 // Klasse zur Anbindung von Exercise spezifischen Funktionen an das Backend

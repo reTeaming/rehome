@@ -1,6 +1,6 @@
-import 'package:ReHome/data/backend_exercise.dart';
-import 'package:ReHome/domain/models/patient/exercise.dart';
-import 'package:ReHome/domain/models/patient/homework.dart';
+import 'package:rehome/data/backend_exercise.dart';
+import 'package:rehome/domain/models/patient/exercise.dart';
+import 'package:rehome/domain/models/patient/homework.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 // Klasse zur Anbindung von Hausaufgaben spezifischen Funktionen an das Backend
