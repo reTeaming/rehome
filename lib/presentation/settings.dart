@@ -3,6 +3,7 @@ import 'package:ReHome/business_logic/auth/auth_bloc.dart';
 import 'package:ReHome/presentation/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'settings_edit.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -47,15 +48,20 @@ class SettingsPage extends StatelessWidget {
                 style: TextButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 239, 239, 239),
                 ),
-                onPressed: null,
+                // Weiterleitung zur Seite zum SettingsChangePage.
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          const SettingsEditPage()));
+                },
                 child: Row(
                   children: [
                     const Icon(
-                      Icons.email,
+                      Icons.person,
                       color: Colors.black,
                     ),
                     const SizedBox(
-                      width: 20,
+                      width: 10,
                     ),
                     Expanded(
                         child: Text(
@@ -89,7 +95,12 @@ class SettingsPage extends StatelessWidget {
                 style: TextButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 239, 239, 239),
                 ),
-                onPressed: null,
+                // Weiterleitung zur Seite zum SettingsChangePage.
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          const SettingsEditPage()));
+                },
                 child: Row(
                   children: [
                     const Icon(
@@ -97,7 +108,7 @@ class SettingsPage extends StatelessWidget {
                       color: Colors.black,
                     ),
                     const SizedBox(
-                      width: 20,
+                      width: 10,
                     ),
                     Expanded(
                         child: Text(
@@ -131,15 +142,20 @@ class SettingsPage extends StatelessWidget {
                 style: TextButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 239, 239, 239),
                 ),
-                onPressed: null,
+                // Weiterleitung zur Seite zum SettingsChangePage.
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          const SettingsEditPage()));
+                },
                 child: Row(
                   children: [
                     const Icon(
-                      Icons.email,
+                      Icons.account_balance,
                       color: Colors.black,
                     ),
                     const SizedBox(
-                      width: 20,
+                      width: 10,
                     ),
                     Expanded(
                         child: Text(

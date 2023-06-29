@@ -52,5 +52,10 @@ class UserRepository {
     }
   }
 
+  // Abrufen der geänderten Werten
+  void updateDate(Name name, Username username, Institution institution) {
+    _user = User(_user!.id, name, username, institution);
+  }
+
   User? get user => _user;
 }
