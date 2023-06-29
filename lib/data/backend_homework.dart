@@ -13,7 +13,10 @@ class HomeworkBackend {
 
     // initialisiere ParseObject eines Homework Objekts mit ersten Einträgen
     ParseObject parseHomework = ParseObject('Homework')
-      ..set('repeatedHomework', parseWeekHomework(weekHomework, null))
+      ..set(
+          'repeatedHomework',
+          parseWeekHomework(weekHomework,
+              null)) // TODO: austesten ob Homework erst erstellt werden muss
       ..set('repeatedSince', repeatedSince);
 
     // erstelle Liste zur Speicherung aller WeekHomeworks in der weeks map
@@ -32,7 +35,38 @@ class HomeworkBackend {
     return response;
   }
 
+  // konvertiert gegebene WeekHomework in ein Backend ParseObject
+  // falls Week mitgegeben wird, wird diese mit abgespeichert
   ParseObject parseWeekHomework(WeekHomework weekHomework, Week? week) {
-    return ParseObject('WeekHomework');
+    int? year = week?.year;
+    int? weekNumber = week?.weekNumber;
+    Map<Day, List<ExerciseBlock>> exercises = weekHomework.exercises;
+
+    ParseObject parseWeekHomework = ParseObject('WeekHomework');
+
+    if (week != null) {
+      parseWeekHomework
+        ..set('year', year)
+        ..set('week', weekNumber);
+    }
+
+    // erstelle Liste zur Speicherung aller ExerciseBlocks in der Exersises Map
+    List exerciseBlockList = List.empty();
+
+    // fülle Liste mit Exercise Blöcken
+    exercises.forEach((day, blockList) {
+      exerciseBlockList.add(parseExerciseBlock(blockList,
+          day)); // TODO: austesten ob ParseObject erst erstellt werden muss
+    });
+
+    // füge ExerciseBlocks zum ParseObject hinzu
+    parseWeekHomework.set('exercises', exerciseBlockList);
+
+    return parseWeekHomework;
+  }
+
+  // konvertiert gegebenen ExerciseBlock in ein Backend ParseObject
+  ParseObject parseExerciseBlock(List<ExerciseBlock> exerciseBlock, Day day) {
+    return ParseObject('ExerciseBlock');
   }
 }
