@@ -3,6 +3,7 @@ import 'package:ReHome/business_logic/navigation/navigation_cubit.dart';
 import 'package:ReHome/domain/repositories/auth_repository.dart';
 import 'package:ReHome/domain/repositories/user_repository.dart';
 import 'package:ReHome/presentation/login/login.dart';
+import 'package:ReHome/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -73,6 +74,7 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: _navigatorKey,
+      theme: rehomeTheme,
       builder: (context, child) {
         // rounting basierend auf dem Authentifizierungszustand
         // 'AuthBloc' stellt die zugrundelegende Logik
