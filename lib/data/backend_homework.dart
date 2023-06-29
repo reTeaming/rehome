@@ -7,7 +7,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 class HomeworkBackend {
   // speichert übergebene Hausaufgabe ins Backend
   // Datenstruktur wird hierfür in Backendstruktur überführt
-  Future<ParseResponse> saveHomework(Homework homework) async {
+  static Future<ParseResponse> saveHomework(Homework homework) async {
     // initialisiert alle Felder aus homework für schnelleren/angenehmeren Zugriff
     WeekHomework weekHomework = homework.repeated;
     DateTime repeatedSince = homework.repeatedSince;
