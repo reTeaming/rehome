@@ -40,13 +40,10 @@ class PatientPage extends StatelessWidget {
                     ],
                     // Titel der Seite (Namen, Geburtstag und Therapiestart des Patienten)
                     centerTitle: false,
-                    title: BlocBuilder<PatientsBloc, PatientsState>(
-                        builder: (context, state) {
-                      return Text(
-                        '${state.patient.name}, geb. am: ${DateFormat.yMMMMd().format(state.patient.birthDate)}, in Therapie seit: ${DateFormat.yMMMMd().format(state.patient.therapyStart)}',
-                        style: const TextStyle(color: Colors.black),
-                      );
-                    }),
+                    title: Text(
+                      '${state.patient.name}, geb. am: ${DateFormat.yMMMMd().format(state.patient.birthDate)}, in Therapie seit: ${DateFormat.yMMMMd().format(state.patient.therapyStart)}',
+                      style: const TextStyle(color: Colors.black),
+                    ),
                     //Hintergrund
                     background: const Image(
                       image: AssetImage('assets/ReHomeLogo.png'),
@@ -56,30 +53,26 @@ class PatientPage extends StatelessWidget {
                 );
               },
             ),
-            // Blöcke für detaillierte Informationen über den Patienten
-            BlocBuilder<PatientsBloc, PatientsState>(
-              builder: (context, state) {
-                return SliverList(
-                  delegate: SliverChildListDelegate(
-                    <Widget>[
-                      const Column(
-                        children: [
-                          //ZieleWidget
-                          ZieleStateful(),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                //HausaufgabenWidget
-                                HausaufgabenWidget(),
-                                //ÜbungenWidget
-                                UebungenWidget(),
-                              ]),
-                        ],
-                      ),
+            // Body des Screens
+            SliverList(
+              delegate: SliverChildListDelegate(
+                <Widget>[
+                  const Column(
+                    children: [
+                      //ZieleWidget
+                      ZieleStateful(),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //HausaufgabenWidget
+                            HausaufgabenWidget(),
+                            //ÜbungenWidget
+                            UebungenWidget(),
+                          ]),
                     ],
                   ),
-                );
-              },
+                ],
+              ),
             ),
           ],
         ),
@@ -88,6 +81,7 @@ class PatientPage extends StatelessWidget {
   }
 }
 
+// ausklappbares ZieleWidget
 class ZieleStateful extends StatefulWidget {
   const ZieleStateful({super.key});
 
@@ -95,15 +89,18 @@ class ZieleStateful extends StatefulWidget {
   _ZieleState createState() => _ZieleState();
 }
 
+// Ausklapp-State
 class _ZieleState extends State<ZieleStateful> {
   bool expand = false;
 
+// Ändern des Ausklapp-State
   void setExpansion() {
     setState(() {
       expand = !expand;
     });
   }
 
+// Widget
   @override
   Widget build(BuildContext context) {
     return ExpansionPanelList(
@@ -113,6 +110,7 @@ class _ZieleState extends State<ZieleStateful> {
       children: [
         ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
+            // Permanentes ListTile des aktuellen Ziels
             return ListTile(title: BlocBuilder<PatientsBloc, PatientsState>(
               builder: (context, state) {
                 return const Text('Aktuelles Ziel: ');
@@ -121,6 +119,7 @@ class _ZieleState extends State<ZieleStateful> {
               setExpansion();
             });
           },
+          // Ausklappbare Liste vergangener Ziele
           body: const ListTile(
             title: Text('Vergangene Ziele: '),
             subtitle: Text(''),
@@ -170,6 +169,7 @@ class HausaufgabenWidget extends StatelessWidget {
   }
 }
 
+// Hilfswidget zum generieren der Aufgabenliste für jeden Tag
 Widget _buildDayColumn(String weekday, Day day) {
   return BlocBuilder<PatientsBloc, PatientsState>(
     builder: (context, state) {
