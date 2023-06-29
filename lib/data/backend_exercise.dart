@@ -27,8 +27,60 @@ class ExerciseBackend {
     return parseExercise;
   }
 
+  // konvertiert gegebenes ParameterSet Object zu einem ParseObject
+  // setzt falls vorhanden das Datum, an welchem die Übung geschafft wurde
   static ParseObject parseParameterSet(
       ParameterSet parameter, Map<DateTime, List<ParameterSet>> results) {
-    return ParseObject('ParameterSet');
+    // initialisiert vairablen des Exercise Objekts zur angenehmeren Benutzung
+    int repetition = parameter.repetition;
+    String name = parameter.name;
+
+    // Erstellung eines ParameterSet ParseObjects mit dem gegebenem Namen und der Anzahl repetitions
+    ParseObject parseParameter = ParseObject('ParameterSet')
+      ..set('name', name)
+      ..set('repetition', repetition);
+
+    // Durchsuche results Liste nach gegebenem Parameter
+    results.forEach((date, parameterList) {
+      if (parameterList.contains(parameter)) {
+        // Falls vorhanden, setze das Datum ins parseObject
+        parseParameter.set('achievedAt', date);
+      }
+    });
+
+    // schaue nach, welche Kind-Klasse der Abstrakten ParameterSet Klasse implementiert wurde
+    // füge je nachdem, dem ParseObject den richtigen Pointer hinzu
+    switch (parameter.runtimeType) {
+      case Cocontraction:
+        parameter as Cocontraction;
+        parseParameter.set('cocontraction', parseCocontraction(parameter));
+        break;
+      case Jerk:
+        parameter as Jerk;
+        parseParameter.set('jerk', parseJerk(parameter));
+        break;
+      case RangeOfMotion:
+        parameter as RangeOfMotion;
+        parseParameter.set('rangeOfMotion', parseRangeOfMotion(parameter));
+        break;
+      // Hier sollte bestenfalls kein Parameter landen
+      default:
+    }
+    return parseParameter;
+  }
+
+  // konvertiert gegebenes ParameterSet Object zu einem RangeOfMotion ParseObject
+  static ParseObject parseRangeOfMotion(RangeOfMotion parameterSet) {
+    return ParseObject('RangeOfMotion');
+  }
+
+  // konvertiert gegebenes ParameterSet Object zu einem Jerk ParseObject
+  static ParseObject parseJerk(Jerk parameterSet) {
+    return ParseObject('Jerk');
+  }
+
+  // konvertiert gegebenes ParameterSet Object zu einem Cocontraction ParseObject
+  static ParseObject parseCocontraction(Cocontraction parameterSet) {
+    return ParseObject('Cocontraction');
   }
 }
