@@ -22,7 +22,7 @@ class HomeworkBackend {
       ..set('repeatedSince', repeatedSince);
 
     // erstelle Liste zur Speicherung aller WeekHomeworks in der weeks map
-    List weeksHomeworkList = List.empty();
+    List weeksHomeworkList = List.empty(growable: true);
 
     // fülle Liste mit WeekHomeworks
     weeks.forEach((week, mapHomework) {
@@ -53,7 +53,7 @@ class HomeworkBackend {
     }
 
     // erstelle Liste zur Speicherung aller ExerciseBlocks in der Exersises Map
-    List exerciseBlockList = List.empty();
+    List exerciseBlockList = List.empty(growable: true);
 
     // fülle Liste mit Exercise Blöcken
     exercises.forEach((day, blockList) {
@@ -71,7 +71,7 @@ class HomeworkBackend {
   static List<ParseObject> parseExerciseBlocks(
       List<ExerciseBlock> exerciseBlocks, Day day) {
     // initialisiere Liste zum speichern der geparsten Blöcke
-    List<ParseObject> parseBlockList = List.empty();
+    List<ParseObject> parseBlockList = List.empty(growable: true);
     // iteriere über alle gegebenen Blöcke
     for (var block in exerciseBlocks) {
       // initialisiere variablen des übergebenen Blocks für angenehmere Aufrufe
@@ -84,7 +84,7 @@ class HomeworkBackend {
         ..set('day', day.toString());
 
       // erstelle Liste zur Speicherung aller Exercises in dem momentanen ExersiseBlock
-      List exerciseList = List.empty();
+      List exerciseList = List.empty(growable: true);
       // fülle Liste mit Exercises
       for (var exercise in exercises) {
         exerciseList.add(ExerciseBackend.parseExercise(
