@@ -39,7 +39,7 @@ class HomeworkBackend {
 
   // konvertiert gegebene WeekHomework in ein Backend ParseObject
   // falls Week mitgegeben wird, wird diese mit abgespeichert
-  ParseObject parseWeekHomework(WeekHomework weekHomework, Week? week) {
+  static ParseObject parseWeekHomework(WeekHomework weekHomework, Week? week) {
     int? year = week?.year;
     int? weekNumber = week?.weekNumber;
     Map<Day, List<ExerciseBlock>> exercises = weekHomework.exercises;
@@ -68,7 +68,7 @@ class HomeworkBackend {
   }
 
   // konvertiert gegebenen ExerciseBlock in ein Backend ParseObject
-  List<ParseObject> parseExerciseBlocks(
+  static List<ParseObject> parseExerciseBlocks(
       List<ExerciseBlock> exerciseBlocks, Day day) {
     // initialisiere Liste zum speichern der geparsten Blöcke
     List<ParseObject> parseBlockList = List.empty();
