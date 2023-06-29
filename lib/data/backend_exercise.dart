@@ -14,7 +14,7 @@ class ExerciseBackend {
     // Erstellung eines Parse Exercise Objects mit der Id
     ParseObject parseExercise = ParseObject('Exercise')..set('id', id);
 
-    List parameterList = List.empty();
+    List parameterList = List.empty(growable: true);
 
     // konvertiere jeden Parameter zu einem ParseObject
     for (var parameter in parameters) {
