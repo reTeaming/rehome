@@ -6,9 +6,9 @@ sealed class ListEvent {
 }
 
 final class SearchInputChanged extends ListEvent {
-  final String querry;
+  final String query;
 
-  const SearchInputChanged(this.querry);
+  const SearchInputChanged(this.query);
 }
 
 final class SearchTagChanged<T> extends ListEvent {

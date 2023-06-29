@@ -3,11 +3,8 @@ import 'package:ReHome/business_logic/navigation/navigation_cubit.dart';
 import 'package:ReHome/domain/repositories/auth_repository.dart';
 import 'package:ReHome/domain/repositories/secrets_repository.dart';
 import 'package:ReHome/domain/repositories/user_repository.dart';
-<<<<<<< HEAD
 import 'package:ReHome/presentation/dashboard.dart';
 import 'package:ReHome/presentation/home.dart';
-=======
->>>>>>> b23904cc8575fd1dafb2d1caa35915c0d7bde863
 import 'package:ReHome/presentation/login/login.dart';
 import 'package:ReHome/presentation/searchwidget.dart';
 import 'package:flutter/material.dart';

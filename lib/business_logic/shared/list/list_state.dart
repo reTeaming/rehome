@@ -4,23 +4,24 @@ part of 'list_bloc.dart';
 class ListState<ListElement, Tag> extends Equatable {
   final List<ListElement> _baseList;
   final List<ListElement> _currentListView;
-  final String currentSearchQuerry;
-  final Tag? currentSeachTag;
+  final String currentSearchQuery;
+  final Tag? currentSearchTag;
 
   const ListState(this._baseList, this._currentListView,
-      {this.currentSearchQuerry = "", this.currentSeachTag});
+      {this.currentSearchQuery = "", this.currentSearchTag});
 
   List<ListElement> get list => _currentListView;
+  Tag? get tag => currentSearchTag;
   ListState<ListElement, Tag> copyWith({
     List<ListElement>? baseList,
     List<ListElement>? currentListView,
-    String? currentSearchQuerry,
-    Tag? currentSeachTag,
+    String? currentSearchQuery,
+    Tag? currentSearchTag,
   }) {
     return ListState(
         baseList ?? this._baseList, currentListView ?? this._currentListView,
-        currentSearchQuerry: currentSearchQuerry ?? this.currentSearchQuerry,
-        currentSeachTag: currentSeachTag ?? this.currentSeachTag);
+        currentSearchQuery: currentSearchQuery ?? this.currentSearchQuery,
+        currentSearchTag: currentSearchTag ?? this.currentSearchTag);
   }
 
   @override

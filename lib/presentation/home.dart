@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
               builder: (context, state) {
             switch (state) {
               case NavigationState.dashboard:
-                return const Dashboard();
+                return const DashBoard();
               case NavigationState.patient:
                 return const PatientPage();
               case NavigationState.exercise:

@@ -80,10 +80,7 @@ packages:
       sha256: f092b211a4319e98e5ff58223576de6c2803db36221657b46c82574721240687
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "1.17.2"
-=======
-    version: "1.17.1"
   connectivity_plus:
     dependency: transitive
     description:
@@ -100,7 +97,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.4"
->>>>>>> b23904cc8575fd1dafb2d1caa35915c0d7bde863
   convert:
     dependency: transitive
     description:
@@ -745,10 +741,7 @@ packages:
       sha256: "99806e9e6d95c7b059b7a0fc08f07fc53fabe54a829497f0d9676299f1e8637e"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "0.5.3"
-=======
-    version: "0.5.1"
   timezone:
     dependency: transitive
     description:
@@ -757,7 +750,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.2"
->>>>>>> b23904cc8575fd1dafb2d1caa35915c0d7bde863
   typed_data:
     dependency: transitive
     description:
