@@ -1,3 +1,5 @@
+import 'package:ReHome/data/backend_exercise.dart';
+import 'package:ReHome/domain/models/patient/exercise.dart';
 import 'package:ReHome/domain/models/patient/homework.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
@@ -55,7 +57,7 @@ class HomeworkBackend {
 
     // fülle Liste mit Exercise Blöcken
     exercises.forEach((day, blockList) {
-      exerciseBlockList.add(parseExerciseBlock(blockList,
+      exerciseBlockList.addAll(parseExerciseBlocks(blockList,
           day)); // TODO: austesten ob ParseObject erst erstellt werden muss
     });
 
@@ -66,7 +68,35 @@ class HomeworkBackend {
   }
 
   // konvertiert gegebenen ExerciseBlock in ein Backend ParseObject
-  ParseObject parseExerciseBlock(List<ExerciseBlock> exerciseBlock, Day day) {
-    return ParseObject('ExerciseBlock');
+  List<ParseObject> parseExerciseBlocks(
+      List<ExerciseBlock> exerciseBlocks, Day day) {
+    // initialisiere Liste zum speichern der geparsten Blöcke
+    List<ParseObject> parseBlockList = List.empty();
+    // iteriere über alle gegebenen Blöcke
+    for (var block in exerciseBlocks) {
+      // initialisiere variablen des übergebenen Blocks für angenehmere Aufrufe
+      BlockStatus status = block.status;
+      List<Exercise> exercises = block.block;
+
+      // initialisiere ParseObject für den momentanen Block und speichere den Status und den Tag
+      ParseObject parseBlock = ParseObject('ExerciseBlock')
+        ..set('status', status.toString())
+        ..set('day', day.toString());
+
+      // erstelle Liste zur Speicherung aller Exercises in dem momentanen ExersiseBlock
+      List exerciseList = List.empty();
+      // fülle Liste mit Exercises
+      for (var exercise in exercises) {
+        exerciseList.add(ExerciseBackend.parseExercise(
+            exercise)); // TODO: austesten ob ParseObject erst erstellt werden muss
+      }
+
+      // füge Exercises zum ParseObject hinzu
+      parseBlock.set('exercise', exerciseList);
+
+      // füge den Parse Exercise Block der Liste hinzu
+      parseBlockList.add(parseBlock);
+    }
+    return parseBlockList;
   }
 }
