@@ -15,31 +15,31 @@ class HomeworkBackend {
 
     // initialisiere ParseObject eines Homework Objekts mit ersten Einträgen
     ParseObject parseHomework = ParseObject('Homework')
-      ..set(
-          'repeatedHomework',
-          parseWeekHomework(weekHomework,
-              null)) // TODO: austesten ob Homework erst erstellt werden muss
+      ..set('repeatedHomework', await parseWeekHomework(weekHomework, null))
       ..set('repeatedSince', repeatedSince);
 
     // erstelle Liste zur Speicherung aller WeekHomeworks in der weeks map
-    List weeksHomeworkList = List.empty(growable: true);
+    List<ParseObject> weeksHomeworkList = List.empty(growable: true);
 
     // fülle Liste mit WeekHomeworks
-    weeks.forEach((week, mapHomework) {
-      weeksHomeworkList.add(parseWeekHomework(mapHomework, week));
+    weeks.forEach((week, mapHomework) async {
+      var parsedWeekHomework = await parseWeekHomework(weekHomework, week);
+      if (parsedWeekHomework != null) weeksHomeworkList.add(parsedWeekHomework);
     });
 
     // füge WeekHomeworks zum ParseObject hinzu
-    parseHomework.set('weekHomeworks', weeksHomeworkList);
+    parseHomework.addRelation('weekHomeworks', weeksHomeworkList);
 
     // speichere Homework Objekt im Backend
     ParseResponse response = await parseHomework.save();
+
     return response;
   }
 
   // konvertiert gegebene WeekHomework in ein Backend ParseObject
   // falls Week mitgegeben wird, wird diese mit abgespeichert
-  static ParseObject parseWeekHomework(WeekHomework weekHomework, Week? week) {
+  static Future<ParseObject?> parseWeekHomework(
+      WeekHomework weekHomework, Week? week) async {
     int? year = week?.year;
     int? weekNumber = week?.weekNumber;
     Map<Day, List<ExerciseBlock>> exercises = weekHomework.exercises;
@@ -53,23 +53,28 @@ class HomeworkBackend {
     }
 
     // erstelle Liste zur Speicherung aller ExerciseBlocks in der Exersises Map
-    List exerciseBlockList = List.empty(growable: true);
+    List<ParseObject> exerciseBlockList = List.empty(growable: true);
 
     // fülle Liste mit Exercise Blöcken
-    exercises.forEach((day, blockList) {
-      exerciseBlockList.addAll(parseExerciseBlocks(blockList,
-          day)); // TODO: austesten ob ParseObject erst erstellt werden muss
+    exercises.forEach((day, blockList) async {
+      var parsedExerciseBlock = await parseExerciseBlocks(blockList, day);
+      if (parsedExerciseBlock != null) {
+        exerciseBlockList.addAll(parsedExerciseBlock);
+      }
     });
 
     // füge ExerciseBlocks zum ParseObject hinzu
-    parseWeekHomework.set('exercises', exerciseBlockList);
+    parseWeekHomework.addRelation('exercises', exerciseBlockList);
 
-    return parseWeekHomework;
+    ParseResponse response = await parseWeekHomework.save();
+    ParseObject savedWeekHomework = response.results?.first;
+
+    return savedWeekHomework;
   }
 
   // konvertiert gegebenen ExerciseBlock in ein Backend ParseObject
-  static List<ParseObject> parseExerciseBlocks(
-      List<ExerciseBlock> exerciseBlocks, Day day) {
+  static Future<List<ParseObject>?> parseExerciseBlocks(
+      List<ExerciseBlock> exerciseBlocks, Day day) async {
     // initialisiere Liste zum speichern der geparsten Blöcke
     List<ParseObject> parseBlockList = List.empty(growable: true);
     // iteriere über alle gegebenen Blöcke
@@ -84,19 +89,24 @@ class HomeworkBackend {
         ..set('day', day.toString());
 
       // erstelle Liste zur Speicherung aller Exercises in dem momentanen ExersiseBlock
-      List exerciseList = List.empty(growable: true);
+      List<ParseObject> exerciseList = List.empty(growable: true);
       // fülle Liste mit Exercises
       for (var exercise in exercises) {
-        exerciseList.add(ExerciseBackend.parseExercise(
-            exercise)); // TODO: austesten ob ParseObject erst erstellt werden muss
+        var parsedExercise = await ExerciseBackend.parseExercise(exercise);
+        if (parsedExercise != null) {
+          exerciseList.add(parsedExercise);
+        }
       }
 
       // füge Exercises zum ParseObject hinzu
-      parseBlock.set('exercise', exerciseList);
+      parseBlock.addRelation('exercise', exerciseList);
+
+      ParseResponse response = await parseBlock.save();
 
       // füge den Parse Exercise Block der Liste hinzu
-      parseBlockList.add(parseBlock);
+      if (response.success) parseBlockList.add(response.results!.first);
     }
+
     return parseBlockList;
   }
 }
