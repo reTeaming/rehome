@@ -71,16 +71,31 @@ class ExerciseBackend {
 
   // konvertiert gegebenes ParameterSet Object zu einem RangeOfMotion ParseObject
   static ParseObject parseRangeOfMotion(RangeOfMotion parameterSet) {
-    return ParseObject('RangeOfMotion');
+    ParseObject parameter = ParseObject('RangeOfMotion')
+      ..set('joint', parameterSet.joint)
+      ..set('value', parameterSet.value);
+
+    return parameter;
   }
 
   // konvertiert gegebenes ParameterSet Object zu einem Jerk ParseObject
   static ParseObject parseJerk(Jerk parameterSet) {
-    return ParseObject('Jerk');
+    ParseObject parameter = ParseObject('Jerk')
+      ..set('value', parameterSet.value);
+
+    return parameter;
   }
 
   // konvertiert gegebenes ParameterSet Object zu einem Cocontraction ParseObject
   static ParseObject parseCocontraction(Cocontraction parameterSet) {
-    return ParseObject('Cocontraction');
+    ParseObject parameter = ParseObject('Cocontraction')
+      ..set('extensor1', parameterSet.extensor1)
+      ..set('extensor2', parameterSet.extensor2)
+      ..set('extensor3', parameterSet.extensor3)
+      ..set('flexor1', parameterSet.flexor1)
+      ..set('flexor2', parameterSet.flexor2)
+      ..set('flexor3', parameterSet.flexor3);
+
+    return parameter;
   }
 }
