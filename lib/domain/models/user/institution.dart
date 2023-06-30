@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:ReHome/domain/models/user/id.dart';
+import 'package:rehome/domain/models/user/id.dart';
 
 class Institution extends Equatable {
   const Institution(this.organisationId, this.name, this.departement);

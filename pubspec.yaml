@@ -1,4 +1,4 @@
-name: ReHome
+name: rehome
 description: therapist interface for training plans of stroke patients
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -26,6 +26,7 @@ dependencies:
       url: https://github.com/parse-community/Parse-SDK-Flutter.git
       ref: f8942ac
       path: packages/flutter
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +42,7 @@ flutter:
 
   assets:
     - assets/
+    - .env
 
   # To add assets to your application, add an assets section, like this:
   # assets:

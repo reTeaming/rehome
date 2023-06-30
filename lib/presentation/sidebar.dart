@@ -24,7 +24,7 @@ class Sidebar extends StatelessWidget {
         ),
       ),
       footerDivider: divider,
-
+      
       // Profilbild/Profil obere linke Ecke
       toggleButtonBuilder: (context, extended) {
         return const Center();
@@ -34,7 +34,7 @@ class Sidebar extends StatelessWidget {
           height: 60,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Image.asset('assets/ReHomeLogo.png'),
+            child: Image.asset('assets/rehomeLogo.png'),
           ),
         );
       },
