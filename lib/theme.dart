@@ -5,22 +5,22 @@ ThemeData rehomeTheme = ThemeData(
   brightness: Brightness.light,
   scaffoldBackgroundColor: Colors.white,
   primaryColor: primaryColor,
-  canvasColor: Color(0xFFEDEDF4),
+  canvasColor: const Color(0xFFEDEDF4),
   dividerColor: Colors.grey.withOpacity(0.5),
   iconTheme: IconThemeData(color: Colors.red.withOpacity(0.7), size: 20),
-  appBarTheme: AppBarTheme(
-    backgroundColor: Color(0xFF2E2E48),
+  appBarTheme: const AppBarTheme(
+    backgroundColor: canvasColor,
     foregroundColor: Colors.white,
     iconTheme: IconThemeData(color: Colors.black),
     elevation: 2,
   ),
-  textTheme: TextTheme(
-    headline6: TextStyle(
+  textTheme: const TextTheme(
+    titleLarge: TextStyle(
         fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
-    bodyText2: TextStyle(fontSize: 14, color: Colors.black),
+    bodyMedium: TextStyle(fontSize: 14, color: Colors.black),
   ),
   buttonTheme: ButtonThemeData(
-    buttonColor: Color(0xFF2E2E48),
+    buttonColor: const Color(0xFF2E2E48),
     textTheme: ButtonTextTheme.primary,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
   ),
