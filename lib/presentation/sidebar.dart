@@ -1,4 +1,4 @@
-import 'package:ReHome/theme.dart';
+import 'package:rehome/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 
@@ -24,7 +24,7 @@ class Sidebar extends StatelessWidget {
         ),
       ),
       footerDivider: divider,
-      
+
       // Profilbild/Profil obere linke Ecke
       toggleButtonBuilder: (context, extended) {
         return const Center();
