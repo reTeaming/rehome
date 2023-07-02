@@ -64,13 +64,13 @@ class Sidebar extends StatelessWidget {
 
       /**
      
-      //ReHome Logo linke untere Ecke
+      //rehome Logo linke untere Ecke
       toggleButtonBuilder: (context, extended) {
         return SizedBox(
           height: 70,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Image.asset('assets/ReHomeLogo.png'),
+            child: Image.asset('assets/rehomeLogo.png'),
           ),
         );
       },
@@ -86,7 +86,7 @@ class Sidebar extends StatelessWidget {
           height: 60,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Image.asset('assets/ReHomeLogo.png'),
+            child: Image.asset('assets/rehomeLogo.png'),
           ),
         );
       },

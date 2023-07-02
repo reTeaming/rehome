@@ -1,9 +1,9 @@
-import 'package:ReHome/business_logic/auth/auth_bloc.dart';
-import 'package:ReHome/business_logic/navigation/navigation_cubit.dart';
-import 'package:ReHome/domain/repositories/auth_repository.dart';
-import 'package:ReHome/domain/repositories/secrets_repository.dart';
-import 'package:ReHome/domain/repositories/user_repository.dart';
-import 'package:ReHome/presentation/login/login.dart';
+import 'package:rehome/business_logic/auth/auth_bloc.dart';
+import 'package:rehome/business_logic/navigation/navigation_cubit.dart';
+import 'package:rehome/domain/repositories/auth_repository.dart';
+import 'package:rehome/domain/repositories/secrets_repository.dart';
+import 'package:rehome/domain/repositories/user_repository.dart';
+import 'package:rehome/presentation/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

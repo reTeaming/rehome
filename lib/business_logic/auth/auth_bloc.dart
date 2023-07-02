@@ -1,10 +1,10 @@
 library auth_bloc;
 
 import 'dart:async';
-import 'package:ReHome/domain/models/user/name.dart';
-import 'package:ReHome/domain/models/user/user.dart';
-import 'package:ReHome/domain/repositories/auth_repository.dart';
-import 'package:ReHome/domain/repositories/user_repository.dart';
+import 'package:reHome/domain/models/user/name.dart';
+import 'package:reHome/domain/models/user/user.dart';
+import 'package:reHome/domain/repositories/auth_repository.dart';
+import 'package:reHome/domain/repositories/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../domain/models/auth/username.dart';

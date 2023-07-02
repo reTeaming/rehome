@@ -1,8 +1,8 @@
-import 'package:ReHome/domain/models/user/institution.dart';
+import 'package:rehome/domain/models/user/institution.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
-import 'package:ReHome/domain/models/auth/username.dart';
-import 'package:ReHome/domain/models/user/name.dart';
-import 'package:ReHome/domain/models/user/id.dart';
+import 'package:rehome/domain/models/auth/username.dart';
+import 'package:rehome/domain/models/user/name.dart';
+import 'package:rehome/domain/models/user/id.dart';
 
 class UserBackend {
   // aktualisiert den Namen eines Benutzers im Backend
