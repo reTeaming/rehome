@@ -92,12 +92,7 @@ class FilterButtonWidget extends StatelessWidget {
         return InkWell(
           onTap: () {
             //Wenn der Button gedrückt wird ändert sich der Status zum entgegengesetzten
-            PatientStatus patientStatus = state.tag == PatientStatus.ACTIVE
-                ? PatientStatus.INACTIVE
-                : PatientStatus.INACTIVE;
-            context
-                .read<PatientSearchBloc>()
-                .add(SearchTagChanged(patientStatus));
+            context.read<PatientSearchBloc>().add(SearchTagChanged(state.tag));
           },
           child: Container(
             padding: const EdgeInsets.all(10.0),

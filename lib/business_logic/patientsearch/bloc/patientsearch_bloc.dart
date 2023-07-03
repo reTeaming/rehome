@@ -1,11 +1,8 @@
 import 'dart:ui';
 import 'package:ReHome/business_logic/shared/list/list_bloc.dart';
 import 'package:ReHome/domain/models/patient/patient.dart';
-import 'package:ReHome/domain/repositories/search_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:ReHome/domain/models/patient/models.dart';
-import 'package:ReHome/business_logic/shared/list/list_bloc.dart';
 import 'package:ReHome/domain/models/patient/models.dart';
 
 class PatientSearchBloc extends ListBloc<Patient, PatientStatus> {
@@ -44,6 +41,11 @@ class PatientSearchBloc extends ListBloc<Patient, PatientStatus> {
       SearchTagChanged<PatientStatus> event,
       ListState<Patient, PatientStatus> state) {
     // TODO: implement onSearchTagChanged
+    PatientStatus patientStatus = event.tag == PatientStatus.ACTIVE
+        ? PatientStatus.INACTIVE
+        : PatientStatus.ACTIVE;
+
+    emit(state.copyWith(currentSearchTag: patientStatus));
     throw UnimplementedError();
   }
 }
