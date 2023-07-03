@@ -6,7 +6,7 @@ import 'package:ReHome/domain/repositories/user_repository.dart';
 import 'package:ReHome/presentation/dashboard.dart';
 import 'package:ReHome/presentation/home.dart';
 import 'package:ReHome/presentation/login/login.dart';
-import 'package:ReHome/presentation/searchwidget.dart';
+import 'package:ReHome/presentation/patientsearchwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -94,7 +94,7 @@ class _AppViewState extends State<AppView> {
                 );
               case AuthStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  DashBoard.route(),
+                  LoginPage.route(),
                   (route) => false,
                 );
               case AuthStatus.unknown:

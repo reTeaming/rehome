@@ -1,44 +1,20 @@
 //Implementierung von generischer SearchWidget
-import 'dart:ui';
-
-import 'package:ReHome/business_logic/search/bloc/search_bloc.dart';
+import 'package:ReHome/business_logic/patientsearch/bloc/patientsearch_bloc.dart';
 import 'package:ReHome/business_logic/shared/list/list_bloc.dart';
 import 'package:ReHome/domain/models/patient/models.dart';
-import 'package:ReHome/domain/repositories/search_repository.dart';
-import 'package:equatable/equatable.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// Dumme Objekte damit ich iwas anzeigen kann
-class DummyObject {
-  const DummyObject(this.name, this.birthDate, this.active);
-
-  final String name;
-  final DateTime birthDate;
-  final bool active;
-}
-
-// Liste aus dummen Objekten
-
-List<DummyObject> dummyList = [
-  DummyObject('John Doe', DateTime(1990, 10, 15), true),
-  DummyObject('Jane Smith', DateTime(1985, 5, 20), false),
-  DummyObject('Alice Johnson', DateTime(1998, 3, 8), true),
-  DummyObject('Bob Williams', DateTime(1979, 12, 1), true),
-  DummyObject('Emily Davis', DateTime(2002, 8, 25), false),
-];
-
-class SearchWidget extends StatelessWidget {
+class PatientSearchBlocSearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         TextField(
           onChanged: (query) {
-            context.read<SearchBloc>().add(SearchInputChanged(query));
+            //Weitergabe der Sucheingabe
+            context.read<PatientSearchBloc>().add(SearchInputChanged(query));
           },
-          // Suchen mit Bloc
           decoration: const InputDecoration(
             hintText: "Suche...",
             enabledBorder: UnderlineInputBorder(
@@ -49,19 +25,22 @@ class SearchWidget extends StatelessWidget {
         ),
         const Divider(height: 10),
         Flexible(
+          //Filterbuttons eigenem Widget
           flex: 1,
-          child: BlocBuilder<SearchBloc, ListState>(
+          child: BlocBuilder<PatientSearchBloc, ListState>(
             builder: (context, state) {
               return const Row(children: [
-                FilterButtonWidget("Aktive Patienten"),
+                FilterButtonWidget("Aktive PatientSearchBlocen"),
               ]);
             },
           ),
         ),
         const Divider(height: 10),
         Flexible(
+          //Anzeige der Patienten als Liste
           flex: 7,
-          child: BlocBuilder<SearchBloc, ListState>(builder: (context, state) {
+          child: BlocBuilder<PatientSearchBloc, ListState>(
+              builder: (context, state) {
             return RefreshIndicator(
               //key :
               color: Colors.white,
@@ -81,10 +60,10 @@ class SearchWidget extends StatelessWidget {
                       index += 1)
                     ListTile(
                       key: Key('$index'),
-                      tileColor: Theme.of(context).focusColor,
+                      tileColor: Theme.of(context).focusColor, //random Farbe
                       title: Text(state.list[index].name.toString()),
                       onTap: () {
-                        // Hier darf die Weiterleitung zum Patienten rein
+                        // Hier darf die Weiterleitung zum PatientSearchBloc rein
                       },
                     ),
                 ],
@@ -99,6 +78,7 @@ class SearchWidget extends StatelessWidget {
   }
 }
 
+//Eigenes Widget für die Filterbuttons
 class FilterButtonWidget extends StatelessWidget {
   final String displayText;
   const FilterButtonWidget(
@@ -107,15 +87,17 @@ class FilterButtonWidget extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchBloc, ListState>(
+    return BlocBuilder<PatientSearchBloc, ListState>(
       builder: (context, state) {
         return InkWell(
           onTap: () {
-            PatientStatus patientTag = state.tag == PatientStatus.ACTIVE
+            //Wenn der Button gedrückt wird ändert sich der Status zum entgegengesetzten
+            PatientStatus patientStatus = state.tag == PatientStatus.ACTIVE
                 ? PatientStatus.INACTIVE
                 : PatientStatus.INACTIVE;
-
-            context.read<SearchBloc>().add(SearchTagChanged(patientTag));
+            context
+                .read<PatientSearchBloc>()
+                .add(SearchTagChanged(patientStatus));
           },
           child: Container(
             padding: const EdgeInsets.all(10.0),
