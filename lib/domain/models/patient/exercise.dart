@@ -33,6 +33,11 @@ class Cocontraction extends ParameterSet {
   final ParameterValue flexor1;
   final ParameterValue flexor2;
   final ParameterValue flexor3;
+
+  @override
+  List<Object> get props =>
+      super.props +
+      [extensor1, extensor2, extensor3, flexor1, flexor2, flexor3];
 }
 
 class Jerk extends ParameterSet {
