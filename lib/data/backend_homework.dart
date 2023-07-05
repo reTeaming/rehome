@@ -2,6 +2,7 @@ import 'package:rehome/data/backend_exercise.dart';
 import 'package:rehome/domain/models/patient/exercise.dart';
 import 'package:rehome/domain/models/patient/homework.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+import 'package:rehome/domain/models/user/id.dart';
 
 // Klasse zur Anbindung von Hausaufgaben spezifischen Funktionen an das Backend
 class HomeworkBackend {
@@ -108,5 +109,19 @@ class HomeworkBackend {
     }
 
     return parseBlockList;
+  }
+
+  static Future<Homework?> getHomeworkById(Id id) async {
+    String stringId = id.id;
+
+    final ParseResponse response =
+        await ParseObject('Homework').getObject(stringId);
+
+    if (response.success) return parseToHomework(response.results!.first);
+    return null;
+  }
+
+  static Homework? parseToHomework(ParseObject parseHomework) {
+    return null;
   }
 }
