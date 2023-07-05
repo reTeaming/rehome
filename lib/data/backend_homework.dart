@@ -111,6 +111,11 @@ class HomeworkBackend {
     return parseBlockList;
   }
 
+  /*
+  * Funktionen zum Speichern von Hausaufgaben
+  */
+
+  /// Sucht im Backend nach Hausaufgabe mit gegebener Id
   static Future<Homework?> getHomeworkById(Id id) async {
     String stringId = id.id;
 
@@ -121,7 +126,43 @@ class HomeworkBackend {
     return null;
   }
 
-  static Homework? parseToHomework(ParseObject parseHomework) {
+  /// konvertiert gegebenes ParseObject zu Hausaufgabe
+  static Future<Homework?> parseToHomework(ParseObject parseHomework) async {
+    DateTime repeatedSince = parseHomework.get('repeatedSince');
+
+    WeekHomework? repeated =
+        parseToWeekHomework(parseHomework.get('repeatedHomework'));
+
+    ParseRelation<ParseObject> weekHomeworks =
+        parseHomework.get('weekHomeworks');
+
+    ParseResponse query = await weekHomeworks.getQuery().query();
+
+    List<dynamic> parseWeekHomeworks = query.results!;
+
+    // Map zur Speicherung von Hausaufgaben mit zugehöriger Woche
+    Map<Week, WeekHomework> weeks = {};
+    for (var parseWeekHomework in parseWeekHomeworks) {
+      Week week =
+          Week(parseWeekHomework.get('week'), parseWeekHomework.get('year'));
+      WeekHomework? weekHomework = parseToWeekHomework(parseWeekHomework);
+      if (weekHomework != null) {
+        weeks.addAll({week: weekHomework});
+      }
+    }
+
+    // falls repeated nicht null ist, erstelle Hausaufgaben Object
+    if (repeated != null) {
+      //TODO: ist repeated notwendig?
+      Homework homework = Homework(repeated, repeatedSince, weeks);
+      return homework;
+    }
     return null;
+  }
+
+  static WeekHomework? parseToWeekHomework(ParseObject parseWeekHomework) {
+    return null;
+    // WeekHomework weekHomework =
+    //     WeekHomework(parseToExercise(parseWeekHomework.get('exercise')));
   }
 }
