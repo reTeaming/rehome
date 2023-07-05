@@ -1,3 +1,4 @@
+import 'package:rehome/domain/models/patient/default_exercise.dart';
 import 'package:rehome/domain/models/patient/exercise.dart';
 import 'package:rehome/domain/models/user/id.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -7,12 +8,13 @@ class ExerciseBackend {
   // konvertiert gegebenes Exercise Object zu einem ParseObject
   static Future<ParseObject?> parseExercise(Exercise exercise) async {
     // initialisiert variablen des Exercise Objekts zur angenehmeren Benutzung
-    Id id = exercise.id;
+    DefaultExercise exerciseType = exercise.exerciseType;
     List<ParameterSet> parameters = exercise.parameter;
     Map<DateTime, List<ParameterSet>> results = exercise.results;
 
     // Erstellung eines Parse Exercise Objects mit der Id
-    ParseObject parseExercise = ParseObject('Exercise')..set('typeId', id.id);
+    ParseObject parseExercise = ParseObject('Exercise')
+      ..set('exerciseType', parseDefaultExercise(exerciseType));
 
     List<ParseObject> parameterList = List.empty(growable: true);
 
@@ -26,6 +28,24 @@ class ExerciseBackend {
     parseExercise.addRelation('parameters', parameterList);
 
     ParseResponse response = await parseExercise.save();
+    ParseObject? savedExercise = response.results?.first;
+
+    return savedExercise;
+  }
+
+  // konvertiert gegebenes DefaultExercise Object zu einem ParseObject
+  static Future<ParseObject?> parseDefaultExercise(
+      DefaultExercise exerciseType) async {
+    // initialisiert variablen des DefaultExercise Objekts zur angenehmeren Benutzung
+    String name = exerciseType.name;
+    Id id = exerciseType.id;
+
+    // Erstellung eines Parse Exercise Objects mit der Id und Namen
+    ParseObject parseDefaultExercise = ParseObject('DefaultExercise')
+      ..set('typeId', id.id)
+      ..set('name', name);
+
+    ParseResponse response = await parseDefaultExercise.save();
     ParseObject? savedExercise = response.results?.first;
 
     return savedExercise;
