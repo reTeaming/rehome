@@ -6,6 +6,10 @@ import 'package:rehome/domain/models/user/id.dart';
 
 // Klasse zur Anbindung von Hausaufgaben spezifischen Funktionen an das Backend
 class HomeworkBackend {
+  /*
+  * Funktionen zum Abrufen von Hausaufgaben
+  */
+
   // speichert übergebene Hausaufgabe ins Backend
   // Datenstruktur wird hierfür in Backendstruktur überführt
   static Future<ParseResponse> saveHomework(Homework homework) async {
@@ -112,7 +116,7 @@ class HomeworkBackend {
   }
 
   /*
-  * Funktionen zum Speichern von Hausaufgaben
+  * Funktionen zum Abrufen von Hausaufgaben
   */
 
   /// Sucht im Backend nach Hausaufgabe mit gegebener Id
@@ -131,7 +135,7 @@ class HomeworkBackend {
     DateTime repeatedSince = parseHomework.get('repeatedSince');
 
     WeekHomework? repeated =
-        parseToWeekHomework(parseHomework.get('repeatedHomework'));
+        await parseToWeekHomework(parseHomework.get('repeatedHomework'));
 
     ParseRelation<ParseObject> weekHomeworks =
         parseHomework.get('weekHomeworks');
@@ -145,7 +149,7 @@ class HomeworkBackend {
     for (var parseWeekHomework in parseWeekHomeworks) {
       Week week =
           Week(parseWeekHomework.get('week'), parseWeekHomework.get('year'));
-      WeekHomework? weekHomework = parseToWeekHomework(parseWeekHomework);
+      WeekHomework? weekHomework = await parseToWeekHomework(parseWeekHomework);
       if (weekHomework != null) {
         weeks.addAll({week: weekHomework});
       }
@@ -160,9 +164,49 @@ class HomeworkBackend {
     return null;
   }
 
-  static WeekHomework? parseToWeekHomework(ParseObject parseWeekHomework) {
+  /// konvertiert gegebenes ParseObject zu WeekHomework
+  static Future<WeekHomework?> parseToWeekHomework(
+      ParseObject parseWeekHomework) async {
+    ParseRelation<ParseObject> exerciseBlocks =
+        parseWeekHomework.get('exercises');
+
+    ParseResponse query = await exerciseBlocks.getQuery().query();
+
+    List<dynamic> parseExerciseBlocks = query.results!;
+
+    // Map zur Speicherung von Hausaufgaben mit zugehöriger Woche
+    Map<Day, List<ExerciseBlock>> exercises = {};
+
+    for (var parseExerciseBlock in parseExerciseBlocks) {
+      Day? day = switch (parseExerciseBlock.get('day')) {
+        'monday' => Day.monday,
+        'tuesday' => Day.tuesday,
+        'wednesday' => Day.wednesday,
+        'thursday' => Day.thursday,
+        'friday' => Day.friday,
+        'saturday' => Day.saturday,
+        'sunday' => Day.sunday,
+        _ => null
+      };
+
+      ExerciseBlock? exerciseBlock =
+          await parseToExerciseBlock(parseExerciseBlock);
+
+      // setze den exerciseBlock falls dieser und der zugehörigige Tag nicht null ist
+      if (exerciseBlock != null && day != null) {
+        // update die ExerciseBlock Map mit dem neuen Block
+        exercises.update(day, (list) => list..add(exerciseBlock),
+            // Falls noch kein Eintrag mit Day vorhanden erstelle neue Liste
+            ifAbsent: () => List.empty(growable: true)..add(exerciseBlock));
+      }
+    }
+
+    return WeekHomework(exercises);
+  }
+
+  /// konvertiert gegebenes ParseObject zu ExerciseBlock
+  static Future<ExerciseBlock?> parseToExerciseBlock(
+      ParseObject parseExerciseBlock) async {
     return null;
-    // WeekHomework weekHomework =
-    //     WeekHomework(parseToExercise(parseWeekHomework.get('exercise')));
   }
 }
