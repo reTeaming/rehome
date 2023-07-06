@@ -5,7 +5,7 @@ import 'package:ReHome/domain/models/patient/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PatientSearchBlocSearchWidget extends StatelessWidget {
+class PatientSearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
