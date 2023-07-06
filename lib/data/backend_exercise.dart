@@ -158,6 +158,52 @@ class ExerciseBackend {
   /// konvertiert gegebenes ParseObject zu Exercise
   static Future<ParameterSet?> parseToParameterSet(
       ParseObject parseParameterSet) async {
+    // Abrufen des Namen und der Anzahl Wiederholungen aus Backend
+    String name = parseParameterSet.get('name');
+    int repetition = parseParameterSet.get('repetition');
+
+    // Versuche alle 3 Parameter Arten aus backend abzurufen (1 sollte gesetzt sein)
+    ParseObject? jerk = parseParameterSet.get('jerk');
+    ParseObject? rangeOfMotion = parseParameterSet.get('rangeOfMotion');
+    ParseObject? cocontraction = parseParameterSet.get('cocontraction');
+
+    // Wähle gesetzte Parameter Art und rufe die jeweiligen Parameter ab
+    if (jerk != null) {
+      // für jerk: rufe value ab und erstelle Jerk Objekt
+      double value = jerk.get('value');
+      return Jerk(ParameterValue(value), name, repetition);
+    }
+    if (rangeOfMotion != null) {
+      // für RangeOfMotion: rufe Value und joint ab und erstelle RangeOfMotion Objekt
+      double value = rangeOfMotion.get('value');
+      String jointString = rangeOfMotion.get('joint');
+      Joint? joint = switch (jointString) {
+        'ellbow' => Joint.ellbow,
+        'shoulder' => Joint.shoulder,
+        'wrist' => Joint.wrist,
+        _ => null
+      };
+      return RangeOfMotion(joint!, ParameterValue(value), name, repetition);
+    }
+    if (cocontraction != null) {
+      // für RangeOfMotion: rufe alle ParameterValues ab und erstelle Cocontraction Objekt
+      double extensor1 = cocontraction.get('extensor1');
+      double extensor2 = cocontraction.get('extensor2');
+      double extensor3 = cocontraction.get('extensor3');
+      double flexor1 = cocontraction.get('flexor1');
+      double flexor2 = cocontraction.get('flexor2');
+      double flexor3 = cocontraction.get('flexor3');
+      return Cocontraction(
+          ParameterValue(extensor1),
+          ParameterValue(extensor2),
+          ParameterValue(extensor3),
+          ParameterValue(flexor1),
+          ParameterValue(flexor2),
+          ParameterValue(flexor3),
+          name,
+          repetition);
+    }
+    // Hier sollte das Programm nur landen, falls kein Parameter Typ gesetzt wurde
     return null;
   }
 }
