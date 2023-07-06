@@ -4,6 +4,10 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 // Klasse zur Anbindung von Exercise spezifischen Funktionen an das Backend
 class ExerciseBackend {
+  /*
+  * Funktionen zum Speichern von Übungen
+  */
+
   // konvertiert gegebenes Exercise Object zu einem ParseObject
   static Future<ParseObject?> parseExercise(Exercise exercise) async {
     // initialisiert variablen des Exercise Objekts zur angenehmeren Benutzung
@@ -122,6 +126,10 @@ class ExerciseBackend {
     ParseObject? savedParameter = response.results?.first;
     return savedParameter;
   }
+
+  /*
+  * Funktionen zum Abrufen von Übungen
+  */
 
   /// konvertiert gegebenes ParseObject zu Exercise
   static Future<Exercise?> parseToExercise(ParseObject parseExercise) async {
