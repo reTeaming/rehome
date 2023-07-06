@@ -12,9 +12,14 @@ class ExerciseBackend {
     List<ParameterSet> parameters = exercise.parameter;
     Map<DateTime, List<ParameterSet>> results = exercise.results;
 
-    // Erstellung eines Parse Exercise Objects mit der Id
-    ParseObject parseExercise = ParseObject('Exercise')
-      ..set('exerciseType', parseDefaultExercise(exerciseType));
+    // Erstellung eines Parse Exercise Objects
+    ParseObject parseExercise = ParseObject('Exercise');
+
+    // Setzen des exerciseTypes in ParseObject
+    var parsedDefaultExercise = await parseDefaultExercise(exerciseType);
+    if (parsedDefaultExercise != null) {
+      parseExercise.set('exerciseType', parsedDefaultExercise);
+    }
 
     List<ParseObject> parameterList = List.empty(growable: true);
 
