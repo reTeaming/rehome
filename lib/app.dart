@@ -79,9 +79,7 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: _navigatorKey,
-      theme: rehomeTheme.copyWith(
-          colorScheme: rehomeTheme.colorScheme
-              .copyWith(primary: const Color(0xFF2E2E48))),
+      theme: rehomeTheme,
       builder: (context, child) {
         // rounting basierend auf dem Authentifizierungszustand
         // 'AuthBloc' stellt die zugrundelegende Logik

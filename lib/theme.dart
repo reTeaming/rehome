@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 ThemeData rehomeTheme = ThemeData(
+  colorScheme:
+      const ColorScheme.light(primary: primaryColor, secondary: canvasColor),
   brightness: Brightness.light,
   scaffoldBackgroundColor: Colors.white,
   primaryColor: primaryColor,
@@ -66,7 +68,7 @@ SidebarXTheme sidebarTheme = SidebarXTheme(
   ),
 );
 
-const primaryColor = Color(0xFF685BFF);
+const primaryColor = Color.fromARGB(255, 65, 52, 207);
 const canvasColor = Color(0xFF2E2E48);
 const scaffoldBackgroundColor = Color.fromARGB(255, 219, 219, 255);
 const accentCanvasColor = Color(0xFF3E3E61);
