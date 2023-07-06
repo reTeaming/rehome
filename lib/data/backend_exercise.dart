@@ -124,8 +124,40 @@ class ExerciseBackend {
   }
 
   /// konvertiert gegebenes ParseObject zu Exercise
-  static Future<Exercise?> parseToExercise(
-      ParseObject parseExerciseBlock) async {
+  static Future<Exercise?> parseToExercise(ParseObject parseExercise) async {
+    // Abrufen der Exercises aus Backend
+    ParseRelation<ParseObject> parameters = parseExercise.get('parameters');
+    ParseResponse query = await parameters.getQuery().query();
+    List<dynamic> parseParameters = query.results!;
+
+    // liste der konvertierten Parameter
+    List<ParameterSet> parameterList = List.empty(growable: true);
+    Map<DateTime, List<ParameterSet>> results = {};
+
+    // parsen und speichern der Parameter in Liste
+    for (ParseObject parseParameter in parseParameters) {
+      ParameterSet? parameter = await parseToParameterSet(parseParameter);
+      if (parameter != null) {
+        parameterList.add(parameter);
+      }
+      // Abrufen von achievedAt aus ParseParameter object und Füllen der Map
+      DateTime? achievedAt = parseParameter.get('achievedAt');
+      if (achievedAt != null && parameter != null) {
+        results.update(achievedAt, (list) => list..add(parameter),
+            // Falls noch kein Eintrag mit DateTime vorhanden, erstelle neue Liste
+            ifAbsent: () => List.empty(growable: true)..add(parameter));
+      }
+    }
+
+    // Abrufen der Id aus backend TODO: muss noch geändet werden, wenn statt id neue Klasse DefaultExercise verwendet wird
+    Id id = Id(parseExercise.get('exerciseType').get('typeId'));
+
+    return Exercise(id, parameterList, results);
+  }
+
+  /// konvertiert gegebenes ParseObject zu Exercise
+  static Future<ParameterSet?> parseToParameterSet(
+      ParseObject parseParameterSet) async {
     return null;
   }
 }
