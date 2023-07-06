@@ -207,29 +207,25 @@ class HomeworkBackend {
   /// konvertiert gegebenes ParseObject zu ExerciseBlock
   static Future<ExerciseBlock?> parseToExerciseBlock(
       ParseObject parseExerciseBlock) async {
+    // Speichern des Status aus Backend
     BlockStatus status = parseExerciseBlock.get('status');
 
+    // Abrufen der Exercises aus Backend
     ParseRelation<ParseObject> exercises = parseExerciseBlock.get('exercise');
-
     ParseResponse query = await exercises.getQuery().query();
-
     List<dynamic> parseExercises = query.results!;
 
+    // liste der konvertierten Exercises
     List<Exercise> block = List.empty(growable: true);
 
+    // parsen und speichern der Exercises in Liste
     for (var parseExercise in parseExercises) {
-      Exercise? exercise = await parseToExercise(parseExercise);
+      Exercise? exercise = await ExerciseBackend.parseToExercise(parseExercise);
       if (exercise != null) {
         block.add(exercise);
       }
     }
 
     return ExerciseBlock(block, status);
-  }
-
-  /// konvertiert gegebenes ParseObject zu Exercise
-  static Future<Exercise?> parseToExercise(
-      ParseObject parseExerciseBlock) async {
-    return null;
   }
 }

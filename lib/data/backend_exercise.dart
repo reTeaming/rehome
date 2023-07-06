@@ -122,4 +122,10 @@ class ExerciseBackend {
     ParseObject? savedParameter = response.results?.first;
     return savedParameter;
   }
+
+  /// konvertiert gegebenes ParseObject zu Exercise
+  static Future<Exercise?> parseToExercise(
+      ParseObject parseExerciseBlock) async {
+    return null;
+  }
 }
