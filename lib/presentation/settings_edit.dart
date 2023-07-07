@@ -1,4 +1,3 @@
-import 'package:ReHome/domain/models/user/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -71,9 +70,9 @@ class _SettingsEditPageState extends State<SettingsEditPage> {
   }
 
   TextField buildTextField(
-      String labeltext, String placeholder, TextEditingController _controller) {
+      String labeltext, String placeholder, TextEditingController controller) {
     return TextField(
-      controller: _controller,
+      controller: controller,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(10),
         labelText: labeltext,

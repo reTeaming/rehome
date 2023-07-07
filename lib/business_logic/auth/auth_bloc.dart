@@ -1,12 +1,12 @@
 library auth_bloc;
 
 import 'dart:async';
-import 'package:reHome/domain/models/user/name.dart';
-import 'package:reHome/domain/models/user/user.dart';
-import 'package:reHome/domain/repositories/auth_repository.dart';
-import 'package:reHome/domain/repositories/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:rehome/domain/models/user/name.dart';
+import 'package:rehome/domain/models/user/user.dart';
+import 'package:rehome/domain/repositories/auth_repository.dart';
+import 'package:rehome/domain/repositories/user_repository.dart';
 import '../../domain/models/auth/username.dart';
 import '../../domain/models/user/institution.dart';
 part 'auth_event.dart';
@@ -68,13 +68,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     SaveUserInformation event,
     Emitter<AuthState> emit,
   ) {
-    var value1 = Name(event.name.length > 0 ? event.name : event.user.name.name,
-        event.surname.length > 0 ? event.surname : event.user.name.surname);
+    var value1 = Name(event.name.isNotEmpty ? event.name : event.user.name.name,
+        event.surname.isNotEmpty ? event.surname : event.user.name.surname);
     var value2 = Username.dirty(
-        event.userName.length > 0 ? event.userName : event.user.username.value);
+        event.userName.isNotEmpty ? event.userName : event.user.username.value);
     var value3 = Institution(
       event.user.institution.organisationId,
-      event.institut.length > 0 ? event.institut : event.user.institution.name,
+      event.institut.isNotEmpty ? event.institut : event.user.institution.name,
       event.user.institution.departement,
     );
     // Synchrone Übertragung von Daten zum Backend.
