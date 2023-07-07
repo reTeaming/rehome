@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rehome/business_logic/auth/auth_bloc.dart';
-import 'package:rehome/presentation/login/login.dart';
 import 'settings_edit.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -183,13 +182,9 @@ class SettingsPage extends StatelessWidget {
                 textStyle:
                     MaterialStateProperty.all(const TextStyle(fontSize: 20))),
             onPressed: () {
+              // routing zur LoginPage erfolgt über den Bloc
               var bloc = BlocProvider.of<AuthBloc>(context);
               bloc.add(AuthLogoutRequested());
-              // LoginPage
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                  (_) => false);
             },
             child: const Text(
               "Logout",
