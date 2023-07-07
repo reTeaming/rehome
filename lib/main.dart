@@ -1,6 +1,6 @@
-import 'package:ReHome/app.dart';
-import 'package:ReHome/data/backend_init.dart';
-import 'package:ReHome/domain/repositories/secrets_repository.dart';
+import 'package:rehome/app.dart';
+import 'package:rehome/data/backend_init.dart';
+import 'package:rehome/domain/repositories/secrets_repository.dart';
 import 'package:flutter/material.dart';
 
 void main() async {

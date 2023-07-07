@@ -1,4 +1,4 @@
-import 'package:ReHome/domain/models/user/id.dart';
+import 'package:rehome/domain/models/user/id.dart';
 import 'package:equatable/equatable.dart';
 
 class Exercise extends Equatable {
@@ -33,6 +33,11 @@ class Cocontraction extends ParameterSet {
   final ParameterValue flexor1;
   final ParameterValue flexor2;
   final ParameterValue flexor3;
+
+  @override
+  List<Object> get props =>
+      super.props +
+      [extensor1, extensor2, extensor3, flexor1, flexor2, flexor3];
 }
 
 class Jerk extends ParameterSet {
@@ -63,7 +68,7 @@ class RangeOfMotion extends ParameterSet {
   List<Object> get props => super.props + [joint, value];
 }
 
-enum Joint { ELLBOW, WRIST, SHOULDER }
+enum Joint { ellbow, wrist, shoulder }
 
 class ParameterValue extends Equatable {
   const ParameterValue(this.value);
@@ -73,9 +78,9 @@ class ParameterValue extends Equatable {
   @override
   List<Object> get props => [value];
 
-  set value(double _value) {
-    if (_value >= 0 && _value <= 1) {
-      value = _value;
+  set value(double value) {
+    if (value >= 0 && value <= 1) {
+      value = value;
     } else {
       throw ArgumentError('Component value must be between 0 and 1.');
     }
