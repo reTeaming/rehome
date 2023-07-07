@@ -17,6 +17,7 @@ class PatientPage extends StatelessWidget {
       create: (context) => PatientsBloc(patientRepository: PatientRepository()),
       // User Interface
       child: Scaffold(
+        // Widget um scrollen zu können
         body: CustomScrollView(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
@@ -25,10 +26,14 @@ class PatientPage extends StatelessWidget {
             BlocBuilder<PatientsBloc, PatientsState>(
               builder: (context, state) {
                 return SliverAppBar(
+                  // Parameter, wann/wie Appbar zu sehen ist
+                  pinned: false,
+                  floating: true,
                   stretch: true,
                   onStretchTrigger: () {
                     return Future<void>.value();
                   },
+                  // Aussehen der Appbar (Höhe, Farbe)
                   expandedHeight: 250.0,
                   backgroundColor: Colors.white38,
                   flexibleSpace: FlexibleSpaceBar(
@@ -111,13 +116,16 @@ class _ZieleState extends State<ZieleStateful> {
         ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             // Permanentes ListTile des aktuellen Ziels
-            return ListTile(title: BlocBuilder<PatientsBloc, PatientsState>(
-              builder: (context, state) {
-                return const Text('Aktuelles Ziel: ');
-              },
-            ), onTap: () {
-              setExpansion();
-            });
+            return ListTile(
+                title: BlocBuilder<PatientsBloc, PatientsState>(
+                  builder: (context, state) {
+                    return const Text('Aktuelles Ziel: ');
+                  },
+                ),
+                subtitle: const Text('Tippen, um vergangene Ziele anzuzeigen'),
+                onTap: () {
+                  setExpansion();
+                });
           },
           // Ausklappbare Liste vergangener Ziele
           body: const ListTile(
@@ -191,6 +199,7 @@ class UebungenWidget extends StatelessWidget {
     super.key,
   });
 
+// bisheriger Platzhalter für Übungswidget
   @override
   Widget build(BuildContext context) {
     return SizedBox(
