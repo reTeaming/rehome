@@ -1,8 +1,8 @@
 import 'package:rehome/domain/models/patient/exercise.dart';
 import 'package:rehome/domain/models/user/id.dart';
 
-// Mocks zum Testen von Hausaufgaben spezifischen Objekten
-// Alle hier implementierten Klassen sind zu finden in 'domain/models/patient/homework.dart'
+// Mocks zum Testen von Exercise spezifischen Objekten
+// Alle hier implementierten Klassen sind zu finden in 'domain/models/patient/exercise.dart'
 class ExerciseMock {
   /*
   * ParameterSets
