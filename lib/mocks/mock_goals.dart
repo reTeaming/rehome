@@ -4,27 +4,31 @@ import 'package:rehome/domain/models/patient/goals.dart';
 // Alle hier implementierten Klassen sind zu finden in 'domain/models/patient/goals.dart'
 class GoalsMock {
   // Goal Stati
-  static GoalStatus achieved = GoalStatus.achieved;
-  static GoalStatus active = GoalStatus.active;
-  static GoalStatus inactive = GoalStatus.inactive;
+  static const GoalStatus achieved = GoalStatus.achieved;
+  static const GoalStatus active = GoalStatus.active;
+  static const GoalStatus inactive = GoalStatus.inactive;
 
   // Goal Objekts
-  static Goal goal1 =
+  static const Goal goal1 =
       Goal(active, "Volle Funktionsfähigkeit des linken Arms herstellen");
-  static Goal goal2 = Goal(active, "beide Handgelenk auf 45° überstrecken");
-  static Goal goal3 = Goal(active, "rechten Ellenbogen auf 130° strecken");
-  static Goal goal4 = Goal(active, "linke Schulter um 15° heben");
-  static Goal goal5 =
+  static const Goal goal2 =
+      Goal(active, "beide Handgelenk auf 45° überstrecken");
+  static const Goal goal3 =
+      Goal(active, "rechten Ellenbogen auf 130° strecken");
+  static const Goal goal4 = Goal(active, "linke Schulter um 15° heben");
+  static const Goal goal5 =
       Goal(active, "rechte Hand um 12cm von ebener Oberfläche heben");
-  static Goal goal6 = Goal(inactive, "linke Schulter um über 90° heben");
-  static Goal goal7 = Goal(inactive, "rechtes Handgelenk um 12° neigen");
-  static Goal goal8 = Goal(inactive, "beide Hände um 20cm über Kopf heben");
-  static Goal goal9 =
+  static const Goal goal6 = Goal(inactive, "linke Schulter um über 90° heben");
+  static const Goal goal7 = Goal(inactive, "rechtes Handgelenk um 12° neigen");
+  static const Goal goal8 =
+      Goal(inactive, "beide Hände um 20cm über Kopf heben");
+  static const Goal goal9 =
       Goal(inactive, "Volle Funktionsfähigkeit des rechten Arms herstellen");
-  static Goal goal10 = Goal(achieved, "linkes Handgelenk um 5° beugen");
-  static Goal goal11 =
+  static const Goal goal10 = Goal(achieved, "linkes Handgelenk um 5° beugen");
+  static const Goal goal11 =
       Goal(achieved, "rechten Arm um 23cm von Tischkante heben");
-  static Goal goal12 = Goal(achieved, "linke Schulter auf mehr als 69° heben");
+  static const Goal goal12 =
+      Goal(achieved, "linke Schulter auf mehr als 69° heben");
 
   // Goal Lists
   static List<Goal> goalList1 = List.empty(growable: true)

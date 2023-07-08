@@ -4,9 +4,9 @@ import 'package:rehome/domain/models/patient/clinical_data.dart';
 // Alle hier implementierten Klassen sind zu finden in 'domain/models/patient/clinical_data.dart'
 class ClinicalDataMock {
   // Paresis Sides
-  static ParesisSide both = ParesisSide.both;
-  static ParesisSide left = ParesisSide.left;
-  static ParesisSide right = ParesisSide.right;
+  static const ParesisSide both = ParesisSide.both;
+  static const ParesisSide left = ParesisSide.left;
+  static const ParesisSide right = ParesisSide.right;
 
   // DateTimes
   static DateTime date1 = DateTime(2023, 3, 14, 16, 12, 44, 36);

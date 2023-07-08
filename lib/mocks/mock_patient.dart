@@ -42,9 +42,9 @@ class PatientMock {
   static DateTime therapyStart6 = DateTime(2023, 4, 9);
 
   // Patien Stati
-  static PatientStatus active = PatientStatus.active;
-  static PatientStatus inactive = PatientStatus.inactive;
-  static PatientStatus archived = PatientStatus.archived;
+  static const PatientStatus active = PatientStatus.active;
+  static const PatientStatus inactive = PatientStatus.inactive;
+  static const PatientStatus archived = PatientStatus.archived;
 
   // Exercise Default Datas
   static ExerciseDefaultData defaultData1 =
