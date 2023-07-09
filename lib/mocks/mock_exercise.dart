@@ -1,6 +1,8 @@
 import 'package:rehome/domain/models/patient/exercise.dart';
 import 'package:rehome/domain/models/user/id.dart';
 
+import '../domain/models/patient/default_exercise.dart';
+
 // Mocks zum Testen von Exercise spezifischen Objekten
 // Alle hier implementierten Klassen sind zu finden in 'domain/models/patient/exercise.dart'
 class ExerciseMock {
@@ -115,19 +117,33 @@ class ExerciseMock {
     date8_4: parameterListResults3 // cocontractionEllbow, jerkWrist
   };
 
-  // Exercises TODO: nach merge von #65 muss Mock hier geändert werden
+  // DefaultExercises
+  static const DefaultExercise exerciseType1 =
+      DefaultExercise(Id("11"), "Schulter Mobilität");
+  static const DefaultExercise exerciseType2 =
+      DefaultExercise(Id("420"), "Handgelenk-Ellenbogen Streckung");
+  static const DefaultExercise exerciseType3 =
+      DefaultExercise(Id("21"), "Arm Streckung");
+  static const DefaultExercise exerciseType4 =
+      DefaultExercise(Id("512"), "Ellenbogen Mobilität");
+  static const DefaultExercise exerciseType5 =
+      DefaultExercise(Id("69"), "allgemeine Handgelenks Übung ");
+  static const DefaultExercise exerciseType6 =
+      DefaultExercise(Id("23"), "Bewegung des gesamten Arms");
+
+  // Exercises
   static Exercise exercise1 =
-      Exercise(const Id("11"), parameterListShoulder, results1);
+      Exercise(exerciseType1, parameterListShoulder, results1);
   static Exercise exercise2 =
-      Exercise(const Id("420"), parameterListMix1, results2);
+      Exercise(exerciseType2, parameterListMix1, results2);
   static Exercise exercise3 =
-      Exercise(const Id("21"), parameterListMix2, results3);
+      Exercise(exerciseType1, parameterListMix2, results3);
   static Exercise exercise4 =
-      Exercise(const Id("512"), parameterListEllbow, results4);
+      Exercise(exerciseType1, parameterListEllbow, results4);
   static Exercise exercise5 =
-      Exercise(const Id("69"), parameterListWrist, results1);
+      Exercise(exerciseType1, parameterListWrist, results1);
   static Exercise exercise6 =
-      Exercise(const Id("23"), parameterListMix3, results3);
+      Exercise(exerciseType1, parameterListMix3, results3);
 
   // Exercise Lists
   static List<Exercise> exerciseList1 = List.empty(growable: true)
