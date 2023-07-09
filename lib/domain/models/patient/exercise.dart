@@ -1,15 +1,15 @@
-import 'package:rehome/domain/models/user/id.dart';
+import 'package:rehome/domain/models/patient/default_exercise.dart';
 import 'package:equatable/equatable.dart';
 
 class Exercise extends Equatable {
-  const Exercise(this.id, this.parameter, this.results);
+  const Exercise(this.exerciseType, this.parameter, this.results);
 
-  final Id id;
+  final DefaultExercise exerciseType;
   final List<ParameterSet> parameter;
   final Map<DateTime, List<ParameterSet>> results;
 
   @override
-  List<Object> get props => [id, parameter, results];
+  List<Object> get props => [exerciseType, parameter, results];
 }
 
 abstract class ParameterSet extends Equatable {
@@ -33,6 +33,11 @@ class Cocontraction extends ParameterSet {
   final ParameterValue flexor1;
   final ParameterValue flexor2;
   final ParameterValue flexor3;
+
+  @override
+  List<Object> get props =>
+      super.props +
+      [extensor1, extensor2, extensor3, flexor1, flexor2, flexor3];
 }
 
 class Jerk extends ParameterSet {
