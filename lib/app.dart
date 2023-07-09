@@ -84,6 +84,7 @@ class _AppViewState extends State<AppView> {
         // rounting basierend auf dem Authentifizierungszustand
         // 'AuthBloc' stellt die zugrundelegende Logik
         return BlocListener<AuthBloc, AuthState>(
+          listenWhen: (prev, current) => prev.status != current.status,
           listener: (context, state) {
             switch (state.status) {
               case AuthStatus.authenticated:

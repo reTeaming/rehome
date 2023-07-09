@@ -51,12 +51,22 @@ class UserBackend {
 
     // falls Institution mit gegebener Id gefunden wurde, wird sie als ParseObject gespeichert
     if (response.success && response.count == 1) {
-      institutionParseObject = response.result;
+      institutionParseObject = response.results!.first;
     } else {
       // andernfalls wird eine neue erstellt
-      institutionParseObject = ParseObject('Institution')
-        ..set('name', institutionName)
-        ..set('department', institutionDepartment);
+      institutionParseObject = ParseObject('Institution');
+    }
+    // Neuen Werte werden in ParseObject gespeichert
+    institutionParseObject
+      ..set('name', institutionName)
+      ..set('department', institutionDepartment);
+
+    // Versuche neue Institution zu speichern
+    ParseResponse institutionChange = await institutionParseObject.save();
+
+    // falls Änderung nicht erfolgreich war, gebe nicht-erfolgreiche Response zurück
+    if (!institutionChange.success) {
+      return institutionChange;
     }
 
     // aktualisiere Institution des Nutzers
