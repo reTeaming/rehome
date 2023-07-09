@@ -1,6 +1,6 @@
 // Erster Entwurf vom Dashboard (erstmal hauptsächlich um das Scrollbar Widget zu testen)
-import 'package:ReHome/presentation/patientsearchwidget.dart';
 import 'package:flutter/material.dart';
+import 'package:rehome/presentation/patientsearchwidget.dart';
 
 class DashBoard extends StatelessWidget {
   const DashBoard({super.key});
@@ -11,6 +11,6 @@ class DashBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PatientSearchWidget();
+    return const PatientSearchWidget();
   }
 }

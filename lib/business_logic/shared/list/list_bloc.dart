@@ -8,7 +8,7 @@ part 'list_state.dart';
 
 abstract class ListBloc<ListElement, SearchTag>
     extends Bloc<ListEvent, ListState<ListElement, SearchTag>> {
-  ListBloc(super.initialState) {
+  ListBloc() : super(ListState(List.empty(), List.empty())) {
     on<SearchInputChanged>(_onSearchQueryChanged);
     on<SearchTagChanged>(_onSearchTagChanged);
     on<RefreshList>(_onRefresh);

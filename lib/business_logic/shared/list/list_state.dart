@@ -10,6 +10,7 @@ class ListState<ListElement, Tag> extends Equatable {
   const ListState(this._baseList, this._currentListView,
       {this.currentSearchQuery = "", this.currentSearchTag});
 
+  List<ListElement> get baseList => _baseList;
   List<ListElement> get list => _currentListView;
   Tag? get tag => currentSearchTag;
   ListState<ListElement, Tag> copyWith({

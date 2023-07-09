@@ -10,7 +10,7 @@ class ClinicalData extends Equatable {
   List<Object> get props => [paresisSide, lastStroke, clinicalTest];
 }
 
-enum ParesisSide { LEFT, RIGHT, BOTH }
+enum ParesisSide { left, right, both }
 
 abstract class ClinicalTest extends Equatable {
   const ClinicalTest(this.name);

@@ -1,11 +1,12 @@
 //Implementierung von generischer SearchWidget
-import 'package:ReHome/business_logic/patientsearch/bloc/patientsearch_bloc.dart';
-import 'package:ReHome/business_logic/shared/list/list_bloc.dart';
-import 'package:ReHome/domain/models/patient/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rehome/business_logic/patientsearch/bloc/patientsearch_bloc.dart';
+import 'package:rehome/business_logic/shared/list/list_bloc.dart';
 
 class PatientSearchWidget extends StatelessWidget {
+  const PatientSearchWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(

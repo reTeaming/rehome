@@ -1,17 +1,11 @@
-import 'dart:ui';
-import 'package:ReHome/business_logic/shared/list/list_bloc.dart';
-import 'package:ReHome/domain/models/patient/patient.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:ReHome/domain/models/patient/models.dart';
+import 'package:rehome/business_logic/shared/list/list_bloc.dart';
+import 'package:rehome/domain/models/patient/patient.dart';
 
-class PatientSearchBloc extends ListBloc<Patient, PatientStatus> {
+class PatientSearchBloc extends ListBloc<Patient, PatientStatus?> {
   // SearchRepository repository = SearchRepository();
 
   //  PatientSearchBloc({required SearchRepository searchRepository})
   //      : PatientSearchBloc(super.initialState);
-
-  PatientSearchBloc(super.initialState);
 
   @override
   Future<List<Patient>> onRefresh() {
@@ -19,8 +13,8 @@ class PatientSearchBloc extends ListBloc<Patient, PatientStatus> {
   }
 
   @override
-  Future<List<Patient>> onSearchQueryChanged(
-      SearchInputChanged event, ListState<Patient, PatientStatus> state) {
+  Future<List<Patient>> onSearchQueryChanged(SearchInputChanged event,
+      ListState<Patient, PatientStatus?> state) async {
     String searchInput = event.query.toLowerCase();
 
     final filteredList = state.list.where((object) {
@@ -29,23 +23,18 @@ class PatientSearchBloc extends ListBloc<Patient, PatientStatus> {
           object.therapyStart.toString().toLowerCase().contains(searchInput) ||
           object.status.toString().toLowerCase().contains(searchInput);
     });
-    final List<Patient> finalfiltered = filteredList.toList();
 
-    emit(state.copyWith(currentListView: finalfiltered));
-
-    throw UnimplementedError();
+    return filteredList.toList();
   }
 
   @override
   Future<List<Patient>> onSearchTagChanged(
-      SearchTagChanged<PatientStatus> event,
-      ListState<Patient, PatientStatus> state) {
-    // TODO: implement onSearchTagChanged
-    PatientStatus patientStatus = event.tag == PatientStatus.ACTIVE
-        ? PatientStatus.INACTIVE
-        : PatientStatus.ACTIVE;
-
-    emit(state.copyWith(currentSearchTag: patientStatus));
-    throw UnimplementedError();
+      SearchTagChanged<PatientStatus?> event,
+      ListState<Patient, PatientStatus?> state) async {
+    if (event.tag == null) {
+      return state.baseList;
+    }
+    // filtert die List nach Patienten Status
+    return state.list.where((element) => element.status == event.tag).toList();
   }
 }

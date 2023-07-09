@@ -1,6 +1,6 @@
-import 'package:ReHome/business_logic/login/login_bloc.dart';
-import 'package:ReHome/domain/repositories/auth_repository.dart';
-import 'package:ReHome/presentation/login/login_form.dart';
+import 'package:rehome/business_logic/login/login_bloc.dart';
+import 'package:rehome/domain/repositories/auth_repository.dart';
+import 'package:rehome/presentation/login/login_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
                 width: 180,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/ReHomeLogo.png'))),
+                        image: AssetImage('assets/rehomeLogo.png'))),
               ),
               BlocProvider(
                 create: (context) {
