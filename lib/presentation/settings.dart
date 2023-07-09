@@ -37,7 +37,7 @@ class SettingsPage extends StatelessWidget {
           // Vor- und Nachnamen anzeigen.
           SettingsTextField(
             "Name",
-            "${user.name}",
+            "${user.name.name} ${user.name.surname}",
             const Icon(
               Icons.person,
               color: Colors.black,
