@@ -78,6 +78,5 @@ class DashBoard extends StatelessWidget {
         ],
       ),
     );
-
   }
 }
