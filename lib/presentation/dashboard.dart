@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../business_logic/auth/auth_bloc.dart';
+import 'package:rehome/theme.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -12,27 +10,44 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: Center(
-      child: Column(children: [
-        SizedBox(
-          height: 50,
+    return GridView.count(
+      primary: false,
+      padding: const EdgeInsets.all(20),
+      crossAxisSpacing: 20,
+      mainAxisSpacing: 20,
+      crossAxisCount: 3,
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.all(8),
+          color: Colors.blue[100],
+          child: const Text("Statistik 1"),
         ),
-        Text(
-          'Willkommen, das ist das Dashboard',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        Container(
+          padding: const EdgeInsets.all(8),
+          color: Colors.blue[200],
+          child: const Text('Statistik 2'),
         ),
-        SizedBox(
-          height: 30,
-          width: 220,
-          child: Divider(
-            color: Colors.black,
-          ),
+        Container(
+          padding: const EdgeInsets.all(8),
+          color: Colors.blue[300],
+          child: const Text('Statistik 3'),
         ),
-        SizedBox(
-          height: 10,
+        Container(
+          padding: const EdgeInsets.all(8),
+          color: Colors.blue[400],
+          child: const Text('Statistik 4'),
         ),
-      ]),
-    ));
+        Container(
+          padding: const EdgeInsets.all(8),
+          color: Colors.blue[500],
+          child: const Text('Statistik 5'),
+        ),
+        Container(
+          padding: const EdgeInsets.all(8),
+          color: Colors.blue[600],
+          child: const Text('Statistik 6'),
+        )
+      ],
+    );
   }
 }
