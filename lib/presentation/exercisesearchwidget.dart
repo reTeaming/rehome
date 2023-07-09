@@ -5,7 +5,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../business_logic/search/exercisesearch_bloc.dart';
 import '../business_logic/shared/list/list_bloc.dart';
 
-class ExerciseSearchWidget extends StatelessWidget {
+class ExerciseSearchWidget extends StatefulWidget {
+  const ExerciseSearchWidget({super.key});
+
+  @override
+  _ExerciseState createState() => _ExerciseState();
+}
+
+class _ExerciseState extends State<ExerciseSearchWidget> {
+  bool isExpanded = false;
+
+  void setExpansion() {
+    setState(() {
+      isExpanded = !isExpanded;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,24 +65,62 @@ class ExerciseSearchWidget extends StatelessWidget {
                 //Logik hinter dem Refreshen
                 return Future<void>.delayed(const Duration(milliseconds: 300));
               },
-              child: ListView(
-                children: <Widget>[
-                  // Erstellen der einzelnen Listenelemente :
-                  for (int index = 0;
-                      index <
-                          state
-                              .list.length; //Länge von der Liste vom Repository
-                      index += 1)
-                    ListTile(
-                      key: Key('$index'),
-                      tileColor: Theme.of(context).focusColor, //random Farbe
-                      title: Text(state.list[index].name.toString()),
-                      onTap: () {
-                        // Hier darf die Weiterleitung zum ExerciseSearchBloc rein
-                      },
-                    ),
-                ],
-              ),
+              child: ExpansionPanelList(
+                  expansionCallback: (int index, bool isExpanded) {
+                    setExpansion();
+                  },
+                  children: [
+                    ExpansionPanel(
+                        headerBuilder: (BuildContext context, bool isExpanded) {
+                          return ListTile(
+                            title: Text("Übungen"),
+                            onTap: () {
+                              setExpansion();
+                            },
+                          );
+                        },
+                        body: ListView(children: [
+                          for (int index = 0;
+                              index <
+                                  state.list
+                                      .length; //Länge von der Liste vom Repository
+                              index += 1)
+                            ListTile(
+                              key: Key('$index'),
+                              tileColor:
+                                  Theme.of(context).focusColor, //random Farbe
+                              title: Text(state.list[index].name.toString()),
+                              onTap: () {
+                                // Hier darf die Weiterleitung zum ExerciseSearchBloc rein
+                              },
+                            )
+                        ])),
+                    ExpansionPanel(
+                        headerBuilder: (BuildContext context, bool isExpanded) {
+                          return ListTile(
+                            title: Text("Übungsblöcke"),
+                            onTap: () {
+                              setExpansion();
+                            },
+                          );
+                        },
+                        body: ListView(children: [
+                          for (int index = 0;
+                              index <
+                                  state.list
+                                      .length; //Länge von der Liste vom Repository
+                              index += 1)
+                            ListTile(
+                              key: Key('$index'),
+                              tileColor:
+                                  Theme.of(context).focusColor, //random Farbe
+                              title: Text(state.list[index].name.toString()),
+                              onTap: () {
+                                // Hier darf die Weiterleitung zum ExerciseSearchBloc rein
+                              },
+                            )
+                        ]))
+                  ]),
             );
           }),
         ),
