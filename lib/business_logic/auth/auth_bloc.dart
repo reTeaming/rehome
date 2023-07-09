@@ -1,13 +1,14 @@
 library auth_bloc;
 
 import 'dart:async';
-
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:rehome/domain/models/user/name.dart';
+import 'package:rehome/domain/models/user/user.dart';
 import 'package:rehome/domain/repositories/auth_repository.dart';
 import 'package:rehome/domain/repositories/user_repository.dart';
-import 'package:bloc/bloc.dart';
-import 'package:rehome/domain/models/user/user.dart';
-import 'package:equatable/equatable.dart';
-
+import '../../domain/models/auth/username.dart';
+import '../../domain/models/user/institution.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -21,6 +22,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // registriere passende Handler
     on<AuthStatusChanged>(_onAuthStatusChanged);
     on<AuthLogoutRequested>(_onAuthLogoutRequested);
+    on<SaveUserInformation>(_onSaveUserInformation);
+
     _authStatusSubscription = _authRepository.status.listen((streamEvent) =>
         add(AuthStatusChanged(streamEvent.$1, streamEvent.$2)));
   }
@@ -59,5 +62,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) {
     _authRepository.logOut();
+  }
+
+  void _onSaveUserInformation(
+    SaveUserInformation event,
+    Emitter<AuthState> emit,
+  ) async {
+    var value1 = Name(event.name.isNotEmpty ? event.name : event.user.name.name,
+        event.surname.isNotEmpty ? event.surname : event.user.name.surname);
+    var value2 = Username.dirty(
+        event.userName.isNotEmpty ? event.userName : event.user.username.value);
+    var value3 = Institution(
+      event.user.institution.organisationId,
+      event.institut.isNotEmpty ? event.institut : event.user.institution.name,
+      event.user.institution.departement,
+    );
+    // Synchrone Übertragung von Daten zum Backend.
+    await _userRepository.updateName(value1);
+    await _userRepository.updateUsername(value2);
+    await _userRepository.updateInstitution(value3);
+
+    // Aktualisierung der UI mit Status.
+    return emit(AuthState.authenticated(_userRepository.user!));
   }
 }
