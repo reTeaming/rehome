@@ -1,16 +1,11 @@
+// Erster Entwurf vom Dashboard (erstmal hauptsächlich um das Scrollbar Widget zu testen)
 import 'package:flutter/material.dart';
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
-
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const Dashboard());
-  }
+class DashBoard extends StatelessWidget {
+  const DashBoard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("Dashboard")),
-    );
+    return const Text("Dashboard");
   }
 }

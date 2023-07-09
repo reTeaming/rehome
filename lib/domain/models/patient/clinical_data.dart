@@ -11,10 +11,10 @@ class ClinicalData extends Equatable {
   List<Object> get props => [paresisSide, lastStroke, clinicalTest];
 
   static const mockdata =
-      ClinicalData(ParesisSide.LEFT, ConstDateTime(2000), []);
+      ClinicalData(ParesisSide.left, ConstDateTime(2000), []);
 }
 
-enum ParesisSide { LEFT, RIGHT, BOTH }
+enum ParesisSide { left, right, both }
 
 abstract class ClinicalTest extends Equatable {
   const ClinicalTest(this.name);

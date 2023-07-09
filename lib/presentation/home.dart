@@ -1,9 +1,9 @@
-import 'package:ReHome/business_logic/navigation/navigation_cubit.dart';
-import 'package:ReHome/presentation/exercise.dart';
-import 'package:ReHome/presentation/dashboard.dart';
-import 'package:ReHome/presentation/patient.dart';
-import 'package:ReHome/presentation/settings.dart';
-import 'package:ReHome/presentation/sidebar.dart';
+import 'package:rehome/business_logic/navigation/navigation_cubit.dart';
+import 'package:rehome/presentation/exercise.dart';
+import 'package:rehome/presentation/dashboard.dart';
+import 'package:rehome/presentation/patients.dart';
+import 'package:rehome/presentation/settings.dart';
+import 'package:rehome/presentation/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
               builder: (context, state) {
             switch (state) {
               case NavigationState.dashboard:
-                return const Dashboard();
+                return const DashBoard();
               case NavigationState.patient:
                 return const PatientPage();
               case NavigationState.exercise:

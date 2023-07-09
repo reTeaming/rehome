@@ -1,7 +1,7 @@
-import 'package:ReHome/domain/models/patient/patient.dart';
-import 'package:ReHome/domain/repositories/patient_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:rehome/domain/models/patient/models.dart';
+import 'package:rehome/domain/repositories/patient_repository.dart';
 
 part 'patients_event.dart';
 part 'patients_state.dart';

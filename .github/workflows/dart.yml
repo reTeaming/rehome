@@ -17,9 +17,16 @@ jobs:
       # Note: This workflow uses the latest stable version of the Dart SDK.
       # You can specify other versions if desired, see documentation here:
       # https://github.com/dart-lang/setup-dart/blob/main/README.md
-      # - uses: dart-lang/setup-dart@v1
-      
-      
+
+      - name: add .env file
+        env:
+          ID: ${{ secrets.APPID }}
+          KEY: ${{ secrets.CLIENTKEY }}
+        run: | 
+          chmod +x ./scripts/add_env.sh
+          ./scripts/add_env.sh ${#ID} ${#KEY}
+        shell: bash
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.10.2'
@@ -31,8 +38,14 @@ jobs:
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
-      # - name: Analyze project source
-        # run: flutter analyze
+      - name: Analyze project source
+        run: flutter analyze
+
+      - name: remove .env file
+        run: |
+          chmod +x ./scripts/remove_env.sh
+          ./scripts/remove_env.sh
+        shell: bash
 
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will

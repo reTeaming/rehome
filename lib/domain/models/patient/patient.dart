@@ -1,8 +1,8 @@
-import 'package:ReHome/domain/models/patient/clinicalData.dart';
-import 'package:ReHome/domain/models/patient/exerciseDefaultData.dart';
-import 'package:ReHome/domain/models/patient/goals.dart';
-import 'package:ReHome/domain/models/user/name.dart';
-import 'package:ReHome/domain/models/patient/homework.dart';
+import 'package:rehome/domain/models/patient/clinical_data.dart';
+import 'package:rehome/domain/models/patient/exercise_default_data.dart';
+import 'package:rehome/domain/models/patient/goals.dart';
+import 'package:rehome/domain/models/user/name.dart';
+import 'package:rehome/domain/models/patient/homework.dart';
 import 'package:equatable/equatable.dart';
 import 'package:const_date_time/const_date_time.dart';
 
@@ -43,16 +43,16 @@ class Patient extends Equatable {
 
   static const mock = Patient(
       Name.empty,
-      Sex.MALE,
+      Sex.male,
       ConstDateTime(2000),
       ConstDateTime(2000),
       ExerciseDefaultData.defaultexercisedata,
       ClinicalData.mockdata,
       Goals([]),
       Homework.mockhomework,
-      PatientStatus.ACTIVE);
+      PatientStatus.active);
 }
 
-enum PatientStatus { INACTIVE, ACTIVE, ARCHIVED }
+enum PatientStatus { inactive, active, archived }
 
-enum Sex { MALE, FEMALE, OTHER, UNSPECIFIED }
+enum Sex { male, female, other, unspecified }

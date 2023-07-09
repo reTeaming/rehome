@@ -1,4 +1,4 @@
-import 'package:ReHome/domain/models/patient/exercise.dart';
+import 'package:rehome/domain/models/patient/exercise.dart';
 import 'package:equatable/equatable.dart';
 
 class ExerciseDefaultData extends Equatable {

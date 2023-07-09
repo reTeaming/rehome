@@ -1,5 +1,5 @@
-import 'package:ReHome/domain/models/patient/exercise.dart';
 import 'package:const_date_time/const_date_time.dart';
+import 'package:rehome/domain/models/patient/exercise.dart';
 import 'package:equatable/equatable.dart';
 
 class Homework extends Equatable {
@@ -37,7 +37,7 @@ class WeekHomework extends Equatable {
   static const mockweekhomework = WeekHomework({});
 }
 
-enum Day { MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }
+enum Day { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
 
 class ExerciseBlock extends Equatable {
   const ExerciseBlock(this.name, this.block, this.status);
@@ -50,4 +50,4 @@ class ExerciseBlock extends Equatable {
   List<Object> get props => [name, block, status];
 }
 
-enum BlockStatus { FINISHED, UNFINISHED }
+enum BlockStatus { finished, unfinished }

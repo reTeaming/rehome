@@ -1,8 +1,8 @@
-import 'package:ReHome/domain/models/patient/homework.dart';
-import 'package:ReHome/domain/repositories/patient_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:rehome/domain/models/patient/homework.dart';
+import 'package:rehome/domain/repositories/patient_repository.dart';
 
 import '../business_logic/patients/patients_bloc.dart';
 
@@ -91,7 +91,7 @@ class ZieleStateful extends StatefulWidget {
   const ZieleStateful({super.key});
 
   @override
-  _ZieleState createState() => _ZieleState();
+  State<ZieleStateful> createState() => _ZieleState();
 }
 
 // Ausklapp-State
@@ -155,19 +155,19 @@ class HausaufgabenWidget extends StatelessWidget {
             width: 500,
             child: Column(
               children: [
-                _buildDayColumn('Montag', Day.MONDAY),
+                _buildDayColumn('Montag', Day.monday),
                 const Divider(),
-                _buildDayColumn('Dienstag', Day.TUESDAY),
+                _buildDayColumn('Dienstag', Day.tuesday),
                 const Divider(),
-                _buildDayColumn('Mittwoch', Day.WEDNESDAY),
+                _buildDayColumn('Mittwoch', Day.wednesday),
                 const Divider(),
-                _buildDayColumn('Donnerstag', Day.THURSDAY),
+                _buildDayColumn('Donnerstag', Day.thursday),
                 const Divider(),
-                _buildDayColumn('Freitag', Day.FRIDAY),
+                _buildDayColumn('Freitag', Day.friday),
                 const Divider(),
-                _buildDayColumn('Samstag', Day.SATURDAY),
+                _buildDayColumn('Samstag', Day.saturday),
                 const Divider(),
-                _buildDayColumn('Sonntag', Day.SUNDAY),
+                _buildDayColumn('Sonntag', Day.sunday),
               ],
             ),
           ),
