@@ -56,12 +56,14 @@ class HomeworkBackend {
     List<ParseObject> exerciseBlockList = List.empty(growable: true);
 
     // fülle Liste mit Exercise Blöcken
-    exercises.forEach((day, blockList) async {
+    for (var entry in exercises.entries) {
+      var day = entry.key;
+      var blockList = entry.value;
       var parsedExerciseBlock = await parseExerciseBlocks(blockList, day);
       if (parsedExerciseBlock != null) {
-        exerciseBlockList.addAll(parsedExerciseBlock);
+        exerciseBlockList += parsedExerciseBlock;
       }
-    });
+    }
 
     // füge ExerciseBlocks zum ParseObject hinzu
     parseWeekHomework.addRelation('exercises', exerciseBlockList);
