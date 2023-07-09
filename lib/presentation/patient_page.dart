@@ -4,8 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:rehome/business_logic/patient/patient_bloc.dart';
 import 'package:rehome/domain/models/patient/homework.dart';
 
-import '../business_logic/patients/patients_bloc.dart';
-
 // Screen für die Patientendaten
 class PatientPage extends StatelessWidget {
   const PatientPage({super.key});
@@ -108,7 +106,7 @@ class _ZieleState extends State<ZieleStateful> {
           headerBuilder: (BuildContext context, bool isExpanded) {
             // Permanentes ListTile des aktuellen Ziels
             return ListTile(
-                title: BlocBuilder<PatientsBloc, PatientsState>(
+                title: BlocBuilder<PatientBloc, PatientState>(
                   builder: (context, state) {
                     return const Text('Aktuelles Ziel: ');
                   },
@@ -137,7 +135,7 @@ class HausaufgabenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PatientsBloc, PatientsState>(
+    return BlocBuilder<PatientBloc, PatientState>(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -170,13 +168,13 @@ class HausaufgabenWidget extends StatelessWidget {
 
 // Hilfswidget zum generieren der Aufgabenliste für jeden Tag
 Widget _buildDayColumn(String weekday, Day day) {
-  return BlocBuilder<PatientsBloc, PatientsState>(
+  return BlocBuilder<PatientBloc, PatientState>(
     builder: (context, state) {
       return Expanded(
         child: Column(
           children: [
             Text(weekday),
-            Text(state.patient.homework.repeated.exercises[day]?.toString() ??
+            Text(state.active?.homework.repeated.exercises[day]?.toString() ??
                 ''),
           ],
         ),
@@ -196,7 +194,7 @@ class UebungenWidget extends StatelessWidget {
     return SizedBox(
         height: 400,
         width: 500,
-        child: BlocBuilder<PatientsBloc, PatientsState>(
+        child: BlocBuilder<PatientBloc, PatientState>(
           builder: (context, state) {
             return const Card(child: Text('Übungen'));
           },
