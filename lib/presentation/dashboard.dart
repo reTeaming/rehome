@@ -34,33 +34,45 @@ class Dashboard extends StatelessWidget {
               crossAxisCount: 3,
               children: <Widget>[
                 Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
                   padding: const EdgeInsets.all(8),
-                  color: Colors.blue[100],
                   child: const Text("Statistik 1"),
                 ),
                 Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
                   padding: const EdgeInsets.all(8),
-                  color: Colors.blue[200],
                   child: const Text('Statistik 2'),
                 ),
                 Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
                   padding: const EdgeInsets.all(8),
-                  color: Colors.blue[300],
                   child: const Text('Statistik 3'),
                 ),
                 Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
                   padding: const EdgeInsets.all(8),
-                  color: Colors.blue[400],
                   child: const Text('Statistik 4'),
                 ),
                 Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
                   padding: const EdgeInsets.all(8),
-                  color: Colors.blue[500],
                   child: const Text('Statistik 5'),
                 ),
                 Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
                   padding: const EdgeInsets.all(8),
-                  color: Colors.blue[600],
                   child: const Text('Statistik 6'),
                 ),
               ],
