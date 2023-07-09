@@ -8,8 +8,8 @@ part 'list_state.dart';
 
 abstract class ListBloc<ListElement, SearchTag>
     extends Bloc<ListEvent, ListState<ListElement, SearchTag>> {
-  ListBloc(super.initialState) {
-    on<SearchInputChanged>(_onSearchQuerryChanged);
+  ListBloc() : super(ListState(List.empty(), List.empty())) {
+    on<SearchInputChanged>(_onSearchQueryChanged);
     on<SearchTagChanged>(_onSearchTagChanged);
     on<RefreshList>(_onRefresh);
   }
@@ -18,18 +18,18 @@ abstract class ListBloc<ListElement, SearchTag>
       ListEvent event, Emitter<ListState<ListElement, SearchTag>> emit) async {
     final newBase = await onRefresh();
     emit(ListState(newBase, state._currentListView));
-    add(SearchInputChanged(state.currentSearchQuerry));
-    add(SearchTagChanged(state.currentSeachTag));
+    add(SearchInputChanged(state.currentSearchQuery));
+    add(SearchTagChanged(state.currentSearchTag));
   }
 
-  Future<void> _onSearchQuerryChanged(
+  Future<void> _onSearchQueryChanged(
       ListEvent event, Emitter<ListState<ListElement, SearchTag>> emit) async {
     final SearchInputChanged searchEvent = event as SearchInputChanged;
     final List<ListElement> list =
         await onSearchQueryChanged(searchEvent, state);
 
     final newState = state.copyWith(
-        currentListView: list, currentSearchQuerry: searchEvent.querry);
+        currentListView: list, currentSearchQuery: searchEvent.query);
 
     emit(newState);
   }
@@ -41,7 +41,7 @@ abstract class ListBloc<ListElement, SearchTag>
     final List<ListElement> list = await onSearchTagChanged(searchEvent, state);
 
     final newState =
-        state.copyWith(currentListView: list, currentSeachTag: event.tag);
+        state.copyWith(currentListView: list, currentSearchTag: event.tag);
     emit(newState);
   }
 
