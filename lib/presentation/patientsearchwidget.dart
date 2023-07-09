@@ -12,7 +12,7 @@ class PatientSearchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SeachBar(),
+        const SearchBar(),
         const Divider(height: 20),
         BlocBuilder<PatientSearchBloc, ListState<Patient, PatientStatus?>>(
             buildWhen: (prev, curr) => prev.tag != curr.tag,
@@ -45,7 +45,12 @@ class PatientSearchWidget extends StatelessWidget {
                   builder: (context, state) {
                 final List<ListTile> listTiles = state.list
                     .map((Patient e) => ListTile(
-                        key: Key('${e.name}'), title: Text("${e.name}")))
+                        key: Key('${e.name}'),
+                        title: Text(
+                          "${e.name}",
+                        )
+                        // TODO: add on tap to change side - probably through bloc
+                        ))
                     .toList();
                 return ListView(children: listTiles);
               })),
@@ -57,8 +62,8 @@ class PatientSearchWidget extends StatelessWidget {
   }
 }
 
-class SeachBar extends StatelessWidget {
-  const SeachBar({
+class SearchBar extends StatelessWidget {
+  const SearchBar({
     super.key,
   });
 
