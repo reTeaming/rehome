@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:rehome/business_logic/patient/patient_bloc.dart';
 import 'package:rehome/domain/models/patient/homework.dart';
-import 'package:rehome/domain/repositories/patient_repository.dart';
 
 import '../business_logic/patients/patients_bloc.dart';
 
@@ -13,75 +13,66 @@ class PatientPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // übergibt Patient aus dem Repository
-    return BlocProvider(
-      create: (context) => PatientsBloc(patientRepository: PatientRepository()),
-      // User Interface
-      child: Scaffold(
-        // Widget um scrollen zu können
-        body: CustomScrollView(
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          slivers: <Widget>[
-            // scrollbare Appbar
-            BlocBuilder<PatientsBloc, PatientsState>(
-              builder: (context, state) {
-                return SliverAppBar(
-                  // Parameter, wann/wie Appbar zu sehen ist
-                  pinned: false,
-                  floating: true,
-                  stretch: true,
-                  onStretchTrigger: () {
-                    return Future<void>.value();
-                  },
-                  // Aussehen der Appbar (Höhe, Farbe)
-                  expandedHeight: 250.0,
-                  backgroundColor: Colors.white38,
-                  flexibleSpace: FlexibleSpaceBar(
-                    // Mode für das "Nach-Oben-Ziehen"- des Screens
-                    stretchModes: const <StretchMode>[
-                      StretchMode.zoomBackground,
-                      StretchMode.blurBackground,
-                      StretchMode.fadeTitle,
-                    ],
-                    // Titel der Seite (Namen, Geburtstag und Therapiestart des Patienten)
-                    centerTitle: false,
-                    title: Text(
-                      '${state.patient.name}, geb. am: ${DateFormat.yMMMMd().format(state.patient.birthDate)}, in Therapie seit: ${DateFormat.yMMMMd().format(state.patient.therapyStart)}',
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                    //Hintergrund
-                    background: const Image(
-                      image: AssetImage('assets/ReHomeLogo.png'),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                );
+    return CustomScrollView(
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      slivers: <Widget>[
+        // scrollbare Appbar
+        BlocBuilder<PatientBloc, PatientState>(
+          builder: (context, state) {
+            return SliverAppBar(
+              // Parameter, wann/wie Appbar zu sehen ist
+              pinned: false,
+              floating: true,
+              stretch: true,
+              onStretchTrigger: () {
+                return Future<void>.value();
               },
-            ),
-            // Body des Screens
-            SliverList(
-              delegate: SliverChildListDelegate(
-                <Widget>[
-                  const Column(
-                    children: [
-                      //ZieleWidget
-                      ZieleStateful(),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            //HausaufgabenWidget
-                            HausaufgabenWidget(),
-                            //ÜbungenWidget
-                            UebungenWidget(),
-                          ]),
-                    ],
-                  ),
+              // Aussehen der Appbar (Höhe, Farbe)
+              expandedHeight: 250.0,
+              backgroundColor: Colors.white38,
+              flexibleSpace: FlexibleSpaceBar(
+                // Mode für das "Nach-Oben-Ziehen"- des Screens
+                stretchModes: const <StretchMode>[
+                  StretchMode.zoomBackground,
+                  StretchMode.blurBackground,
+                  StretchMode.fadeTitle,
+                ],
+                // Titel der Seite (Namen, Geburtstag und Therapiestart des Patienten)
+                centerTitle: false,
+                title: Text(
+                  '${state.active!.name}, geb. am: ${DateFormat.yMMMMd().format(state.active!.birthDate)}, in Therapie seit: ${DateFormat.yMMMMd().format(state.active!.therapyStart)}',
+                  style: const TextStyle(color: Colors.black),
+                ),
+                //Hintergrund
+                background: const Image(
+                  image: AssetImage('assets/ReHomeLogo.png'),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            );
+          },
+        ),
+        // Body des Screens
+        SliverList(
+          delegate: SliverChildListDelegate(
+            <Widget>[
+              const Column(
+                children: [
+                  //ZieleWidget
+                  ZieleStateful(),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    //HausaufgabenWidget
+                    HausaufgabenWidget(),
+                    //ÜbungenWidget
+                    UebungenWidget(),
+                  ]),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
