@@ -67,7 +67,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onSaveUserInformation(
     SaveUserInformation event,
     Emitter<AuthState> emit,
-  ) {
+  ) async {
     var value1 = Name(event.name.isNotEmpty ? event.name : event.user.name.name,
         event.surname.isNotEmpty ? event.surname : event.user.name.surname);
     var value2 = Username.dirty(
@@ -78,12 +78,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.user.institution.departement,
     );
     // Synchrone Übertragung von Daten zum Backend.
-    _userRepository.updateName(value1);
-    _userRepository.updateUsername(value2);
-    _userRepository.updateInstitution(value3);
+    await _userRepository.updateName(value1);
+    await _userRepository.updateUsername(value2);
+    await _userRepository.updateInstitution(value3);
 
-    // Geänderte Werte.
-    _userRepository.updateDate(value1, value2, value3);
     // Aktualisierung der UI mit Status.
     return emit(AuthState.authenticated(_userRepository.user!));
   }

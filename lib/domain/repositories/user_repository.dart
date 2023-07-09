@@ -17,7 +17,7 @@ class UserRepository {
   }
 
   // aktualisiert Namen des Benutzers und ruft Funktion für Backend Änderung auf
-  void updateName(Name name) async {
+  Future<void> updateName(Name name) async {
     if (_user == null) return;
     // Rufe Backend Änderung auf
     ParseResponse response =
@@ -29,7 +29,7 @@ class UserRepository {
   }
 
   // aktualisiert Namen des Benutzers und ruft Funktion für Backend Änderung auf
-  void updateUsername(Username username) async {
+  Future<void> updateUsername(Username username) async {
     if (_user == null) return;
     // Rufe Backend Änderung auf
     ParseResponse response =
@@ -41,7 +41,7 @@ class UserRepository {
   }
 
   // aktualisiert Namen des Benutzers und ruft Funktion für Backend Änderung auf
-  void updateInstitution(Institution institution) async {
+  Future<void> updateInstitution(Institution institution) async {
     if (_user == null) return;
     // Rufe Backend Änderung auf
     ParseResponse response =
@@ -53,9 +53,7 @@ class UserRepository {
   }
 
   // Abrufen der geänderten Werten
-  void updateDate(Name name, Username username, Institution institution) {
-    _user = User(_user!.id, name, username, institution);
-  }
+  void updateDate(Name name, Username username, Institution institution) {}
 
   User? get user => _user;
 }

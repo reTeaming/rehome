@@ -8,188 +8,122 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: Column(children: [
-        const SizedBox(
-          height: 50,
-        ),
-
-        const Icon(
-          Icons.account_circle,
-          size: 100,
-        ),
-
-        const Text(
-          'Profildaten',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
-
-        const SizedBox(
-          height: 30,
-          width: 220,
-          child: Divider(
-            color: Colors.black,
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+      final user = state.user;
+      return Center(
+        child: Column(children: [
+          const SizedBox(
+            height: 50,
           ),
-        ),
 
-        // Vor- und Nachnamen anzeigen.
-        Builder(
-          builder: (context) {
-            final userName = context.select(
-              (AuthBloc bloc) => bloc.state.user.name,
-            );
-            return SizedBox(
-              height: 50,
-              width: 400,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 239, 239, 239),
-                ),
-                // Weiterleitung zur Seite zum SettingsChangePage.
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const SettingsEditPage()));
-                },
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.person,
-                      color: Colors.black,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: Text(
-                      'Name: ${userName.name} ${userName.surname}',
-                      style: const TextStyle(fontSize: 15, color: Colors.black),
-                    )),
-                    const Icon(
-                      Icons.edit,
-                    )
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+          const Icon(
+            Icons.account_circle,
+            size: 100,
+          ),
 
-        const SizedBox(
-          height: 10,
-        ),
+          const Text(
+            'Profildaten',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
 
-        // Benutzername anzeigen.
-        Builder(
-          builder: (context) {
-            final userName = context.select(
-              (AuthBloc bloc) => bloc.state.user.username.value,
-            );
-            return SizedBox(
-              height: 50,
-              width: 400,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 239, 239, 239),
-                ),
-                // Weiterleitung zur Seite zum SettingsChangePage.
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const SettingsEditPage()));
-                },
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.email,
-                      color: Colors.black,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: Text(
-                      'Username: $userName',
-                      style: const TextStyle(fontSize: 15, color: Colors.black),
-                    )),
-                    const Icon(
-                      Icons.edit,
-                    )
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+          const SizedBox(
+            height: 30,
+            width: 220,
+            child: Divider(
+              color: Colors.black,
+            ),
+          ),
 
-        const SizedBox(
-          height: 10,
-        ),
+          // Vor- und Nachnamen anzeigen.
+          SettingsTextField(
+            "Name",
+            "${user.name}",
+            const Icon(
+              Icons.person,
+              color: Colors.black,
+            ),
+          ),
 
-        // Institution anzeigen.
-        Builder(
-          builder: (context) {
-            final userIns = context.select(
-              (AuthBloc bloc) => bloc.state.user.institution,
-            );
-            return SizedBox(
-              height: 50,
-              width: 400,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 239, 239, 239),
-                ),
-                // Weiterleitung zur Seite zum SettingsChangePage.
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const SettingsEditPage()));
-                },
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.account_balance,
-                      color: Colors.black,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: Text(
-                      'Institution: ${userIns.name}',
-                      style: const TextStyle(fontSize: 15, color: Colors.black),
-                    )),
-                    const Icon(
-                      Icons.edit,
-                    )
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+          const SizedBox(
+            height: 10,
+          ),
 
-        const SizedBox(
-          height: 30,
-        ),
+          // Benutzername anzeigen
+          SettingsTextField("Username", user.username.value,
+              const Icon(Icons.mail, color: Colors.black)),
 
-        ElevatedButton(
-            style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Colors.white),
-                backgroundColor: MaterialStateProperty.all(Colors.blue),
-                padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
-                textStyle:
-                    MaterialStateProperty.all(const TextStyle(fontSize: 20))),
-            onPressed: () {
-              // routing zur LoginPage erfolgt über den Bloc
-              var bloc = BlocProvider.of<AuthBloc>(context);
-              bloc.add(AuthLogoutRequested());
-            },
-            child: const Text(
-              "Logout",
+          const SizedBox(
+            height: 10,
+          ),
+
+          // Institution anzeigen.
+          SettingsTextField("Institution", user.institution.name,
+              const Icon(Icons.account_balance, color: Colors.black)),
+          const SizedBox(
+            height: 30,
+          ),
+
+          ElevatedButton(
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
+                  textStyle:
+                      MaterialStateProperty.all(const TextStyle(fontSize: 20))),
+              onPressed: () {
+                // routing zur LoginPage erfolgt über den Bloc
+                BlocProvider.of<AuthBloc>(context).add(AuthLogoutRequested());
+              },
+              child: const Text("Logout")),
+        ]),
+      );
+    });
+  }
+}
+
+class SettingsTextField extends StatelessWidget {
+  final String text;
+  final String prefix;
+  final Icon icon;
+
+  const SettingsTextField(
+    this.prefix,
+    this.text,
+    this.icon, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50,
+      width: 400,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 239, 239, 239),
+        ),
+        // Weiterleitung zur Seite zum SettingsChangePage.
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => const SettingsEditPage()));
+        },
+        child: Row(
+          children: [
+            icon,
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+                child: Text(
+              '$prefix: $text',
+              style: const TextStyle(fontSize: 15, color: Colors.black),
             )),
-      ]),
-    ));
+            const Icon(
+              Icons.edit,
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
