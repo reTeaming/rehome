@@ -1,4 +1,5 @@
 import 'package:rehome/business_logic/navigation/navigation_cubit.dart';
+import 'package:rehome/business_logic/patient/patient_bloc.dart';
 import 'package:rehome/presentation/exercise.dart';
 import 'package:rehome/presentation/dashboard.dart';
 import 'package:rehome/presentation/patients.dart';
@@ -19,24 +20,27 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final SidebarXController controller =
         context.read<NavigationCubit>().sidebarController;
-    return Scaffold(
-      body: Row(
-        children: [
-          Sidebar(controller: controller),
-          Expanded(child: BlocBuilder<NavigationCubit, NavigationState>(
-              builder: (context, state) {
-            switch (state) {
-              case NavigationState.dashboard:
-                return const Dashboard();
-              case NavigationState.patient:
-                return const PatientPage();
-              case NavigationState.exercise:
-                return const ExercisePage();
-              case NavigationState.settings:
-                return const SettingsPage();
-            }
-          })),
-        ],
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => PatientBloc())],
+      child: Scaffold(
+        body: Row(
+          children: [
+            Sidebar(controller: controller),
+            Expanded(child: BlocBuilder<NavigationCubit, NavigationState>(
+                builder: (context, state) {
+              switch (state) {
+                case NavigationState.dashboard:
+                  return const DashBoard();
+                case NavigationState.patient:
+                  return const PatientPage();
+                case NavigationState.exercise:
+                  return const ExercisePage();
+                case NavigationState.settings:
+                  return const SettingsPage();
+              }
+            })),
+          ],
+        ),
       ),
     );
   }

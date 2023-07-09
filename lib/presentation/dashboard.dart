@@ -1,12 +1,9 @@
+// Erster Entwurf vom Dashboard (erstmal hauptsächlich um das Scrollbar Widget zu testen)
 import 'package:flutter/material.dart';
 import 'package:rehome/theme.dart';
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
-
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const Dashboard());
-  }
+class DashBoard extends StatelessWidget {
+  const DashBoard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -81,5 +78,6 @@ class Dashboard extends StatelessWidget {
         ],
       ),
     );
+
   }
 }
