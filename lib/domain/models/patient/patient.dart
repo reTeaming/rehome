@@ -17,6 +17,7 @@ class Patient extends Equatable {
 
   const Patient(
       {required this.name,
+      required this.objectId,
       required this.sex,
       required this.birthDate,
       required this.therapyStart,
@@ -26,6 +27,7 @@ class Patient extends Equatable {
       required this.homework,
       required this.status});
 
+  final String objectId;
   final Name name;
   final Sex sex;
   final DateTime birthDate;
@@ -54,6 +56,7 @@ class Patient extends Equatable {
     }
 
     return Patient(
+      objectId: patient.objectId!,
       name: name,
       sex: patient.sex.toSex(),
       birthDate: patient.birthdate,
@@ -114,6 +117,7 @@ class Patient extends Equatable {
       ];
 
   static Patient mock = const Patient(
+      objectId: "asdf9024",
       name: Name.empty,
       sex: Sex.male,
       birthDate: ConstDateTime(2000),
