@@ -22,10 +22,14 @@ class HomeworkBackend {
     List<ParseObject> weeksHomeworkList = List.empty(growable: true);
 
     // fülle Liste mit WeekHomeworks
-    weeks.forEach((week, mapHomework) async {
-      var parsedWeekHomework = await parseWeekHomework(weekHomework, week);
-      if (parsedWeekHomework != null) weeksHomeworkList.add(parsedWeekHomework);
-    });
+    for (var entry in weeks.entries) {
+      Week week = entry.key;
+      WeekHomework mapHomework = entry.value;
+      var parsedWeekHomework = await parseWeekHomework(mapHomework, week);
+      if (parsedWeekHomework != null) {
+        weeksHomeworkList.add(parsedWeekHomework);
+      }
+    }
 
     // füge WeekHomeworks zum ParseObject hinzu
     parseHomework.addRelation('weekHomeworks', weeksHomeworkList);
@@ -56,12 +60,14 @@ class HomeworkBackend {
     List<ParseObject> exerciseBlockList = List.empty(growable: true);
 
     // fülle Liste mit Exercise Blöcken
-    exercises.forEach((day, blockList) async {
+    for (var entry in exercises.entries) {
+      var day = entry.key;
+      var blockList = entry.value;
       var parsedExerciseBlock = await parseExerciseBlocks(blockList, day);
       if (parsedExerciseBlock != null) {
-        exerciseBlockList.addAll(parsedExerciseBlock);
+        exerciseBlockList += parsedExerciseBlock;
       }
-    });
+    }
 
     // füge ExerciseBlocks zum ParseObject hinzu
     parseWeekHomework.addRelation('exercises', exerciseBlockList);
@@ -82,9 +88,11 @@ class HomeworkBackend {
       // initialisiere variablen des übergebenen Blocks für angenehmere Aufrufe
       BlockStatus status = block.status;
       List<Exercise> exercises = block.block;
+      String name = block.name;
 
       // initialisiere ParseObject für den momentanen Block und speichere den Status und den Tag
       ParseObject parseBlock = ParseObject('ExerciseBlock')
+        ..set('name', name)
         ..set('status', status.toString())
         ..set('day', day.toString());
 

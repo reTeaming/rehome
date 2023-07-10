@@ -42,15 +42,14 @@ class ExerciseBackend {
   static Future<ParseObject?> parseDefaultExercise(
       DefaultExercise exerciseType) async {
     // initialisiert variablen des DefaultExercise Objekts zur angenehmeren Benutzung
-    String name = exerciseType.name;
     Id id = exerciseType.id;
 
-    // Erstellung eines Parse Exercise Objects mit der Id und Namen
-    ParseObject parseDefaultExercise = ParseObject('DefaultExercise')
-      ..set('typeId', id.id)
-      ..set('name', name);
+    // Suche nach eines DefaultExercise Objects mit der gegebenen Id
+    QueryBuilder<ParseObject> queryExerciseType =
+        QueryBuilder<ParseObject>(ParseObject('DefaultExercise'))
+          ..whereEqualTo('typeId', id.id);
 
-    ParseResponse response = await parseDefaultExercise.save();
+    ParseResponse response = await queryExerciseType.query();
     ParseObject? savedExercise = response.results?.first;
 
     return savedExercise;
