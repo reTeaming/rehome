@@ -48,9 +48,7 @@ class PatientSearchWidget extends StatelessWidget {
                         key: Key('${e.name}'),
                         title: Text(
                           "${e.name}",
-                        )
-                        // TODO: add on tap to change side - probably through bloc
-                        ))
+                        )))
                     .toList();
                 return ListView(children: listTiles);
               })),

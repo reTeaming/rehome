@@ -1,7 +1,5 @@
-import 'package:rehome/business_logic/exblock/exblock_bloc.dart';
 import 'package:rehome/business_logic/navigation/navigation_cubit.dart';
 import 'package:rehome/business_logic/patient/patient_bloc.dart';
-import 'package:rehome/presentation/exercise.dart';
 import 'package:rehome/presentation/dashboard.dart';
 import 'package:rehome/presentation/patient_overview_page.dart';
 import 'package:rehome/presentation/settings.dart';
@@ -11,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../business_logic/default_exercise/default_exercise_bloc.dart';
+import 'exercise_overview_page.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -27,7 +26,6 @@ class Home extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => PatientBloc()),
         BlocProvider(create: (context) => DefaultExerciseBloc()),
-        BlocProvider(create: (context) => ExBlockBloc())
       ],
       child: Scaffold(
         body: Row(
@@ -41,7 +39,7 @@ class Home extends StatelessWidget {
                 case NavigationState.patient:
                   return const PatientOverviewPage();
                 case NavigationState.exercise:
-                  return const ExercisePage();
+                  return const ExerciseOverviewPage();
                 case NavigationState.settings:
                   return const SettingsPage();
               }

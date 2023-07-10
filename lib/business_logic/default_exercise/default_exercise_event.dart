@@ -5,8 +5,13 @@ sealed class DefaultExerciseEvent {
 }
 
 class ActiveExerciseChanged extends DefaultExerciseEvent {
-  const ActiveExerciseChanged(this.active);
-  final DefaultExercise active;
+  const ActiveExerciseChanged(this.activeExercise);
+  final DefaultExercise activeExercise;
 }
 
-class RemoveFocusActiveExercise extends DefaultExerciseEvent {}
+class ActiveExBlockChanged extends DefaultExerciseEvent {
+  const ActiveExBlockChanged(this.activeExblock);
+  final ExerciseBlock activeExblock;
+}
+
+class RemoveFocusActiveEx extends DefaultExerciseEvent {}
