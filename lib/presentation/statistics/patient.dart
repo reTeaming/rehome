@@ -9,8 +9,8 @@ import '../../domain/models/patient/exercise.dart';
 // - Die Listenlänge der Hausaufgabe (Anzahl der zu absolvierenden Blöcke)
 // - Anzahl der bereits absolvierten Blöcke
 
-class Diagramm1 extends StatelessWidget {
-  const Diagramm1({super.key});
+class ExerciseDoneDiagramm extends StatelessWidget {
+  const ExerciseDoneDiagramm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class Diagramm1 extends StatelessWidget {
   }
 }
 
-// Klasse der benötigten Daten für das Diagramm1
+// Klasse der benötigten Daten für das ExerciseDoneDiagramm
 class ExerciseDoneData {
   ExerciseDoneData(this.week, this.done);
   // week beschreibt den Balken, done beinhaltet die Prozentzahl der Blöcke,
@@ -73,8 +73,8 @@ final List<ExerciseDoneData> homeworkDone = [
 // für das 2. Diagramm benötigt man:
 // - die absolvierten Übungsstunden pro Woche
 
-class Diagramm2 extends StatelessWidget {
-  const Diagramm2({super.key});
+class HoursSpentDiagramm extends StatelessWidget {
+  const HoursSpentDiagramm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +118,7 @@ class Diagramm2 extends StatelessWidget {
   }
 }
 
-// Klasse der benötigten Daten für das Diagramm2
+// Klasse der benötigten Daten für das HoursSpentDiagramm
 class PracticeHoursData {
   PracticeHoursData(
     this.week,
@@ -152,11 +152,12 @@ final List<PracticeHoursData> hoursSpent = [
 // für das 3. Diagramm benötigt man:
 // - Die einzelnen erreichten Werte der Übung des jeweiligen Gelenks
 // - Die jeweiligen geplanten Werte/Zielwerte der Übung des jeweiligen Gelenks
+// - beide Werte mit Datum (gleiches Datum!!)
 
-class Diagramm3 extends StatelessWidget {
+class RangeDiagramm extends StatelessWidget {
   // beschreibt das Gelenk für das das Diagramm die Werte anzeigen soll
   final Joint joint;
-  const Diagramm3(this.joint, {super.key});
+  const RangeDiagramm(this.joint, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +209,7 @@ class Diagramm3 extends StatelessWidget {
   }
 }
 
-// Klasse der benötigten Daten für das Diagramm3
+// Klasse der benötigten Daten für das RangeDiagramm
 class RangeData {
   RangeData(this.date, this.range);
   //date beschreibt das Datum, wann die Übung ausgeführt wurde
@@ -235,4 +236,69 @@ final List<RangeData> achievedData = [
   RangeData(DateTime(2023, 3, 17, 16, 12, 44, 36), 0.3),
   RangeData(DateTime(2023, 3, 18, 16, 12, 44, 36), 0.4),
   RangeData(DateTime(2023, 3, 22, 16, 12, 44, 36), 0.5)
+];
+
+// für das 4. Diagramm benötigt man:
+// - Die gesamten Parameterwerte gemittelt nach einer Übung
+
+class TotalDiagramm extends StatelessWidget {
+  const TotalDiagramm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+            child: SfCartesianChart(
+      series: <ChartSeries>[
+        // Daten für die erzielten Ergebnisse
+        LineSeries<TotalData, DateTime>(
+          dataSource: totalData,
+          xValueMapper: (TotalData data, _) => data.date,
+          yValueMapper: (TotalData data, _) => data.values,
+          color: primaryColor,
+          name: 'Gesamtdaten',
+        ),
+      ],
+      //Format der x-Achse
+      primaryXAxis: DateTimeAxis(
+        dateFormat: DateFormat.yMMMMd(),
+        // wie viele Tage angezeigt werden (von hinten)
+        autoScrollingDelta: 30,
+        autoScrollingDeltaType: DateTimeIntervalType.days,
+        autoScrollingMode: AutoScrollingMode.end,
+        enableAutoIntervalOnZooming: true,
+      ),
+      // Möglichkeit zu scrollen
+      zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
+      // Titel des Diagramms
+      title: ChartTitle(
+        alignment: ChartAlignment.near,
+        text: 'Gesamtverlauf der Therapie ',
+        textStyle: rehomeTheme.textTheme.titleLarge,
+      ),
+      legend: const Legend(
+        isVisible: true,
+        position: LegendPosition.bottom,
+      ),
+    )));
+  }
+}
+
+// Klasse der benötigten Daten für das TotalDiagramm
+class TotalData {
+  TotalData(this.date, this.values);
+  //date beschreibt das Datum, wann die letzte Übung ausgeführt wurde (und der
+  // Gesamtwert neu berechnet wurde)
+  // values  die jeweiligen Werte
+  final DateTime date;
+  final double values;
+}
+
+//hier müssen die gemittelten Gesamtwerte rein
+final List<TotalData> totalData = [
+  TotalData(DateTime(2023, 3, 14, 16, 12, 44, 36), 0.2),
+  TotalData(DateTime(2023, 3, 15, 16, 12, 44, 36), 0.4),
+  TotalData(DateTime(2023, 3, 17, 16, 12, 44, 36), 0.5),
+  TotalData(DateTime(2023, 3, 18, 16, 12, 44, 36), 0.5),
+  TotalData(DateTime(2023, 3, 22, 16, 12, 44, 36), 0.6)
 ];
