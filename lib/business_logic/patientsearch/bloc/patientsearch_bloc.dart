@@ -18,7 +18,7 @@ class PatientSearchBloc extends ListBloc<Patient, PatientStatus?> {
       ListState<Patient, PatientStatus?> state) async {
     String searchInput = event.query.toLowerCase();
 
-    final filteredList = state.list.where((object) {
+    final filteredList = state.baseList.where((object) {
       return object.name.surname.toLowerCase().contains(searchInput) ||
           object.name.name.toLowerCase().contains(searchInput) ||
           object.therapyStart.toString().toLowerCase().contains(searchInput) ||
@@ -31,11 +31,19 @@ class PatientSearchBloc extends ListBloc<Patient, PatientStatus?> {
   @override
   Future<List<Patient>> onSearchTagChanged(
       SearchTagChanged<PatientStatus?> event,
-      ListState<Patient, PatientStatus?> state) async {
+      ListState<Patient, PatientStatus?> state,
+      Function() removeTag) async {
     if (event.tag == null) {
       return state.baseList;
     }
+
+    if (event.tag == state.tag) {
+      removeTag();
+      return state.baseList;
+    }
     // filtert die List nach Patienten Status
-    return state.list.where((element) => element.status == event.tag).toList();
+    return state.baseList
+        .where((element) => element.status == event.tag)
+        .toList();
   }
 }
