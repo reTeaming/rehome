@@ -21,7 +21,7 @@ class ExerciseSearchWidget extends StatefulWidget {
 class _ExerciseState extends State<ExerciseSearchWidget> {
   int isExpanded =
       -1; // der Index welches Panel aktuell expanded ist, -1 heißt keins
-  double _bodyHeight = 50.0; // Grundhöhe
+  final double _bodyHeight = 50.0; // Grundhöhe
 
   void setExpansion(int index) {
     setState(() {

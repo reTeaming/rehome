@@ -14,4 +14,12 @@ class ActiveExBlockChanged extends DefaultExerciseEvent {
   final ExerciseBlock activeExblock;
 }
 
+class ActiveBlocktoExercise extends DefaultExerciseEvent {
+  final ExerciseBlock previousBlock;
+  final DefaultExercise activeExercise;
+  const ActiveBlocktoExercise(this.previousBlock, this.activeExercise);
+}
+
+class BacktoBlock extends DefaultExerciseEvent {}
+
 class RemoveFocusActiveEx extends DefaultExerciseEvent {}

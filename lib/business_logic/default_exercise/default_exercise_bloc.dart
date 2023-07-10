@@ -11,6 +11,8 @@ class DefaultExerciseBloc
       : super(DefaultExerciseState(null, null, ActiveExState.inactive)) {
     on<ActiveExerciseChanged>(_changeActiveExerciseBranch);
     on<ActiveExBlockChanged>(_changeActiveExBlockBranch);
+    on<ActiveBlocktoExercise>(_changeActiveBlocktoExercise);
+    on<BacktoBlock>(_changeBacktoBlock);
     on<RemoveFocusActiveEx>(_removeFocus);
   }
 
@@ -20,10 +22,22 @@ class DefaultExerciseBloc
         null, event.activeExercise, ActiveExState.activeExercise));
   }
 
+  void _changeBacktoBlock(
+      BacktoBlock event, Emitter<DefaultExerciseState> emit) {
+    emit(DefaultExerciseState(
+        state.activeExBlock, null, ActiveExState.activeExblock));
+  }
+
   void _changeActiveExBlockBranch(
       ActiveExBlockChanged event, Emitter<DefaultExerciseState> emit) {
     emit(DefaultExerciseState(
         event.activeExblock, null, ActiveExState.activeExercise));
+  }
+
+  void _changeActiveBlocktoExercise(
+      ActiveBlocktoExercise event, Emitter<DefaultExerciseState> emit) {
+    emit(DefaultExerciseState(event.previousBlock, event.activeExercise,
+        ActiveExState.activeBlocktoExercise));
   }
 
   void _removeFocus(

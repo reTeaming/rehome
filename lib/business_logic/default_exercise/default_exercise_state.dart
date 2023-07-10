@@ -8,4 +8,9 @@ class DefaultExerciseState {
   DefaultExerciseState(this.activeExBlock, this.activeExercise, this.activeEx);
 }
 
-enum ActiveExState { activeExercise, activeExblock, inactive }
+enum ActiveExState {
+  activeExercise,
+  activeExblock,
+  activeBlocktoExercise,
+  inactive
+}
