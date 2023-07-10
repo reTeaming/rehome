@@ -8,18 +8,18 @@ class HomeworkMock {
   * Exercise Blocks
   */
   // Exercise Blocks
-  static ExerciseBlock block1 =
-      ExerciseBlock(ExerciseMock.exerciseList1, BlockStatus.finished);
-  static ExerciseBlock block2 =
-      ExerciseBlock(ExerciseMock.exerciseList2, BlockStatus.unfinished);
-  static ExerciseBlock block3 =
-      ExerciseBlock(ExerciseMock.exerciseList3, BlockStatus.finished);
-  static ExerciseBlock block4 =
-      ExerciseBlock(ExerciseMock.exerciseList4, BlockStatus.unfinished);
-  static ExerciseBlock block5 =
-      ExerciseBlock(ExerciseMock.exerciseList5, BlockStatus.finished);
-  static ExerciseBlock block6 =
-      ExerciseBlock(ExerciseMock.exerciseList3, BlockStatus.unfinished);
+  static ExerciseBlock block1 = ExerciseBlock(
+      "exercise1", ExerciseMock.exerciseList1, BlockStatus.finished);
+  static ExerciseBlock block2 = ExerciseBlock(
+      "exercise2", ExerciseMock.exerciseList2, BlockStatus.unfinished);
+  static ExerciseBlock block3 = ExerciseBlock(
+      "exercise3", ExerciseMock.exerciseList3, BlockStatus.finished);
+  static ExerciseBlock block4 = ExerciseBlock(
+      "exercise4", ExerciseMock.exerciseList4, BlockStatus.unfinished);
+  static ExerciseBlock block5 = ExerciseBlock(
+      "exercise5", ExerciseMock.exerciseList5, BlockStatus.finished);
+  static ExerciseBlock block6 = ExerciseBlock(
+      "exercise6", ExerciseMock.exerciseList3, BlockStatus.unfinished);
 
   /*
   * Week Homeworks
