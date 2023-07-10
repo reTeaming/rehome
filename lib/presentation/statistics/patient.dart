@@ -52,7 +52,7 @@ class Diagramm1 extends StatelessWidget {
   }
 }
 
-// Klasse der benötigten Daten für das Diagramm
+// Klasse der benötigten Daten für das Diagramm1
 class ChartData1 {
   ChartData1(this.week, this.done);
   // week beschreibt den Balken, done beinhaltet die Prozentzahl der Blöcke,
@@ -61,63 +61,80 @@ class ChartData1 {
   final int done;
 }
 
+// hier muss die Anzahl der Prozentzahl absolvierten blöcke rein (in Prozent)
 final List<ChartData1> homeworkDone = [
-  // hier muss die Anzahl der Prozentzahl absolvierten blöcke rein (in Prozent)
   ChartData1('dieseWoche', 60),
 ];
+
+// für das 2. Diagramm benötigt man:
+// - die absolvierten Übungsstunden pro Woche
 
 class Diagramm2 extends StatelessWidget {
   const Diagramm2({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double sum = hoursSpent.map((item) => item.hours).reduce((x, y) => x + y);
     return Scaffold(
         body: Center(
       child: SfCartesianChart(
+        //Automatische Anpassung der Axen beim Verchieben
         enableAxisAnimation: true,
         series: <ChartSeries<ChartData2, String>>[
-          // Renders column chart
+          // Bildet Säulendiagramm
           ColumnSeries<ChartData2, String>(
               dataSource: hoursSpent,
               xValueMapper: (ChartData2 data, _) => data.week,
               yValueMapper: (ChartData2 data, _) => data.hours,
-              color: primaryColor)
+              color: primaryColor,
+              name: '${'Gesamtzeit:$sum'}Stunden')
         ],
         primaryXAxis: CategoryAxis(
           majorGridLines: const MajorGridLines(width: 0),
+          // wie viele Wochen angezeigt werden (von hinten)
           autoScrollingDelta: 5,
           autoScrollingMode: AutoScrollingMode.end,
         ),
+        //Möglichkeit zu scrollen
         zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
+        // Titel
         title: ChartTitle(
           alignment: ChartAlignment.near,
           text: 'Übungsstunden pro Woche:',
           textStyle: rehomeTheme.textTheme.titleLarge,
+        ),
+        legend: const Legend(
+          isVisible: true,
+          position: LegendPosition.bottom,
         ),
       ),
     ));
   }
 }
 
+// Klasse der benötigten Daten für das Diagramm1
 class ChartData2 {
   ChartData2(
     this.week,
     this.hours,
   );
+  // week beschreibt die betrachtete Woche
+  // hours beschreibt die Anzahl der Übungsstunden in dieser Woche
   final String week;
   final double hours;
 }
 
+//hier muss die Liste der Wochen und Übungsstunden rein
 final List<ChartData2> hoursSpent = [
-  ChartData2('Woche 1', 5),
+  ChartData2('Woche 1', 2),
   ChartData2('Woche 2', 6),
   ChartData2('Woche 3', 3),
   ChartData2('Woche 4', 4),
   ChartData2('Woche 5', 6),
-  ChartData2('Woche 1', 5),
-  ChartData2('Woche 2', 6),
-  ChartData2('Woche 3', 3),
-  ChartData2('Woche 4', 4),
+  ChartData2('Woche 6', 5),
+  ChartData2('Woche 7', 6),
+  ChartData2('Woche 8', 3),
+  ChartData2('Woche 9', 4),
   ChartData2('Woche 10', 6),
   ChartData2('Woche 11', 5),
   ChartData2('Woche 12', 6),
