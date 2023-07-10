@@ -83,14 +83,14 @@ class DashBoard extends StatelessWidget {
 
 const myCol = Color.fromARGB(255, 221, 240, 255);
 const statistik1 =
-    "Statistik 1: \n Anzahl aktiver Patienten, Anzahl Patienten Archiv \n benötigte Daten: 'Patient status' aller Patienten";
+    "Statistik 1: \n Anzahl aktiver Patienten, Anzahl Patienten Archiv \n benötigte Daten: Patient status aller Patienten";
 const statistik2 =
-    "Statistik 2: \n durchschnittlich absolvierte Trainingszeit in dieser Woche, evtl. Trendansicht über einen Monat, die am häufigsten durchgeführte Übung \n benötigte Daten: Übungsdaten Backend";
+    "Statistik 2: \n durchschnittlich absolvierte Trainingszeit in dieser Woche, die am häufigsten durchgeführte Übung \n benötigte Daten: Patient weeklyTrainingTime, Patient Homework";
 const statistik3 =
-    "Statistik 3: \n TODOs meiner Patienten \n benötigte Daten: Übungen Backend";
+    "Statistik 3: \n TODOs meiner Patienten \n benötigte Daten: Patient Homework";
 const statistik4 =
-    "Statistik 4: \n Übung mit der höchsten Erfolgsquote, Übung mit der schlechtesten Erfolgsquote \n benötigte Daten: Übungen Backend";
+    "Statistik 4: \n am schnellsten abgeschlossene Übungen, am langsamsten abgeschlossene Übungen \n benötigte Daten: Exercise results";
 const statistik5 =
-    "Statistik 5: \n die Zuletzt absolvierten Übungen mit zugehörigem Patientenname \n benötigte Daten: Übungen Backend, Patientendaten Backend";
+    "Statistik 5: \n der Zuletzt absolvierte Übungssatz mit zugehörigem Patientenname \n benötigte Daten: Patient, BlockStatus";
 const statistik6 =
-    "Statistik 6: \n Auszeichnungen: Patient X hat alle Übungen für diese Woche abgeschlossen \n benötigte Daten: Übungen Backend, Patientendaten Backend";
+    "Statistik 6: \n Auszeichnungen: Patient X hat alle Übungen für diese Woche abgeschlossen \n benötigte Daten: Patient, WeekHomework, BlockStatus";
