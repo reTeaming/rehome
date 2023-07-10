@@ -83,7 +83,7 @@ class DashBoard extends StatelessWidget {
 
 const myCol = Color.fromARGB(255, 221, 240, 255);
 const statistik1 =
-    "Statistik 1: \n Anzahl aktiver Patienten, Anzahl Patienten Archiv \n benötigte Daten: Anbindung Patienten Backend";
+    "Statistik 1: \n Anzahl aktiver Patienten, Anzahl Patienten Archiv \n benötigte Daten: 'Patient status' aller Patienten";
 const statistik2 =
     "Statistik 2: \n durchschnittlich absolvierte Trainingszeit in dieser Woche, evtl. Trendansicht über einen Monat, die am häufigsten durchgeführte Übung \n benötigte Daten: Übungsdaten Backend";
 const statistik3 =
