@@ -85,11 +85,13 @@ class HomeworkBackend {
     // iteriere über alle gegebenen Blöcke
     for (var block in exerciseBlocks) {
       // initialisiere variablen des übergebenen Blocks für angenehmere Aufrufe
+      String name = block.name;
       BlockStatus status = block.status;
       List<Exercise> exercises = block.block;
 
       // initialisiere ParseObject für den momentanen Block und speichere den Status und den Tag
       ParseObject parseBlock = ParseObject('ExerciseBlock')
+        ..set('name', name)
         ..set('status', status.toString())
         ..set('day', day.toString());
 
@@ -157,7 +159,6 @@ class HomeworkBackend {
 
     // falls repeated nicht null ist, erstelle Hausaufgaben Object
     if (repeated != null) {
-      //TODO: ist repeated notwendig?
       Homework homework = Homework(repeated, repeatedSince, weeks);
       return homework;
     }
@@ -179,13 +180,13 @@ class HomeworkBackend {
 
     for (var parseExerciseBlock in parseExerciseBlocks) {
       Day? day = switch (parseExerciseBlock.get('day')) {
-        'monday' => Day.monday,
-        'tuesday' => Day.tuesday,
-        'wednesday' => Day.wednesday,
-        'thursday' => Day.thursday,
-        'friday' => Day.friday,
-        'saturday' => Day.saturday,
-        'sunday' => Day.sunday,
+        'Day.monday' => Day.monday,
+        'Day.tuesday' => Day.tuesday,
+        'Day.wednesday' => Day.wednesday,
+        'Day.thursday' => Day.thursday,
+        'Day.friday' => Day.friday,
+        'Day.saturday' => Day.saturday,
+        'Day.sunday' => Day.sunday,
         _ => null
       };
 
@@ -208,7 +209,12 @@ class HomeworkBackend {
   static Future<ExerciseBlock?> parseToExerciseBlock(
       ParseObject parseExerciseBlock) async {
     // Speichern des Status aus Backend
-    BlockStatus status = parseExerciseBlock.get('status');
+    BlockStatus? status = switch (parseExerciseBlock.get('status')) {
+      'BlockStatus.finished' => BlockStatus.finished,
+      'BlockStatus.unfinished' => BlockStatus.unfinished,
+      _ => null
+    };
+    String name = parseExerciseBlock.get('name');
 
     // Abrufen der Exercises aus Backend
     ParseRelation<ParseObject> exercises = parseExerciseBlock.get('exercise');
@@ -225,7 +231,9 @@ class HomeworkBackend {
         block.add(exercise);
       }
     }
-
-    return ExerciseBlock(block, status);
+    if (status != null) {
+      return ExerciseBlock(name, block, status);
+    }
+    return null;
   }
 }
