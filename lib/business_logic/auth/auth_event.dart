@@ -13,3 +13,13 @@ final class AuthStatusChanged extends AuthEvent {
 }
 
 final class AuthLogoutRequested extends AuthEvent {}
+
+final class SaveUserInformation extends AuthEvent {
+  String name = "";
+  String surname = "";
+  String userName = "";
+  String institut = "";
+  User user;
+  SaveUserInformation(
+      this.name, this.surname, this.userName, this.institut, this.user);
+}
