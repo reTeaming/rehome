@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rehome/theme.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:intl/intl.dart';
+
+import '../../domain/models/patient/exercise.dart';
 
 // für das 1. Diagramm benötigt man:
 // - Die Listenlänge der Hausaufgabe (Anzahl der zu absolvierenden Blöcke)
@@ -15,14 +18,15 @@ class Diagramm1 extends StatelessWidget {
         body: Center(
             child: SfCircularChart(
       series: <CircularSeries>[
-        RadialBarSeries<ChartData1, String>(
+        //Daten des Kreisbalkendiagramms
+        RadialBarSeries<ExerciseDoneData, String>(
             dataSource: homeworkDone,
-            xValueMapper: (ChartData1 data, _) => data.week,
-            yValueMapper: (ChartData1 data, _) => data.done,
+            xValueMapper: (ExerciseDoneData data, _) => data.week,
+            yValueMapper: (ExerciseDoneData data, _) => data.done,
             // die Anzahl, die den vollständigen Kreis beschreibt
             maximumValue: 100,
             // Farbe des Kreisbalkens, je nach Fortschritt
-            pointColorMapper: (ChartData1 data, _) {
+            pointColorMapper: (ExerciseDoneData data, _) {
               if (data.done < 10) {
                 return Colors.red;
               } else if (data.done < 50) {
@@ -53,8 +57,8 @@ class Diagramm1 extends StatelessWidget {
 }
 
 // Klasse der benötigten Daten für das Diagramm1
-class ChartData1 {
-  ChartData1(this.week, this.done);
+class ExerciseDoneData {
+  ExerciseDoneData(this.week, this.done);
   // week beschreibt den Balken, done beinhaltet die Prozentzahl der Blöcke,
   // und beschreibt somit wie lang der Kreisbalken ist
   final String week;
@@ -62,8 +66,8 @@ class ChartData1 {
 }
 
 // hier muss die Anzahl der Prozentzahl absolvierten blöcke rein (in Prozent)
-final List<ChartData1> homeworkDone = [
-  ChartData1('dieseWoche', 60),
+final List<ExerciseDoneData> homeworkDone = [
+  ExerciseDoneData('dieseWoche', 60),
 ];
 
 // für das 2. Diagramm benötigt man:
@@ -74,18 +78,19 @@ class Diagramm2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Ausrechnen der Gesamtzeit der Übungsstunden
     double sum = hoursSpent.map((item) => item.hours).reduce((x, y) => x + y);
     return Scaffold(
         body: Center(
       child: SfCartesianChart(
         //Automatische Anpassung der Axen beim Verchieben
         enableAxisAnimation: true,
-        series: <ChartSeries<ChartData2, String>>[
+        series: <ChartSeries<PracticeHoursData, String>>[
           // Bildet Säulendiagramm
-          ColumnSeries<ChartData2, String>(
+          ColumnSeries<PracticeHoursData, String>(
               dataSource: hoursSpent,
-              xValueMapper: (ChartData2 data, _) => data.week,
-              yValueMapper: (ChartData2 data, _) => data.hours,
+              xValueMapper: (PracticeHoursData data, _) => data.week,
+              yValueMapper: (PracticeHoursData data, _) => data.hours,
               color: primaryColor,
               name: '${'Gesamtzeit:$sum'}Stunden')
         ],
@@ -103,6 +108,7 @@ class Diagramm2 extends StatelessWidget {
           text: 'Übungsstunden pro Woche:',
           textStyle: rehomeTheme.textTheme.titleLarge,
         ),
+        // Anzeige der Gesamtübungsstunden
         legend: const Legend(
           isVisible: true,
           position: LegendPosition.bottom,
@@ -112,9 +118,9 @@ class Diagramm2 extends StatelessWidget {
   }
 }
 
-// Klasse der benötigten Daten für das Diagramm1
-class ChartData2 {
-  ChartData2(
+// Klasse der benötigten Daten für das Diagramm2
+class PracticeHoursData {
+  PracticeHoursData(
     this.week,
     this.hours,
   );
@@ -125,20 +131,108 @@ class ChartData2 {
 }
 
 //hier muss die Liste der Wochen und Übungsstunden rein
-final List<ChartData2> hoursSpent = [
-  ChartData2('Woche 1', 2),
-  ChartData2('Woche 2', 6),
-  ChartData2('Woche 3', 3),
-  ChartData2('Woche 4', 4),
-  ChartData2('Woche 5', 6),
-  ChartData2('Woche 6', 5),
-  ChartData2('Woche 7', 6),
-  ChartData2('Woche 8', 3),
-  ChartData2('Woche 9', 4),
-  ChartData2('Woche 10', 6),
-  ChartData2('Woche 11', 5),
-  ChartData2('Woche 12', 6),
-  ChartData2('Woche 13', 3),
-  ChartData2('Woche 14', 4),
-  ChartData2('Woche 15', 6)
+final List<PracticeHoursData> hoursSpent = [
+  PracticeHoursData('Woche 1', 2),
+  PracticeHoursData('Woche 2', 6),
+  PracticeHoursData('Woche 3', 3),
+  PracticeHoursData('Woche 4', 4),
+  PracticeHoursData('Woche 5', 6),
+  PracticeHoursData('Woche 6', 5),
+  PracticeHoursData('Woche 7', 6),
+  PracticeHoursData('Woche 8', 3),
+  PracticeHoursData('Woche 9', 4),
+  PracticeHoursData('Woche 10', 6),
+  PracticeHoursData('Woche 11', 5),
+  PracticeHoursData('Woche 12', 6),
+  PracticeHoursData('Woche 13', 3),
+  PracticeHoursData('Woche 14', 4),
+  PracticeHoursData('Woche 15', 6)
+];
+
+// für das 3. Diagramm benötigt man:
+// - Die einzelnen erreichten Werte der Übung des jeweiligen Gelenks
+// - Die jeweiligen geplanten Werte/Zielwerte der Übung des jeweiligen Gelenks
+
+class Diagramm3 extends StatelessWidget {
+  // beschreibt das Gelenk für das das Diagramm die Werte anzeigen soll
+  final Joint joint;
+  const Diagramm3(this.joint, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+            child: SfCartesianChart(
+      series: <ChartSeries>[
+        // Daten für die erzielten Ergebnisse
+        LineSeries<RangeData, DateTime>(
+          dataSource: expectationData,
+          xValueMapper: (RangeData data, _) => data.date,
+          yValueMapper: (RangeData data, _) => data.range,
+          color: Colors.red,
+          name: 'Ziel',
+        ),
+        LineSeries<RangeData, DateTime>(
+            dataSource: achievedData,
+            xValueMapper: (RangeData data, _) => data.date,
+            yValueMapper: (RangeData data, _) => data.range,
+            color: primaryColor,
+            name: 'erreichter Wert'),
+      ],
+      //Format der x-Achse
+      primaryXAxis: DateTimeAxis(
+        dateFormat: DateFormat.yMMMMd(),
+        // wie viele Tage angezeigt werden (von hinten)
+        autoScrollingDelta: 30,
+        autoScrollingDeltaType: DateTimeIntervalType.days,
+        autoScrollingMode: AutoScrollingMode.end,
+        enableAutoIntervalOnZooming: true,
+      ),
+      // Möglichkeit zu scrollen
+      zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
+      // Titel des Diagramms abhängig vom Gelenk
+      title: ChartTitle(
+        alignment: ChartAlignment.near,
+        text: switch (joint) {
+          Joint.ellbow => 'Verlauf des Bewegungsradius am Ellenbogen: ',
+          Joint.shoulder => 'Verlauf des Bewegungsradius an der Schulter:',
+          Joint.wrist => 'Verlauf des Bewegungsradius am Handgelenk:',
+        },
+        textStyle: rehomeTheme.textTheme.titleLarge,
+      ),
+      legend: const Legend(
+        isVisible: true,
+        position: LegendPosition.bottom,
+      ),
+    )));
+  }
+}
+
+// Klasse der benötigten Daten für das Diagramm3
+class RangeData {
+  RangeData(this.date, this.range);
+  //date beschreibt das Datum, wann die Übung ausgeführt wurde
+  //range die jeweiligen Werte
+  final DateTime date;
+  final double range;
+}
+
+//hier müssen die jeweiligen geplanten Werte/Zielwerte der Übung des jeweiligen
+// Gelenks  rein
+final List<RangeData> expectationData = [
+  RangeData(DateTime(2023, 3, 14, 16, 12, 44, 36), 0.2),
+  RangeData(DateTime(2023, 3, 15, 16, 12, 44, 36), 0.4),
+  RangeData(DateTime(2023, 3, 17, 16, 12, 44, 36), 0.5),
+  RangeData(DateTime(2023, 3, 18, 16, 12, 44, 36), 0.5),
+  RangeData(DateTime(2023, 3, 22, 16, 12, 44, 36), 0.6)
+];
+
+//hier müssen die einzelnen erreichten Werte der Übung des jeweiligen
+// Gelenks rein
+final List<RangeData> achievedData = [
+  RangeData(DateTime(2023, 3, 14, 16, 12, 44, 36), 0.1),
+  RangeData(DateTime(2023, 3, 15, 16, 12, 44, 36), 0.3),
+  RangeData(DateTime(2023, 3, 17, 16, 12, 44, 36), 0.3),
+  RangeData(DateTime(2023, 3, 18, 16, 12, 44, 36), 0.4),
+  RangeData(DateTime(2023, 3, 22, 16, 12, 44, 36), 0.5)
 ];
