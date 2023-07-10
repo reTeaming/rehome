@@ -1,5 +1,6 @@
 import 'package:const_date_time/const_date_time.dart';
 import 'package:equatable/equatable.dart';
+import 'package:rehome/data/models/parse_clinical_data.dart';
 
 class ClinicalData extends Equatable {
   const ClinicalData(this.paresisSide, this.lastStroke, this.clinicalTest);
@@ -66,4 +67,28 @@ class BroetzScale extends ClinicalTest {
 
   @override
   List<Object> get props => super.props + [score1, score2, score3, score4];
+}
+
+extension ToClinicalData on ParseClinicalData {
+  ClinicalData toClinicalData() {
+    final ParesisSide paresisSide = this.paresisSide.toParesisSide();
+    // TODO: Get real clinical Tests
+    final List<ClinicalTest> clinicalTests = List.empty();
+
+    return ClinicalData(paresisSide, lastStroke, clinicalTests);
+  }
+}
+
+extension ToParesisSide on String {
+  ParesisSide toParesisSide() {
+    switch (this) {
+      case "left":
+        return ParesisSide.left;
+      case "right":
+        return ParesisSide.right;
+      // Paresis Seite von links und rechts wird bei unklarheiten angenommen
+      default:
+        return ParesisSide.both;
+    }
+  }
 }

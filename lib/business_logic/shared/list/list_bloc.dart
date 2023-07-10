@@ -12,6 +12,7 @@ abstract class ListBloc<ListElement, SearchTag>
     on<SearchInputChanged>(_onSearchQueryChanged);
     on<SearchTagChanged>(_onSearchTagChanged);
     on<RefreshList>(_onRefresh);
+    add(RefreshList());
   }
 
   Future<void> _onRefresh(

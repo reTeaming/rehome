@@ -1,10 +1,7 @@
 import 'package:rehome/domain/models/patient/patient.dart';
 import 'package:rehome/domain/models/patient/exercise_default_data.dart';
 import 'package:rehome/domain/models/user/name.dart';
-import 'package:rehome/mocks/mock_clinical_data.dart';
 import 'package:rehome/mocks/mock_exercise.dart';
-import 'package:rehome/mocks/mock_goals.dart';
-import 'package:rehome/mocks/mock_homework.dart';
 
 // Mocks zum Testen von Patient und ExerciseDefaultData Objekten
 // Alle hier implementierten Klassen sind zu finden in:
@@ -61,64 +58,64 @@ class PatientMock {
       ExerciseDefaultData(1, ExerciseMock.parameterListMix1);
 
   // Patients
-  static Patient annieLeonhart = Patient(
-      name1,
-      female,
-      bDay1,
-      therapyStart1,
-      defaultData1,
-      ClinicalDataMock.clinicalData1,
-      GoalsMock.goals1,
-      HomeworkMock.homework1,
-      inactive);
-  static Patient erwinSchmidt = Patient(
-      name2,
-      male,
-      bDay2,
-      therapyStart2,
-      defaultData2,
-      ClinicalDataMock.clinicalData5,
-      GoalsMock.goals2,
-      HomeworkMock.homework2,
-      active);
-  static Patient helgaHaas = Patient(
-      name3,
-      female,
-      bDay3,
-      therapyStart3,
-      defaultData3,
-      ClinicalDataMock.clinicalData2,
-      GoalsMock.goals3,
-      HomeworkMock.homework3,
-      active);
-  static Patient uweUnderberg = Patient(
-      name4,
-      male,
-      bDay4,
-      therapyStart4,
-      defaultData4,
-      ClinicalDataMock.clinicalData7,
-      GoalsMock.goals4,
-      HomeworkMock.homework4,
-      active);
-  static Patient arminArlert = Patient(
-      name5,
-      other,
-      bDay5,
-      therapyStart5,
-      defaultData5,
-      ClinicalDataMock.clinicalData9,
-      GoalsMock.goals5,
-      HomeworkMock.homework1,
-      active);
-  static Patient reinerBraun = Patient(
-      name6,
-      male,
-      bDay6,
-      therapyStart6,
-      defaultData6,
-      ClinicalDataMock.clinicalData3,
-      GoalsMock.goals6,
-      HomeworkMock.homework5,
-      archived);
+//   static Patient annieLeonhart = Patient(
+//       name1,
+//       female,
+//       bDay1,
+//       therapyStart1,
+//       defaultData1,
+//       ClinicalDataMock.clinicalData1,
+//       GoalsMock.goals1,
+//       HomeworkMock.homework1,
+//       inactive);
+//   static Patient erwinSchmidt = Patient(
+//       name2,
+//       male,
+//       bDay2,
+//       therapyStart2,
+//       defaultData2,
+//       ClinicalDataMock.clinicalData5,
+//       GoalsMock.goals2,
+//       HomeworkMock.homework2,
+//       active);
+//   static Patient helgaHaas = Patient(
+//       name3,
+//       female,
+//       bDay3,
+//       therapyStart3,
+//       defaultData3,
+//       ClinicalDataMock.clinicalData2,
+//       GoalsMock.goals3,
+//       HomeworkMock.homework3,
+//       active);
+//   static Patient uweUnderberg = Patient(
+//       name4,
+//       male,
+//       bDay4,
+//       therapyStart4,
+//       defaultData4,
+//       ClinicalDataMock.clinicalData7,
+//       GoalsMock.goals4,
+//       HomeworkMock.homework4,
+//       active);
+//   static Patient arminArlert = Patient(
+//       name5,
+//       other,
+//       bDay5,
+//       therapyStart5,
+//       defaultData5,
+//       ClinicalDataMock.clinicalData9,
+//       GoalsMock.goals5,
+//       HomeworkMock.homework1,
+//       active);
+//   static Patient reinerBraun = Patient(
+//       name6,
+//       male,
+//       bDay6,
+//       therapyStart6,
+//       defaultData6,
+//       ClinicalDataMock.clinicalData3,
+//       GoalsMock.goals6,
+//       HomeworkMock.homework5,
+//       archived);
 }

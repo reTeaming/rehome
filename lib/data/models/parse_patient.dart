@@ -1,5 +1,4 @@
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
-import 'package:rehome/data/models/parse_clinical_data.dart';
 
 // Table identifier key
 const String keyPatient = "Patient";
@@ -53,10 +52,9 @@ class ParsePatient extends ParseObject implements ParseCloneable {
   set therapyStart(DateTime? date) => set<DateTime?>(keyTherapyStart, date);
 
   // Pointer
-  ParseClinicalData? get clinicalData =>
-      get<ParseClinicalData>(keyClinicalData);
-  set clinicalData(ParseClinicalData? data) =>
-      set<ParseClinicalData?>(keyClinicalData, data);
+  ParseObject? get clinicalData => get<ParseObject>(keyClinicalData);
+  set clinicalData(ParseObject? data) =>
+      set<ParseObject?>(keyClinicalData, data);
 
   // Relations
   ParseRelation? get goals => get<ParseRelation>(keyGoals);

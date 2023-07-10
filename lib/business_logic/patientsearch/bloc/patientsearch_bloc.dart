@@ -1,15 +1,16 @@
 import 'package:rehome/business_logic/shared/list/list_bloc.dart';
 import 'package:rehome/domain/models/patient/patient.dart';
+import 'package:rehome/domain/repositories/patient_repository.dart';
 
 class PatientSearchBloc extends ListBloc<Patient, PatientStatus?> {
-  // SearchRepository repository = SearchRepository();
+  final PatientRepository repository;
 
-  //  PatientSearchBloc({required SearchRepository searchRepository})
-  //      : PatientSearchBloc(super.initialState);
+  PatientSearchBloc({required this.repository});
 
+  // Wird bei jeder aktualliserung sowie der initialen Erstellung des Blocs aufgerufen.
   @override
-  Future<List<Patient>> onRefresh() {
-    throw UnimplementedError();
+  Future<List<Patient>> onRefresh() async {
+    return await repository.getPatients();
   }
 
   @override
