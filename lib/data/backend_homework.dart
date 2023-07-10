@@ -2,7 +2,6 @@ import 'package:rehome/data/backend_exercise.dart';
 import 'package:rehome/domain/models/patient/exercise.dart';
 import 'package:rehome/domain/models/patient/homework.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
-import 'package:rehome/domain/models/user/id.dart';
 
 // Klasse zur Anbindung von Hausaufgaben spezifischen Funktionen an das Backend
 class HomeworkBackend {
@@ -120,17 +119,6 @@ class HomeworkBackend {
   /*
   * Funktionen zum Abrufen von Hausaufgaben
   */
-
-  /// Sucht im Backend nach Hausaufgabe mit gegebener Id
-  static Future<Homework?> getHomeworkById(Id id) async {
-    String stringId = id.id;
-
-    final ParseResponse response =
-        await ParseObject('Homework').getObject(stringId);
-
-    if (response.success) return parseToHomework(response.results!.first);
-    return null;
-  }
 
   /// konvertiert gegebenes ParseObject zu Hausaufgabe
   static Future<Homework?> parseToHomework(ParseObject parseHomework) async {
