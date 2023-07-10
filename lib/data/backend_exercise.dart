@@ -182,10 +182,28 @@ class ExerciseBackend {
       }
     }
 
-    // Abrufen der Id aus backend TODO: muss noch geändet werden, wenn statt id neue Klasse DefaultExercise verwendet wird
-    Id id = Id(parseExercise.get('exerciseType').get('typeId'));
+    // Abrufen der DefaultExercise Klasse aus backend
+    ParseObject? exerciseType = parseExercise.get('exerciseType');
+    if (exerciseType != null) {
+      DefaultExercise? defaultExercise =
+          await parseToDefaultExercise(exerciseType);
+      if (defaultExercise != null) {
+        return Exercise(defaultExercise, parameterList, results);
+      }
+    }
+    return null;
+  }
 
-    return Exercise(id, parameterList, results);
+  /// konvertiert gegebenes ParseObject zu Exercise
+  static Future<DefaultExercise?> parseToDefaultExercise(
+      ParseObject parseDefaultExercise) async {
+    String? idString = parseDefaultExercise.get('typeId');
+    String? name = parseDefaultExercise.get('name');
+
+    if (idString != null && name != null) {
+      return DefaultExercise(Id(idString), name);
+    }
+    return null;
   }
 
   /// konvertiert gegebenes ParseObject zu Exercise
