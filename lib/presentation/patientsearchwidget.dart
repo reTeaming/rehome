@@ -1,6 +1,7 @@
 //Implementierung von generischer SearchWidget
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rehome/business_logic/patient/patient_bloc.dart';
 import 'package:rehome/business_logic/patientsearch/bloc/patientsearch_bloc.dart';
 import 'package:rehome/business_logic/shared/list/list_bloc.dart';
 import 'package:rehome/domain/models/patient/models.dart';
@@ -48,9 +49,10 @@ class PatientSearchWidget extends StatelessWidget {
                         key: Key('${e.name}'),
                         title: Text(
                           "${e.name}",
-                        )
-                        // TODO: add on tap to change side - probably through bloc
-                        ))
+                        ),
+                        onTap: () => context
+                            .read<PatientBloc>()
+                            .add(ActivePatientChanged(e))))
                     .toList();
                 return ListView(children: listTiles);
               })),
