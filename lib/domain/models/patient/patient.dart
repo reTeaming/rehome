@@ -21,7 +21,7 @@ class Patient extends Equatable {
       required this.sex,
       required this.birthDate,
       required this.therapyStart,
-      required this.exerciseDefaults,
+      required this.exerciseDefaultData,
       required this.clinicalData,
       required this.goals,
       required this.homework,
@@ -32,7 +32,7 @@ class Patient extends Equatable {
   final Sex sex;
   final DateTime birthDate;
   final DateTime? therapyStart;
-  final ExerciseDefaultData exerciseDefaults;
+  final ExerciseDefaultData exerciseDefaultData;
   final ClinicalData clinicalData;
   final Goals goals;
   final Homework homework;
@@ -48,10 +48,12 @@ class Patient extends Equatable {
         : null;
     final Homework? homework = await _getHomework(patient);
     final Goals goals = await _getGoals(patient);
-    final ExerciseDefaultData? exerciseDefaults =
-        await _getExerciseDefaults(patient);
+    final ExerciseDefaultData? exerciseDefaultData =
+        await _getExerciseDefaultData(patient);
     // geben null zurück, wenn keine ClinicalData vorhanden sind.
-    if (clinicalData == null || homework == null || exerciseDefaults == null) {
+    if (clinicalData == null ||
+        homework == null ||
+        exerciseDefaultData == null) {
       return null;
     }
 
@@ -65,7 +67,7 @@ class Patient extends Equatable {
       clinicalData: clinicalData,
       homework: homework,
       goals: goals,
-      exerciseDefaults: exerciseDefaults,
+      exerciseDefaultData: exerciseDefaultData,
     );
   }
 
@@ -93,23 +95,24 @@ class Patient extends Equatable {
     return Goals(goals);
   }
 
-  static Future<ExerciseDefaultData?> _getExerciseDefaults(
+  static Future<ExerciseDefaultData?> _getExerciseDefaultData(
       ParsePatient patient) async {
-    if (patient.execiseDefaultData == null) return null;
+    if (patient.exerciseDefaultData == null) return null;
 
     // ignore: unused_local_variable
-    final parseExercises = patient.execiseDefaultData!.getQuery().find();
+    final parseExercises = patient.exerciseDefaultData!.getQuery().find();
 
     // TODO: implement
     return ExerciseDefaultData.defaultexercisedata;
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         name,
         sex,
         birthDate,
-        exerciseDefaults,
+        therapyStart,
+        exerciseDefaultData,
         clinicalData,
         goals,
         homework,
@@ -122,7 +125,7 @@ class Patient extends Equatable {
       sex: Sex.male,
       birthDate: ConstDateTime(2000),
       therapyStart: ConstDateTime(2000),
-      exerciseDefaults: ExerciseDefaultData.defaultexercisedata,
+      exerciseDefaultData: ExerciseDefaultData.defaultexercisedata,
       clinicalData: ClinicalData.mockdata,
       goals: Goals([]),
       homework: Homework.mockhomework,
