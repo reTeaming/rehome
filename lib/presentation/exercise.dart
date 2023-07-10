@@ -8,16 +8,13 @@ class ExercisePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Übungsaufgaben")),
-      body: Column(
-        children: [
-          Flexible(
-            flex: 1,
-            child: ExerciseSearchWidget()),
-          Flexible(
-            flex: 5
-            child: 
-             )
-        ]),
+      body: Column(children: [
+        Flexible(flex: 1, child: ExerciseSearchWidget()),
+        Flexible(
+          flex: 5,
+          child: Container(),
+        ),
+      ]),
     );
   }
 }

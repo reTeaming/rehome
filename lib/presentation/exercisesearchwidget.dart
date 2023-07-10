@@ -1,8 +1,14 @@
 //Implementierung von generischer SearchWidget
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rehome/business_logic/exblock/exblock_bloc.dart';
+import 'package:rehome/business_logic/exercisesearch/exblocksearch_bloc.dart';
+import 'package:rehome/domain/models/patient/default_exercise.dart';
+import 'package:rehome/domain/models/patient/exercise.dart';
+import 'package:rehome/domain/models/patient/homework.dart';
 
-import '../business_logic/search/exercisesearch_bloc.dart';
+import '../business_logic/default_exercise/default_exercise_bloc.dart';
+import '../business_logic/exercisesearch/exercisesearch_bloc.dart';
 import '../business_logic/shared/list/list_bloc.dart';
 
 class ExerciseSearchWidget extends StatefulWidget {
@@ -25,105 +31,83 @@ class _ExerciseState extends State<ExerciseSearchWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-          onChanged: (query) {
-            //Weitergabe der Sucheingabe
-            context.read<ExerciseSearchBloc>().add(SearchInputChanged(query));
-          },
-          decoration: const InputDecoration(
-            hintText: "Suche...",
-            enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(//color),
-                    // Farblich muss das ganze noch angepasst werden
-                    )),
-          ),
-        ),
+        SearchBar(),
         const Divider(height: 10),
-        Flexible(
-          //Filterbuttons eigenem Widget
-          flex: 1,
-          child: BlocBuilder<ExerciseSearchBloc, ListState>(
-            builder: (context, state) {
-              return const Row(children: [
-                FilterButtonWidget("Aktive PatientSearchBlocen"),
-              ]);
+        BlocBuilder<ExerciseSearchBloc, ListState>(builder: (context, state) {
+          return RefreshIndicator(
+            //key :
+            color: Colors.white,
+            backgroundColor: Colors.blue,
+            strokeWidth: 4.0,
+            onRefresh: () async {
+              context.read<ExerciseSearchBloc>().add(RefreshList());
             },
-          ),
-        ),
-        const Divider(height: 10),
-        Flexible(
-          //Anzeige der Patienten als Liste
-          flex: 7,
-          child: BlocBuilder<ExerciseSearchBloc, ListState>(
-              builder: (context, state) {
-            return RefreshIndicator(
-              //key :
-              color: Colors.white,
-              backgroundColor: Colors.blue,
-              strokeWidth: 4.0,
-              onRefresh: () async {
-                //Logik hinter dem Refreshen
-                return Future<void>.delayed(const Duration(milliseconds: 300));
-              },
-              child: ExpansionPanelList(
-                  expansionCallback: (int index, bool isExpanded) {
-                    setExpansion();
-                  },
-                  children: [
-                    ExpansionPanel(
-                        headerBuilder: (BuildContext context, bool isExpanded) {
-                          return ListTile(
-                            title: Text("Übungen"),
-                            onTap: () {
-                              setExpansion();
-                            },
-                          );
-                        },
-                        body: ListView(children: [
-                          for (int index = 0;
-                              index <
-                                  state.list
-                                      .length; //Länge von der Liste vom Repository
-                              index += 1)
-                            ListTile(
-                              key: Key('$index'),
-                              tileColor:
-                                  Theme.of(context).focusColor, //random Farbe
-                              title: Text(state.list[index].name.toString()),
+            child: ExpansionPanelList(
+                expansionCallback: (int index, bool isExpanded) {
+                  setExpansion();
+                },
+                children: [
+                  // Liste mit allen Übungen als Expansion
+                  ExpansionPanel(
+                      headerBuilder: (BuildContext context, bool isExpanded) {
+                    return ListTile(
+                      title: Text("Übungen"),
+                      onTap: () {
+                        setExpansion();
+                      },
+                    );
+                  }, body: BlocBuilder<ExerciseSearchBloc,
+                              ListState<DefaultExercise, ParameterSet?>>(
+                          builder: (context, state) {
+                    final List<ListTile> listTiles = state.list
+                        .map((DefaultExercise e) => ListTile(
+                              key: Key(e.name),
+                              title: Text(
+                                e.name,
+                              ),
+                              // TODO: add on tap to change side - probably through bloc
                               onTap: () {
-                                // Hier darf die Weiterleitung zum ExerciseSearchBloc rein
+                                context
+                                    .read<DefaultExerciseBloc>()
+                                    .add(ActiveExerciseChanged(e));
                               },
-                            )
-                        ])),
-                    ExpansionPanel(
-                        headerBuilder: (BuildContext context, bool isExpanded) {
-                          return ListTile(
-                            title: Text("Übungsblöcke"),
-                            onTap: () {
-                              setExpansion();
-                            },
-                          );
-                        },
-                        body: ListView(children: [
-                          for (int index = 0;
-                              index <
-                                  state.list
-                                      .length; //Länge von der Liste vom Repository
-                              index += 1)
-                            ListTile(
-                              key: Key('$index'),
-                              tileColor:
-                                  Theme.of(context).focusColor, //random Farbe
-                              title: Text(state.list[index].name.toString()),
+                            ))
+                        .toList();
+                    return ListView(children: listTiles);
+                  })),
+                  // Liste mit allen Übungsblöcken als Expansion
+                  ExpansionPanel(
+                      headerBuilder: (BuildContext context, bool isExpanded) {
+                    return ListTile(
+                      title: Text("Übungsblöcke"),
+                      onTap: () {
+                        setExpansion();
+                      },
+                    );
+                  }, body: BlocBuilder<ExBlockSearchBloc,
+                              ListState<ExerciseBlock, ParameterSet?>>(
+                          builder: (context, state) {
+                    final List<ListTile> listTiles = state.list
+                        .map((ExerciseBlock e) => ListTile(
+                              // key: Key(e.name),
+                              title: Text(""
+                                  // e.name,
+                                  //wartet auf Lenas änderung das Blöcke Namen haben
+                                  ),
                               onTap: () {
-                                // Hier darf die Weiterleitung zum ExerciseSearchBloc rein
+                                // context.add.dingschanged (e)
+                                context
+                                    .read<ExBlockBloc>()
+                                    .add(ActiveExBlockChanged(e));
                               },
-                            )
-                        ]))
-                  ]),
-            );
-          }),
-        ),
+                              // TODO: add on tap to change side - probably through bloc
+                            ))
+                        .toList();
+                    return ListView(children: listTiles);
+                  }))
+                ]),
+          );
+        }),
       ],
     );
 
@@ -131,32 +115,25 @@ class _ExerciseState extends State<ExerciseSearchWidget> {
   }
 }
 
-//Eigenes Widget für die Filterbuttons
-class FilterButtonWidget extends StatelessWidget {
-  final String displayText;
-  const FilterButtonWidget(
-    this.displayText, {
+class SearchBar extends StatelessWidget {
+  const SearchBar({
     super.key,
   });
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ExerciseSearchBloc, ListState>(
-      builder: (context, state) {
-        return InkWell(
-          onTap: () {
-            //Wenn der Button gedrückt wird ändert sich der Status zum entgegengesetzten
-            context.read<ExerciseSearchBloc>().add(SearchTagChanged(state.tag));
-          },
-          child: Container(
-            padding: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.circular(10.0), // Rounded corners
-            ),
-            child: Text(displayText),
-          ),
-        );
+    return TextField(
+      onChanged: (query) {
+        //Weitergabe der Sucheingabe
+        context.read<ExerciseSearchBloc>().add(SearchInputChanged(query));
       },
+      decoration: const InputDecoration(
+        hintText: "Suche...",
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(//color),
+                // Farblich muss das ganze noch angepasst werden
+                )),
+      ),
     );
   }
 }

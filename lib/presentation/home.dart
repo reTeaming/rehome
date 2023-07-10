@@ -1,3 +1,4 @@
+import 'package:rehome/business_logic/exblock/exblock_bloc.dart';
 import 'package:rehome/business_logic/navigation/navigation_cubit.dart';
 import 'package:rehome/business_logic/patient/patient_bloc.dart';
 import 'package:rehome/presentation/exercise.dart';
@@ -8,6 +9,8 @@ import 'package:rehome/presentation/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
+
+import '../business_logic/default_exercise/default_exercise_bloc.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -21,7 +24,11 @@ class Home extends StatelessWidget {
     final SidebarXController controller =
         context.read<NavigationCubit>().sidebarController;
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => PatientBloc())],
+      providers: [
+        BlocProvider(create: (context) => PatientBloc()),
+        BlocProvider(create: (context) => DefaultExerciseBloc()),
+        BlocProvider(create: (context) => ExBlockBloc())
+      ],
       child: Scaffold(
         body: Row(
           children: [
