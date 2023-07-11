@@ -18,6 +18,9 @@ class PatientPage extends StatelessWidget {
         // scrollbare Appbar
         BlocBuilder<PatientBloc, PatientState>(
           builder: (context, state) {
+            final String therapyStart =
+                state.active!.therapyStart?.toString() ??
+                    "Kein Startzeitpunkt angegeben";
             return SliverAppBar(
               // Parameter, wann/wie Appbar zu sehen ist
               pinned: false,
@@ -39,7 +42,7 @@ class PatientPage extends StatelessWidget {
                 // Titel der Seite (Namen, Geburtstag und Therapiestart des Patienten)
                 centerTitle: false,
                 title: Text(
-                  '${state.active!.name}, geb. am: ${DateFormat.yMMMMd().format(state.active!.birthDate)}, in Therapie seit: ${DateFormat.yMMMMd().format(state.active!.therapyStart)}',
+                  '${state.active!.name}, geb. am: ${DateFormat.yMMMMd().format(state.active!.birthDate)}, in Therapie seit: $therapyStart',
                   style: const TextStyle(color: Colors.black),
                 ),
                 //Hintergrund

@@ -1,29 +1,39 @@
-import 'package:const_date_time/const_date_time.dart';
+import 'package:rehome/data/backend_patient.dart';
+import 'package:rehome/data/models/parse_patient.dart';
 import 'package:rehome/domain/models/patient/models.dart';
 
-import '../models/patient/goals.dart';
-import '../models/patient/homework.dart';
-import '../models/user/name.dart';
-
-// Schnittstelle zum Backend für die Abfrage von Patientendaten.
 class PatientRepository {
-  Patient? _patient;
+  Future<Patient?> getPatientById(String id) async {
+    final ParsePatient? parsePatient = await PatientBackend.getPatientById(id);
+    if (parsePatient == null) return null;
 
-  Future<Patient?> getPatient() async {
-    if (_patient != null) return _patient;
-    // Mock für den Patienten
-    return Future.delayed(
-      const Duration(milliseconds: 300),
-      () => _patient = const Patient(
-          Name.empty,
-          Sex.male,
-          ConstDateTime(20),
-          ConstDateTime(2000),
-          ExerciseDefaultData.defaultexercisedata,
-          ClinicalData.mockdata,
-          Goals([]),
-          Homework.mockhomework,
-          PatientStatus.active),
-    );
+    final Patient? patient = await Patient.fromParse(parsePatient);
+
+    return patient;
+  }
+
+  Future<List<Patient>> getPatients() async {
+    final List<ParsePatient>? parsePatients =
+        await PatientBackend.getAllPatients();
+    if (parsePatients == null) return List.empty();
+
+    final patients = await Future.wait(
+        parsePatients.map((patient) async => await Patient.fromParse(patient)));
+    patients.removeWhere((e) => e == null);
+
+    return patients.map((e) => e!).toList();
+  }
+
+  Future<void> updatePatient(Patient patient) async {
+    // TODO: implement
+  }
+
+  Future<void> deletePatient(Patient patient) async {
+    // TODO: implement
+  }
+
+  // TODO: Change void return to Patient
+  Future<void> addPatient(Patient patient) async {
+    // TODO: implement
   }
 }

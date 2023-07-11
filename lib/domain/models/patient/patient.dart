@@ -1,4 +1,8 @@
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+import 'package:rehome/data/models/parse_clinical_data.dart';
+import 'package:rehome/data/models/parse_goal.dart';
 import 'package:rehome/domain/models/patient/clinical_data.dart';
+import 'package:rehome/data/models/parse_patient.dart';
 import 'package:rehome/domain/models/patient/exercise_default_data.dart';
 import 'package:rehome/domain/models/patient/goals.dart';
 import 'package:rehome/domain/models/user/name.dart';
@@ -7,52 +11,154 @@ import 'package:equatable/equatable.dart';
 import 'package:const_date_time/const_date_time.dart';
 
 class Patient extends Equatable {
-  const Patient(
-      this.name,
-      this.sex,
-      this.birthDate,
-      this.therapyStart,
-      this.exerciseDefaults,
-      this.clinicalData,
-      this.goals,
-      this.homework,
-      this.status);
+  static Future<Patient?> fromParse(ParsePatient patient) async {
+    return await _buildPatientFromParse(patient);
+  }
 
+  const Patient(
+      {required this.name,
+      required this.objectId,
+      required this.sex,
+      required this.birthDate,
+      required this.therapyStart,
+      required this.exerciseDefaultData,
+      required this.clinicalData,
+      required this.goals,
+      required this.homework,
+      required this.status});
+
+  final String objectId;
   final Name name;
   final Sex sex;
   final DateTime birthDate;
-  final DateTime therapyStart;
-  final ExerciseDefaultData exerciseDefaults;
+  final DateTime? therapyStart;
+  final ExerciseDefaultData exerciseDefaultData;
   final ClinicalData clinicalData;
   final Goals goals;
   final Homework homework;
   final PatientStatus status;
 
+  static Future<Patient?> _buildPatientFromParse(ParsePatient patient) async {
+    final Name name = Name(patient.name, patient.surname);
+    final ClinicalData? clinicalData = patient.clinicalData != null
+        ? ((await ParseClinicalData()
+                    .getObject(patient.clinicalData!.objectId!))
+                .result as ParseClinicalData)
+            .toClinicalData()
+        : null;
+    final Homework? homework = await _getHomework(patient);
+    final Goals goals = await _getGoals(patient);
+    final ExerciseDefaultData? exerciseDefaultData =
+        await _getExerciseDefaultData(patient);
+    // geben null zurück, wenn keine ClinicalData vorhanden sind.
+    if (clinicalData == null ||
+        homework == null ||
+        exerciseDefaultData == null) {
+      return null;
+    }
+
+    return Patient(
+      objectId: patient.objectId!,
+      name: name,
+      sex: patient.sex.toSex(),
+      birthDate: patient.birthdate,
+      therapyStart: patient.therapyStart,
+      status: patient.status.toPatientStatus(),
+      clinicalData: clinicalData,
+      homework: homework,
+      goals: goals,
+      exerciseDefaultData: exerciseDefaultData,
+    );
+  }
+
+  static Future<Homework?> _getHomework(ParsePatient patient) async {
+    if (patient.homework == null) return null;
+    // ignore: unused_local_variable
+    final List<ParseObject> homework =
+        await patient.homework!.getQuery().find();
+
+    // TODO: Implement
+
+    return Homework.mockhomework;
+  }
+
+  static Future<Goals> _getGoals(ParsePatient patient) async {
+    if (patient.goals == null) {
+      return Goals(List.empty());
+    }
+    final List<ParseObject> parseGoals = await patient.goals!.getQuery().find();
+
+    final goals = parseGoals.map((e) {
+      final ParseGoal goal = ParseGoal()..fromJson(e.toJson());
+      return goal.toGoal();
+    }).toList();
+    return Goals(goals);
+  }
+
+  static Future<ExerciseDefaultData?> _getExerciseDefaultData(
+      ParsePatient patient) async {
+    if (patient.exerciseDefaultData == null) return null;
+
+    // ignore: unused_local_variable
+    final parseExercises = patient.exerciseDefaultData!.getQuery().find();
+
+    // TODO: implement
+    return ExerciseDefaultData.defaultexercisedata;
+  }
+
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         name,
         sex,
         birthDate,
         therapyStart,
-        exerciseDefaults,
+        exerciseDefaultData,
         clinicalData,
         goals,
         homework,
         status
       ];
 
-  static const mock = Patient(
-      Name.empty,
-      Sex.male,
-      ConstDateTime(2000),
-      ConstDateTime(2000),
-      ExerciseDefaultData.defaultexercisedata,
-      ClinicalData.mockdata,
-      Goals([]),
-      Homework.mockhomework,
-      PatientStatus.active);
+  static Patient mock = const Patient(
+      objectId: "asdf9024",
+      name: Name.empty,
+      sex: Sex.male,
+      birthDate: ConstDateTime(2000),
+      therapyStart: ConstDateTime(2000),
+      exerciseDefaultData: ExerciseDefaultData.defaultexercisedata,
+      clinicalData: ClinicalData.mockdata,
+      goals: Goals([]),
+      homework: Homework.mockhomework,
+      status: PatientStatus.active);
 }
 
 enum PatientStatus { inactive, active, archived }
 
 enum Sex { male, female, other, unspecified }
+
+extension FromParse on String {
+  Sex toSex() {
+    switch (this) {
+      case "male":
+        return Sex.male;
+      case "famale":
+        return Sex.female;
+      case "other":
+        return Sex.other;
+      default:
+        return Sex.unspecified;
+    }
+  }
+
+  PatientStatus toPatientStatus() {
+    switch (this) {
+      case "inactive":
+        return PatientStatus.inactive;
+      case "archived":
+        return PatientStatus.archived;
+      // alles andere wird als Activer Patient angesehen
+      default:
+        return PatientStatus.active;
+    }
+  }
+}

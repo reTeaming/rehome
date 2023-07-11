@@ -12,6 +12,7 @@ abstract class ListBloc<ListElement, SearchTag>
     on<SearchInputChanged>(_onSearchQueryChanged);
     on<SearchTagChanged>(_onSearchTagChanged);
     on<RefreshList>(_onRefresh);
+    add(RefreshList());
   }
 
   Future<void> _onRefresh(
@@ -29,7 +30,9 @@ abstract class ListBloc<ListElement, SearchTag>
         await onSearchQueryChanged(searchEvent, state);
 
     final newState = state.copyWith(
-        currentListView: list, currentSearchQuery: searchEvent.query);
+        currentListView: list,
+        currentSearchQuery: searchEvent.query,
+        currentSearchTag: state.currentSearchTag);
 
     emit(newState);
   }
@@ -38,10 +41,17 @@ abstract class ListBloc<ListElement, SearchTag>
       ListEvent event, Emitter<ListState<ListElement, SearchTag>> emit) async {
     final SearchTagChanged<SearchTag> searchEvent =
         event as SearchTagChanged<SearchTag>;
-    final List<ListElement> list = await onSearchTagChanged(searchEvent, state);
 
-    final newState =
-        state.copyWith(currentListView: list, currentSearchTag: event.tag);
+    bool remove = false;
+    removeTag() {
+      remove = true;
+    }
+
+    final List<ListElement> list =
+        await onSearchTagChanged(searchEvent, state, removeTag);
+
+    final newState = state.copyWith(
+        currentListView: list, currentSearchTag: remove ? null : event.tag);
     emit(newState);
   }
 
@@ -50,7 +60,8 @@ abstract class ListBloc<ListElement, SearchTag>
 
   Future<List<ListElement>> onSearchTagChanged(
       SearchTagChanged<SearchTag> event,
-      ListState<ListElement, SearchTag> state);
+      ListState<ListElement, SearchTag> state,
+      Function() removeTag);
 
   Future<List<ListElement>> onRefresh();
 }

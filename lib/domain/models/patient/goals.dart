@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:rehome/data/models/parse_goal.dart';
 
 class Goals extends Equatable {
   const Goals(this.goals);
@@ -24,3 +25,22 @@ class Goal extends Equatable {
 }
 
 enum GoalStatus { inactive, active, achieved }
+
+extension ToGoalStatus on String {
+  GoalStatus toGoalStatus() {
+    switch (this) {
+      case "inactive":
+        return GoalStatus.inactive;
+      case "achieved":
+        return GoalStatus.achieved;
+      default:
+        return GoalStatus.active;
+    }
+  }
+}
+
+extension ToGoal on ParseGoal {
+  Goal toGoal() {
+    return Goal(status.toGoalStatus(), description);
+  }
+}

@@ -17,12 +17,12 @@ class ListState<ListElement, Tag> extends Equatable {
     List<ListElement>? baseList,
     List<ListElement>? currentListView,
     String? currentSearchQuery,
-    Tag? currentSearchTag,
+    required Tag? currentSearchTag,
   }) {
     return ListState(
         baseList ?? this._baseList, currentListView ?? this._currentListView,
         currentSearchQuery: currentSearchQuery ?? this.currentSearchQuery,
-        currentSearchTag: currentSearchTag ?? this.currentSearchTag);
+        currentSearchTag: currentSearchTag);
   }
 
   @override
