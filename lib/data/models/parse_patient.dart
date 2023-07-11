@@ -66,13 +66,9 @@ class ParsePatient extends ParseObject implements ParseCloneable {
 
   ParseRelation? get exerciseDefaultData =>
       get<ParseRelation>(keyExerciseDefaultData);
-  void addDefaultExercise(ParseObject exercise) =>
-      addDefaultExercises([exercise]);
-  void addDefaultExercises(List<ParseObject> exercise) =>
+  void addExerciseDefaultData(List<ParseObject> exercise) =>
       super.addRelation(keyExerciseDefaultData, exercise);
-  void removeDefaultExercise(ParseObject exercise) =>
-      removeDefaultExercises([exercise]);
-  void removeDefaultExercises(List<ParseObject> exercise) =>
+  void removeExerciseDefaultData(List<ParseObject> exercise) =>
       super.removeRelation(keyGoals, exercise);
 
   ParseRelation? get homework => get<ParseRelation>(keyHomework);

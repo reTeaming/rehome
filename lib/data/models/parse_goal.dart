@@ -1,7 +1,7 @@
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 // Table identifier key
-const String keyGoal = "goal";
+const String keyGoal = "Goal";
 
 // Field keys
 const String keyStatus = "status";
