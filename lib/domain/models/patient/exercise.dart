@@ -34,6 +34,16 @@ class Cocontraction extends ParameterSet {
   final ParameterValue flexor2;
   final ParameterValue flexor3;
 
+  static const defaultparameterset = Cocontraction(
+      ParameterValue.defaultvalue,
+      ParameterValue.defaultvalue,
+      ParameterValue.defaultvalue,
+      ParameterValue.defaultvalue,
+      ParameterValue.defaultvalue,
+      ParameterValue.defaultvalue,
+      'co',
+      1);
+
   @override
   List<Object> get props =>
       super.props +
@@ -85,4 +95,6 @@ class ParameterValue extends Equatable {
       throw ArgumentError('Component value must be between 0 and 1.');
     }
   }
+
+  static const defaultvalue = ParameterValue(0);
 }

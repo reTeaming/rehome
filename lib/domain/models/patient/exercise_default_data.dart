@@ -9,4 +9,7 @@ class ExerciseDefaultData extends Equatable {
 
   @override
   List<Object> get props => [id, parameters];
+
+  static const defaultexercisedata =
+      ExerciseDefaultData(0, [Cocontraction.defaultparameterset]);
 }
