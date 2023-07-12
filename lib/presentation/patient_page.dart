@@ -7,6 +7,8 @@ import 'package:rehome/domain/models/patient/goals.dart';
 import 'package:rehome/domain/models/patient/homework.dart';
 import 'package:rehome/presentation/statistics/patient.dart';
 
+import '../domain/models/patient/patient.dart';
+
 // Screen für die Patientendaten
 class PatientPage extends StatelessWidget {
   const PatientPage({super.key});
@@ -27,6 +29,31 @@ class PatientPage extends StatelessWidget {
                     DateFormat.yMMMMd().format(state.active!.therapyStart!)
                 : therapyStart = "Kein Startzeitpunkt angegeben";
             return SliverAppBar(
+              actions: [
+                PopupMenuButton<String>(
+                  icon: switch (state.active!.status) {
+                    PatientStatus.active => const Icon(Icons.check),
+                    PatientStatus.archived => const Icon(Icons.book),
+                    PatientStatus.inactive => const Icon(Icons.snooze)
+                  },
+                  onSelected: (String value) {},
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'Option 1',
+                      child: Text('aktiv'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Option 2',
+                      child: Text('inaktiv'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Option 3',
+                      child: Text('archiv'),
+                    ),
+                  ],
+                ),
+              ],
               // Parameter, wann/wie Appbar zu sehen ist
               pinned: true,
               floating: false,
