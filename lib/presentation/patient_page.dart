@@ -35,8 +35,9 @@ class PatientPage extends StatelessWidget {
                 return Future<void>.value();
               },
               // Aussehen der Appbar (Höhe, Farbe)
-              expandedHeight: 250.0,
-              backgroundColor: Colors.transparent,
+              expandedHeight: 110.0,
+              collapsedHeight: 75,
+              backgroundColor: Colors.white,
               flexibleSpace: FlexibleSpaceBar(
                 // Mode für das "Nach-Oben-Ziehen"- des Screens
                 stretchModes: const <StretchMode>[
@@ -67,14 +68,13 @@ class PatientPage extends StatelessWidget {
                 children: [
                   //ZieleWidget
                   ZieleStateful(),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [ExerciseDoneDiagramm(), HoursSpentDiagramm()]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    //HausaufgabenWidget
                     HausaufgabenWidget(),
-                    //ÜbungenWidget
                     UebungenWidget(),
+                  ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    ExerciseDoneDiagramm(),
+                    HoursSpentDiagramm(),
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     TotalDiagramm(),
