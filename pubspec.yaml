@@ -29,6 +29,7 @@ dependencies:
       ref: f8942ac
       path: packages/flutter
   flutter_dotenv: ^5.1.0
+  syncfusion_flutter_charts: ^22.1.37
 
 dev_dependencies:
   flutter_test:
