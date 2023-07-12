@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:rehome/business_logic/patient/patient_bloc.dart';
+import 'package:rehome/domain/models/patient/exercise.dart';
 import 'package:rehome/domain/models/patient/goals.dart';
 import 'package:rehome/domain/models/patient/homework.dart';
+import 'package:rehome/presentation/statistics/patient.dart';
 
 // Screen für die Patientendaten
 class PatientPage extends StatelessWidget {
@@ -26,15 +28,16 @@ class PatientPage extends StatelessWidget {
                 : therapyStart = "Kein Startzeitpunkt angegeben";
             return SliverAppBar(
               // Parameter, wann/wie Appbar zu sehen ist
-              pinned: false,
-              floating: true,
-              stretch: true,
+              pinned: true,
+              floating: false,
+              stretch: false,
               onStretchTrigger: () {
                 return Future<void>.value();
               },
               // Aussehen der Appbar (Höhe, Farbe)
-              expandedHeight: 250.0,
-              backgroundColor: Colors.white38,
+              expandedHeight: 110.0,
+              collapsedHeight: 75,
+              backgroundColor: Colors.white,
               flexibleSpace: FlexibleSpaceBar(
                 // Mode für das "Nach-Oben-Ziehen"- des Screens
                 stretchModes: const <StretchMode>[
@@ -66,10 +69,20 @@ class PatientPage extends StatelessWidget {
                   //ZieleWidget
                   ZieleStateful(),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    //HausaufgabenWidget
                     HausaufgabenWidget(),
-                    //ÜbungenWidget
                     UebungenWidget(),
+                  ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    ExerciseDoneDiagramm(),
+                    HoursSpentDiagramm(),
+                  ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    TotalDiagramm(),
+                    RangeDiagramm(Joint.shoulder),
+                  ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    RangeDiagramm(Joint.ellbow),
+                    RangeDiagramm(Joint.wrist)
                   ]),
                 ],
               ),
