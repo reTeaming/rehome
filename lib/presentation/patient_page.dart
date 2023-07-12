@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:rehome/business_logic/patient/patient_bloc.dart';
 import 'package:rehome/domain/models/patient/exercise.dart';
+import 'package:rehome/domain/models/patient/goals.dart';
 import 'package:rehome/domain/models/patient/homework.dart';
 import 'package:rehome/presentation/statistics/patient.dart';
 
@@ -20,9 +21,11 @@ class PatientPage extends StatelessWidget {
         // scrollbare Appbar
         BlocBuilder<PatientBloc, PatientState>(
           builder: (context, state) {
-            final String therapyStart =
-                state.active!.therapyStart?.toString() ??
-                    "Kein Startzeitpunkt angegeben";
+            final String therapyStart;
+            state.active!.therapyStart != null
+                ? therapyStart =
+                    DateFormat.yMMMMd().format(state.active!.therapyStart!)
+                : therapyStart = "Kein Startzeitpunkt angegeben";
             return SliverAppBar(
               // Parameter, wann/wie Appbar zu sehen ist
               pinned: true,
@@ -44,12 +47,12 @@ class PatientPage extends StatelessWidget {
                 // Titel der Seite (Namen, Geburtstag und Therapiestart des Patienten)
                 centerTitle: false,
                 title: Text(
-                  '${state.active!.name}, geb. am: ${DateFormat.yMMMMd().format(state.active!.birthDate)}, in Therapie seit: $therapyStart',
+                  '${'${state.active!.name.name} ${state.active!.name.surname}'}, geb. am: ${DateFormat.yMMMMd().format(state.active!.birthDate)}, \n in Therapie seit: $therapyStart',
                   style: const TextStyle(color: Colors.black),
                 ),
                 //Hintergrund
-                //background: const Image(
-                // image: AssetImage('assets/ReHomeLogo.png'),
+                // background: const Image(
+                //  image: AssetImage('assets/ReHomeLogo.png'),
                 // fit: BoxFit.fill,
                 //),
               ),
@@ -113,33 +116,49 @@ class _ZieleState extends State<ZieleStateful> {
 // Widget
   @override
   Widget build(BuildContext context) {
-    return ExpansionPanelList(
-      expansionCallback: (int index, bool isExpanded) {
-        setExpansion();
-      },
-      children: [
-        ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            // Permanentes ListTile des aktuellen Ziels
-            return ListTile(
-                title: BlocBuilder<PatientBloc, PatientState>(
-                  builder: (context, state) {
-                    return const Text('Aktuelles Ziel: ');
-                  },
-                ),
-                subtitle: const Text('Tippen, um vergangene Ziele anzuzeigen'),
-                onTap: () {
-                  setExpansion();
-                });
+    return BlocBuilder<PatientBloc, PatientState>(
+      builder: (context, state) {
+        final List<Goal> recentGoals = state.active!.goals.goals;
+        final Goal actualGoal = recentGoals.isNotEmpty
+            ? recentGoals.first
+            : const Goal(GoalStatus.inactive, 'no goal');
+        final List<ListTile> listTiles = recentGoals
+            .sublist(1)
+            .map((Goal e) => ListTile(
+                  key: Key(e.description),
+                  title: Text(e.description),
+                ))
+            .toList();
+        return ExpansionPanelList(
+          expansionCallback: (int index, bool isExpanded) {
+            setExpansion();
           },
-          // Ausklappbare Liste vergangener Ziele
-          body: const ListTile(
-            title: Text('Vergangene Ziele: '),
-            subtitle: Text(''),
-          ),
-          isExpanded: expand,
-        ),
-      ],
+          children: [
+            ExpansionPanel(
+              headerBuilder: (BuildContext context, bool isExpanded) {
+                // Permanentes ListTile des aktuellen Ziels
+                return ListTile(
+                    title: Text('Aktuelles Ziel:${actualGoal.description}'),
+                    subtitle: Text(isExpanded
+                        ? ''
+                        : 'Tippen, um vergangene Ziele anzuzeigen'),
+                    onTap: () {
+                      setExpansion();
+                    });
+              },
+              // Ausklappbare Liste vergangener Ziele
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    if (expand) ...listTiles,
+                  ],
+                ),
+              ),
+              isExpanded: expand,
+            ),
+          ],
+        );
+      },
     );
   }
 }
