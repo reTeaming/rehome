@@ -18,10 +18,10 @@ class ParseWeekHomework extends ParseObject implements ParseCloneable {
   clone(Map<String, dynamic> map) => ParseWeekHomework.clone()..fromJson(map);
 
   // Fields
-  int? get week => get<int>(keyWeek)!;
+  int? get week => get<int>(keyWeek);
   set week(int? week) => set<int?>(keyWeek, week);
 
-  int? get year => get<int>(keyYear)!;
+  int? get year => get<int>(keyYear);
   set year(int? year) => set<int?>(keyYear, year);
 
   // Relations
