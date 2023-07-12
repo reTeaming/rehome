@@ -5,6 +5,7 @@ import 'package:rehome/business_logic/exercisesearch/exblocksearch_bloc.dart';
 import 'package:rehome/domain/models/patient/default_exercise.dart';
 import 'package:rehome/domain/models/patient/exercise.dart';
 import 'package:rehome/domain/models/patient/homework.dart';
+import 'package:rehome/mocks/mock_exercise.dart';
 
 import '../business_logic/default_exercise/default_exercise_bloc.dart';
 import '../business_logic/exercisesearch/exercisesearch_bloc.dart';

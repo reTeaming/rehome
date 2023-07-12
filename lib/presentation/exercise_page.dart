@@ -67,70 +67,157 @@ class ExBlockPopUp extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _ExBlockPopUpState createState() => _ExBlockPopUpState();
 }
 
 class _ExBlockPopUpState extends State<ExBlockPopUp> {
-  int selectedIndex = -1; // initialize with -1 to indicate no selection
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ExBlockSearchBloc,
         ListState<ExerciseBlock, ParameterSet?>>(builder: (context, state) {
-      final List<ListTile> listTiles = HomeworkMock.blockList2
-          .asMap() // use asMap to get the index of each element
-          .map((int index, ExerciseBlock e) => MapEntry(
-                index,
-                ListTile(
-                  key: Key(e.name),
-                  title: Text(e.name),
-                  onTap: () {
-                    // setState(() {
-                    //   selectedIndex = index; // update the selected index
-                    // });
+      final List<ListTile> listTiles =
+          HomeworkMock.blockList2.map((ExerciseBlock e) {
+        return ListTile(
+          key: Key(e.name),
+          title: Text(e.name),
+          onTap: () {
+            Navigator.of(context).pop();
+            showDialog(
+                context: context,
+                builder: (context) {
+                  Future.delayed(const Duration(milliseconds: 800), () {
                     Navigator.of(context).pop();
-                  },
-                ),
-              ))
-          .values
-          .toList();
+                  });
+                  return AlertDialog(
+                      title:
+                          Text("Übung wurde zu Block ${e.name} hinzugefügt"));
+                },
+                barrierDismissible: false);
+          },
+        );
+      }).toList();
 
       //Um die Größe des Popups anzupassen
       var height = MediaQuery.of(context).size.height;
       var width = MediaQuery.of(context).size.width;
 
-      return FloatingActionButton.extended(
-        onPressed: () {
-          showDialog(
-              context: context, // use the context from BlocBuilder here
-              builder: (BuildContext context) {
-                return StatefulBuilder(
-                  // use StatefulBuilder here
-                  builder: (context, setState) {
-                    // get the setState function here
-                    return AlertDialog(
-                      title: const Text('Liste der Blöcke'),
-                      content: SizedBox(
+      return ExBlockPopUpButton(
+          width: width, height: height, listTiles: listTiles);
+    });
+  }
+}
+
+class ExBlockPopUpButton extends StatelessWidget {
+  const ExBlockPopUpButton({
+    super.key,
+    required this.width,
+    required this.height,
+    required this.listTiles,
+  });
+
+  final double width;
+  final double height;
+  final List<ListTile> listTiles;
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.extended(
+      onPressed: () {
+        showDialog(
+            context: context, // use the context from BlocBuilder here
+            builder: (BuildContext context) {
+              return StatefulBuilder(
+                // use StatefulBuilder here
+                builder: (context, setState) {
+                  // get the setState function here
+                  return AlertDialog(
+                    title: const Text('Liste der Blöcke'),
+                    content: SingleChildScrollView(
+                      child: SizedBox(
                         width: width - 400,
                         height: height - 400,
                         child: ListView(
                           children: listTiles,
                         ),
                       ),
-                    );
-                  },
+                    ),
+                    actions: const <Widget>[
+                      //Neuen Übungsblock erstellen button:
+                      Align(
+                        alignment: Alignment.center,
+                        child: NewExBlockButton(),
+                      ),
+                    ],
+                  );
+                },
+              );
+            });
+      },
+      icon: const Icon(
+        Icons.add,
+        color: Colors.white,
+      ),
+      label: const Text(
+        "Diese Übung zu einem Übungsblock hinzufügen",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
+
+class NewExBlockButton extends StatelessWidget {
+  const NewExBlockButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+            backgroundColor: MaterialStateProperty.all(Colors.blue),
+            padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
+            textStyle:
+                MaterialStateProperty.all(const TextStyle(fontSize: 20))),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Name des neuen Übungsblocks:"),
+                  content: const TextField(
+                    // onChanged: (query) {
+
+                    // },
+                    decoration: InputDecoration(
+                      hintText: "Hier eingeben",
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      child: const Text('Abbrechen'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      child: const Text('Speichern'),
+                      onPressed: () {
+                        //Hier fehlt noch das Abspeichern im Backend
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
                 );
               });
         },
-        icon: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        label: const Text(
-          "Diese Übung zu einem Übungsblock hinzufügen",
-          style: TextStyle(color: Colors.white),
-        ),
-      );
-    });
+        child: const Text("neuen Übungsblock erstellen"));
   }
 }
