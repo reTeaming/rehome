@@ -30,9 +30,9 @@ class PatientPage extends StatelessWidget {
               actions: [
                 PopupMenuButton<String>(
                   icon: switch (state.active!.status) {
-                    PatientStatus.active => Icon(Icons.check),
-                    PatientStatus.archived => Icon(Icons.book),
-                    PatientStatus.inactive => Icon(Icons.snooze)
+                    PatientStatus.active => const Icon(Icons.check),
+                    PatientStatus.archived => const Icon(Icons.book),
+                    PatientStatus.inactive => const Icon(Icons.snooze)
                   },
                   onSelected: (String value) {},
                   itemBuilder: (BuildContext context) =>
