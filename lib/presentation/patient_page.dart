@@ -25,6 +25,26 @@ class PatientPage extends StatelessWidget {
                     DateFormat.yMMMMd().format(state.active!.therapyStart!)
                 : therapyStart = "Kein Startzeitpunkt angegeben";
             return SliverAppBar(
+              actions: [
+                PopupMenuButton<String>(
+                  onSelected: (String value) {},
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'Option 1',
+                      child: Text('aktiv'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Option 2',
+                      child: Text('inaktiv'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Option 3',
+                      child: Text('archiv'),
+                    ),
+                  ],
+                ),
+              ],
               // Parameter, wann/wie Appbar zu sehen ist
               pinned: false,
               floating: true,
