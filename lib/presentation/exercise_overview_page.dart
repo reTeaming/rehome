@@ -22,6 +22,9 @@ class ExerciseOverviewPage extends StatelessWidget {
         BlocProvider(
           create: (context) => ExBlockSearchBloc(),
         ),
+        BlocProvider(
+          create: (context) => DefaultExerciseBloc(),
+        )
       ],
       child: Row(
         children: [
