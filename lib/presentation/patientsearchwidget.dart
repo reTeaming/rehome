@@ -48,7 +48,7 @@ class PatientSearchWidget extends StatelessWidget {
                     .map((Patient e) => ListTile(
                         key: Key('${e.name}'),
                         title: Text(
-                          "${e.name}",
+                          '${e.name.name} ${e.name.surname}',
                         ),
                         onTap: () => context
                             .read<PatientBloc>()
