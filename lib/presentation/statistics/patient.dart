@@ -14,9 +14,7 @@ class ExerciseDoneDiagramm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-            child: SfCircularChart(
+    return SfCircularChart(
       series: <CircularSeries>[
         //Daten des Kreisbalkendiagramms
         RadialBarSeries<ExerciseDoneData, String>(
@@ -40,9 +38,9 @@ class ExerciseDoneDiagramm extends StatelessWidget {
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(
             widget: Text(
-          //hier muss die Länge der Hausaufgabenliste rein
-          '${homeworkDone.first.done} von ?? \n der Blöcke',
-          style: const TextStyle(fontSize: 33),
+          //hier muss die Länge der Hausaufgabenliste rein anstatt 5
+          '${homeworkDone.first.done * 0.01 * 5} / 5',
+          style: const TextStyle(fontSize: 20),
           textAlign: TextAlign.center,
         )),
       ],
@@ -52,7 +50,7 @@ class ExerciseDoneDiagramm extends StatelessWidget {
         text: 'Diese Woche bereits absolviert:',
         textStyle: rehomeTheme.textTheme.titleLarge,
       ),
-    )));
+    );
   }
 }
 
@@ -80,41 +78,38 @@ class HoursSpentDiagramm extends StatelessWidget {
   Widget build(BuildContext context) {
     // Ausrechnen der Gesamtzeit der Übungsstunden
     double sum = hoursSpent.map((item) => item.hours).reduce((x, y) => x + y);
-    return Scaffold(
-        body: Center(
-      child: SfCartesianChart(
-        //Automatische Anpassung der Axen beim Verchieben
-        enableAxisAnimation: true,
-        series: <ChartSeries<PracticeHoursData, String>>[
-          // Bildet Säulendiagramm
-          ColumnSeries<PracticeHoursData, String>(
-              dataSource: hoursSpent,
-              xValueMapper: (PracticeHoursData data, _) => data.week,
-              yValueMapper: (PracticeHoursData data, _) => data.hours,
-              color: primaryColor,
-              name: '${'Gesamtzeit:$sum'}Stunden')
-        ],
-        primaryXAxis: CategoryAxis(
-          majorGridLines: const MajorGridLines(width: 0),
-          // wie viele Wochen angezeigt werden (von hinten)
-          autoScrollingDelta: 5,
-          autoScrollingMode: AutoScrollingMode.end,
-        ),
-        //Möglichkeit zu scrollen
-        zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
-        // Titel
-        title: ChartTitle(
-          alignment: ChartAlignment.near,
-          text: 'Übungsstunden pro Woche:',
-          textStyle: rehomeTheme.textTheme.titleLarge,
-        ),
-        // Anzeige der Gesamtübungsstunden
-        legend: const Legend(
-          isVisible: true,
-          position: LegendPosition.bottom,
-        ),
+    return SfCartesianChart(
+      //Automatische Anpassung der Axen beim Verchieben
+      enableAxisAnimation: true,
+      series: <ChartSeries<PracticeHoursData, String>>[
+        // Bildet Säulendiagramm
+        ColumnSeries<PracticeHoursData, String>(
+            dataSource: hoursSpent,
+            xValueMapper: (PracticeHoursData data, _) => data.week,
+            yValueMapper: (PracticeHoursData data, _) => data.hours,
+            color: primaryColor,
+            name: '${'Gesamtzeit:$sum'}Stunden')
+      ],
+      primaryXAxis: CategoryAxis(
+        majorGridLines: const MajorGridLines(width: 0),
+        // wie viele Wochen angezeigt werden (von hinten)
+        autoScrollingDelta: 5,
+        autoScrollingMode: AutoScrollingMode.end,
       ),
-    ));
+      //Möglichkeit zu scrollen
+      zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
+      // Titel
+      title: ChartTitle(
+        alignment: ChartAlignment.near,
+        text: 'Übungsstunden pro Woche:',
+        textStyle: rehomeTheme.textTheme.titleLarge,
+      ),
+      // Anzeige der Gesamtübungsstunden
+      legend: const Legend(
+        isVisible: true,
+        position: LegendPosition.bottom,
+      ),
+    );
   }
 }
 
@@ -161,9 +156,7 @@ class RangeDiagramm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-            child: SfCartesianChart(
+    return SfCartesianChart(
       series: <ChartSeries>[
         // Daten für die erzielten Ergebnisse
         LineSeries<RangeData, DateTime>(
@@ -205,7 +198,7 @@ class RangeDiagramm extends StatelessWidget {
         isVisible: true,
         position: LegendPosition.bottom,
       ),
-    )));
+    );
   }
 }
 
@@ -221,9 +214,10 @@ class RangeData {
 //hier müssen die jeweiligen geplanten Werte/Zielwerte der Übung des jeweiligen
 // Gelenks  rein
 final List<RangeData> expectationData = [
-  RangeData(DateTime(2023, 3, 14, 16, 12, 44, 36), 0.2),
-  RangeData(DateTime(2023, 3, 15, 16, 12, 44, 36), 0.4),
-  RangeData(DateTime(2023, 3, 17, 16, 12, 44, 36), 0.5),
+  RangeData(DateTime(2023, 2, 16, 16, 12, 44, 36), 0.05),
+  RangeData(DateTime(2023, 3, 2, 16, 12, 44, 36), 0.2),
+  RangeData(DateTime(2023, 3, 8, 16, 12, 44, 36), 0.4),
+  RangeData(DateTime(2023, 3, 16, 16, 12, 44, 36), 0.5),
   RangeData(DateTime(2023, 3, 18, 16, 12, 44, 36), 0.5),
   RangeData(DateTime(2023, 3, 22, 16, 12, 44, 36), 0.6)
 ];
@@ -231,9 +225,10 @@ final List<RangeData> expectationData = [
 //hier müssen die einzelnen erreichten Werte der Übung des jeweiligen
 // Gelenks rein
 final List<RangeData> achievedData = [
-  RangeData(DateTime(2023, 3, 14, 16, 12, 44, 36), 0.1),
-  RangeData(DateTime(2023, 3, 15, 16, 12, 44, 36), 0.3),
-  RangeData(DateTime(2023, 3, 17, 16, 12, 44, 36), 0.3),
+  RangeData(DateTime(2023, 2, 16, 16, 12, 44, 36), 0.02),
+  RangeData(DateTime(2023, 3, 2, 16, 12, 44, 36), 0.1),
+  RangeData(DateTime(2023, 3, 8, 16, 12, 44, 36), 0.3),
+  RangeData(DateTime(2023, 3, 16, 16, 12, 44, 36), 0.3),
   RangeData(DateTime(2023, 3, 18, 16, 12, 44, 36), 0.4),
   RangeData(DateTime(2023, 3, 22, 16, 12, 44, 36), 0.5)
 ];
@@ -246,9 +241,7 @@ class TotalDiagramm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-            child: SfCartesianChart(
+    return SfCartesianChart(
       series: <ChartSeries>[
         // Daten für die erzielten Ergebnisse
         LineSeries<TotalData, DateTime>(
@@ -280,7 +273,7 @@ class TotalDiagramm extends StatelessWidget {
         isVisible: true,
         position: LegendPosition.bottom,
       ),
-    )));
+    );
   }
 }
 
