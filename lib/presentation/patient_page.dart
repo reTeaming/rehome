@@ -5,6 +5,8 @@ import 'package:rehome/business_logic/patient/patient_bloc.dart';
 import 'package:rehome/domain/models/patient/goals.dart';
 import 'package:rehome/domain/models/patient/homework.dart';
 
+import '../domain/models/patient/patient.dart';
+
 // Screen für die Patientendaten
 class PatientPage extends StatelessWidget {
   const PatientPage({super.key});
@@ -27,6 +29,11 @@ class PatientPage extends StatelessWidget {
             return SliverAppBar(
               actions: [
                 PopupMenuButton<String>(
+                  icon: switch (state.active!.status) {
+                    PatientStatus.active => Icon(Icons.check),
+                    PatientStatus.archived => Icon(Icons.book),
+                    PatientStatus.inactive => Icon(Icons.snooze)
+                  },
                   onSelected: (String value) {},
                   itemBuilder: (BuildContext context) =>
                       <PopupMenuEntry<String>>[
