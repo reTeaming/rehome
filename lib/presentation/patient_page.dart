@@ -126,6 +126,9 @@ class _ZieleState extends State<ZieleStateful> {
                 // Permanentes ListTile des aktuellen Ziels
                 return ListTile(
                     title: Text('Aktuelles Ziel:${actualGoal.description}'),
+                    // trailing with plus icon to add a new goal to the whole list in backend
+                    trailing:
+                        AddNewGoalsButton(), // Button um neues Ziel hinzuzufügen
                     subtitle: Text(isExpanded
                         ? ''
                         : 'Tippen, um vergangene Ziele anzuzeigen'),
@@ -145,6 +148,46 @@ class _ZieleState extends State<ZieleStateful> {
             ),
           ],
         );
+      },
+    );
+  }
+}
+
+class AddNewGoalsButton extends StatelessWidget {
+  // Button um neues Ziel hinzuzufügen
+  const AddNewGoalsButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.add),
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  title: const Text('Neues Ziel hinzufügen'),
+                  content: TextField(
+                      decoration:
+                          const InputDecoration(hintText: 'Zielbeschreibung'),
+                      onChanged: (String value) {}),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Abbrechen')),
+                    TextButton(
+                        onPressed: () {
+                          // TODO: add new goal to backend with value of textfield
+
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Speichern'))
+                  ]);
+            });
       },
     );
   }
