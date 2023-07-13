@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rehome/business_logic/default_exercise/default_exercise_bloc.dart';
 import 'package:rehome/business_logic/exercisesearch/exblocksearch_bloc.dart';
 import 'package:rehome/business_logic/exercisesearch/exercisesearch_bloc.dart';
-import 'package:rehome/mocks/mock_homework.dart';
 import 'package:rehome/presentation/exercisesearchwidget.dart';
 
 import 'exblock_page.dart';
@@ -34,16 +33,19 @@ class ExerciseOverviewPage extends StatelessWidget {
               child: BlocBuilder<DefaultExerciseBloc, DefaultExerciseState>(
                   builder: (context, state) {
                 switch (state.activeEx) {
-                  case ActiveExState.inactive:
-                    // return const Center(
-                    //     child: Text(
-                    //         "Wähle zuerst eine Übung oder Übungsblock aus"));
-                    return ExBlockPage(HomeworkMock.block1);
-                  case ActiveExState.activeExblock:
+                  case ActiveExState
+                        .inactive: //Falls keine Übung ausgewählt ist
+                    return const Center(
+                        child: Text(
+                            "Wähle zuerst eine Übung oder Übungsblock aus"));
+                  case ActiveExState
+                        .activeExblock: // Falls ein Übungsblock ausgewählt ist
                     return ExBlockPage(state.activeExBlock);
-                  case ActiveExState.activeExercise:
+                  case ActiveExState
+                        .activeExercise: // Falls eine Übung ausgewählt ist
                     return ExercisePage(state.activeExercise);
-                  case ActiveExState.activeBlocktoExercise:
+                  case ActiveExState
+                        .activeBlocktoExercise: // Falls eine Übung über einen Block ausgewählt wurde
                     return ExercisePage(state.activeExercise);
                 }
               }))

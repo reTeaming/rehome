@@ -32,7 +32,7 @@ class ExerciseSearchBloc extends ListBloc<DefaultExercise, ParameterSet> {
   Future<List<DefaultExercise>> onSearchTagChanged(
       SearchTagChanged<ParameterSet> event,
       ListState<DefaultExercise, ParameterSet> state) async {
-    return [];
+    return []; // Tag search macht bei der aktuellen Datenstruktur keinen Sinn
     // if (event.tag == null) {
     //   return state.baseList;
     // }

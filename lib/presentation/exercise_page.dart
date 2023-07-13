@@ -17,16 +17,20 @@ class ExercisePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const BacktoExBlockLogic(),
-        Text(activeExercise!.name,
+        const BacktoExBlockLogic(), //Button zum zurückgehen, wenn man von einem Block kommt
+        Text(activeExercise!.name, //Name der Übung als Überschrift
             style: const TextStyle(
               fontSize: 36.0,
               decoration: TextDecoration.underline,
             )),
         Align(
+            //ID der Übung bzw Details
             alignment: const Alignment(-0.90, -0.90),
             child: Text("ID:${activeExercise!.id}")),
-        const Align(alignment: Alignment(0.90, 0.90), child: ExBlockPopUp()),
+        const Align(
+            alignment: Alignment(0.90, 0.90),
+            child:
+                ExBlockPopUp()), //Button zum hinzufügen der Übung zu einem Block
       ],
     );
   }
@@ -42,12 +46,14 @@ class BacktoExBlockLogic extends StatelessWidget {
     return BlocBuilder<DefaultExerciseBloc, DefaultExerciseState>(
         builder: (context, state) {
       switch (state.activeEx) {
+        //Switch-Case um zu entscheiden, ob man von einem Block kommt
         case ActiveExState.activeExercise:
           return const SizedBox();
         case ActiveExState.activeBlocktoExercise:
           return Align(
             alignment: Alignment.topLeft,
             child: IconButton(
+                //Button zum zurückgehen
                 onPressed: () =>
                     context.read<DefaultExerciseBloc>().add(BacktoBlock()),
                 icon: const Icon(Icons.arrow_back)),
@@ -61,17 +67,10 @@ class BacktoExBlockLogic extends StatelessWidget {
   }
 }
 
-class ExBlockPopUp extends StatefulWidget {
-  const ExBlockPopUp({
-    super.key,
-  });
+class ExBlockPopUp extends StatelessWidget {
+  //PopUp zum hinzufügen der Übung zu einem Block
+  const ExBlockPopUp({super.key});
 
-  @override
-  // ignore: library_private_types_in_public_api
-  _ExBlockPopUpState createState() => _ExBlockPopUpState();
-}
-
-class _ExBlockPopUpState extends State<ExBlockPopUp> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ExBlockSearchBloc,
@@ -79,14 +78,17 @@ class _ExBlockPopUpState extends State<ExBlockPopUp> {
       final List<ListTile> listTiles =
           HomeworkMock.blockList2.map((ExerciseBlock e) {
         return ListTile(
+          //ListTile aus den Exercises für jeden Block
           key: Key(e.name),
           title: Text(e.name),
           onTap: () {
+            //TODO: Übung zu Block hinzufügen in Backend und abspeichern
             Navigator.of(context).pop();
             showDialog(
                 context: context,
                 builder: (context) {
                   Future.delayed(const Duration(milliseconds: 800), () {
+                    //Popup schließt sich nach 0.8 Sekunden
                     Navigator.of(context).pop();
                   });
                   return AlertDialog(
@@ -109,6 +111,7 @@ class _ExBlockPopUpState extends State<ExBlockPopUp> {
 }
 
 class ExBlockPopUpButton extends StatelessWidget {
+  //Button zum öffnen des Popups
   const ExBlockPopUpButton({
     super.key,
     required this.width,
@@ -125,32 +128,26 @@ class ExBlockPopUpButton extends StatelessWidget {
     return FloatingActionButton.extended(
       onPressed: () {
         showDialog(
-            context: context, // use the context from BlocBuilder here
+            context: context,
             builder: (BuildContext context) {
-              return StatefulBuilder(
-                // use StatefulBuilder here
-                builder: (context, setState) {
-                  // get the setState function here
-                  return AlertDialog(
-                    title: const Text('Liste der Blöcke'),
-                    content: SingleChildScrollView(
-                      child: SizedBox(
-                        width: width - 400,
-                        height: height - 400,
-                        child: ListView(
-                          children: listTiles,
-                        ),
-                      ),
+              return AlertDialog(
+                title: const Text('Liste der Blöcke'),
+                content: SingleChildScrollView(
+                  child: SizedBox(
+                    width: width - 400,
+                    height: height - 400,
+                    child: ListView(
+                      children: listTiles,
                     ),
-                    actions: const <Widget>[
-                      //Neuen Übungsblock erstellen button:
-                      Align(
-                        alignment: Alignment.center,
-                        child: NewExBlockButton(),
-                      ),
-                    ],
-                  );
-                },
+                  ),
+                ),
+                actions: const <Widget>[
+                  //Neuen Übungsblock erstellen button:
+                  Align(
+                    alignment: Alignment.center,
+                    child: NewExBlockButton(),
+                  ),
+                ],
               );
             });
       },
@@ -167,6 +164,7 @@ class ExBlockPopUpButton extends StatelessWidget {
 }
 
 class NewExBlockButton extends StatelessWidget {
+  //Button zum erstellen eines neuen Übungsblocks
   const NewExBlockButton({
     super.key,
   });
@@ -181,12 +179,14 @@ class NewExBlockButton extends StatelessWidget {
             textStyle:
                 MaterialStateProperty.all(const TextStyle(fontSize: 20))),
         onPressed: () {
+          //Popup zum erstellen eines neuen Übungsblocks
           showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Text("Name des neuen Übungsblocks:"),
                   content: const TextField(
+                    //Eingabe vom Textfeld an Backend weitergeben und dort abspeichern
                     // onChanged: (query) {
 
                     // },
@@ -195,6 +195,7 @@ class NewExBlockButton extends StatelessWidget {
                     ),
                   ),
                   actions: <Widget>[
+                    //Buttons zum abbrechen und speichern
                     TextButton(
                       style: TextButton.styleFrom(
                         textStyle: Theme.of(context).textTheme.labelLarge,
@@ -210,7 +211,7 @@ class NewExBlockButton extends StatelessWidget {
                       ),
                       child: const Text('Speichern'),
                       onPressed: () {
-                        //Hier fehlt noch das Abspeichern im Backend
+                        //TODO: neuen Übungsblock in Backend speichern
                         Navigator.of(context).pop();
                       },
                     ),

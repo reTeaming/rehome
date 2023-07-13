@@ -5,8 +5,6 @@ import 'package:rehome/business_logic/exercisesearch/exblocksearch_bloc.dart';
 import 'package:rehome/domain/models/patient/default_exercise.dart';
 import 'package:rehome/domain/models/patient/exercise.dart';
 import 'package:rehome/domain/models/patient/homework.dart';
-import 'package:rehome/mocks/mock_exercise.dart';
-
 import '../business_logic/default_exercise/default_exercise_bloc.dart';
 import '../business_logic/exercisesearch/exercisesearch_bloc.dart';
 import '../business_logic/shared/list/list_bloc.dart';
@@ -38,7 +36,7 @@ class _ExerciseState extends State<ExerciseSearchWidget> {
         const Divider(height: 10),
         BlocBuilder<ExerciseSearchBloc, ListState>(builder: (context, state) {
           return RefreshIndicator(
-              //key :
+              key: const Key("refresh"),
               color: Colors.white,
               backgroundColor: Colors.blue,
               strokeWidth: 4.0,
@@ -55,75 +53,9 @@ class _ExerciseState extends State<ExerciseSearchWidget> {
                     },
                     children: [
                       // Liste mit allen Übungen als Expansion
-                      ExpansionPanelRadio(
-                        value: 0,
-                        headerBuilder: (BuildContext context, bool isExpanded) {
-                          return ListTile(
-                            title: const Text("Übungen"),
-                            onTap: () {
-                              setExpansion(0);
-                            },
-                          );
-                        },
-                        body: BlocBuilder<ExerciseSearchBloc,
-                                ListState<DefaultExercise, ParameterSet?>>(
-                            builder: (context, state) {
-                          final List<ListTile> listTiles = state.list
-                              .map((DefaultExercise e) => ListTile(
-                                    key: Key(e.name),
-                                    title: Text(e.name),
-                                    onTap: () {
-                                      context
-                                          .read<DefaultExerciseBloc>()
-                                          .add(ActiveExerciseChanged(e));
-                                    },
-                                  ))
-                              .toList();
-                          return AnimatedContainer(
-                              // um die Höhe der Listen dynamisch anzupassen
-                              height: _bodyHeight *
-                                  state.list
-                                      .length, // Höhe anhand der Listenlänge berechnen
-                              duration: const Duration(milliseconds: 500),
-                              child: ListView(
-                                  shrinkWrap: true, children: listTiles));
-                        }),
-                      ),
+                      expansionexercises(),
                       // Liste mit allen Übungsblöcken als Expansion
-                      ExpansionPanelRadio(
-                        value: 1,
-                        headerBuilder: (BuildContext context, bool isExpanded) {
-                          return ListTile(
-                            title: const Text("Übungsblöcke"),
-                            onTap: () {
-                              setExpansion(1);
-                            },
-                          );
-                        },
-                        body: BlocBuilder<ExBlockSearchBloc,
-                                ListState<ExerciseBlock, ParameterSet?>>(
-                            builder: (context, state) {
-                          final List<ListTile> listTiles = state.list
-                              .map((ExerciseBlock e) => ListTile(
-                                    key: Key(e.name),
-                                    title: Text(e.name),
-                                    onTap: () {
-                                      context
-                                          .read<DefaultExerciseBloc>()
-                                          .add(ActiveExBlockChanged(e));
-                                    },
-                                  ))
-                              .toList();
-                          return AnimatedContainer(
-                              // um die Höhe der Listen dynamisch anzupassen
-                              height: _bodyHeight *
-                                  state.list
-                                      .length, // Höhe anhand der Listenlänge berechnen
-                              duration: const Duration(milliseconds: 500),
-                              child: ListView(
-                                  shrinkWrap: true, children: listTiles));
-                        }),
-                      )
+                      expansionexblock()
                     ]),
               ));
         }),
@@ -131,6 +63,78 @@ class _ExerciseState extends State<ExerciseSearchWidget> {
     );
 
     //);
+  }
+
+  ExpansionPanelRadio expansionexercises() {
+    return ExpansionPanelRadio(
+      //ExpansionPanelRadio ist ein ExpansionPanel, welches nur ein Panel gleichzeitig expanded sein kann
+      value: 0,
+      headerBuilder: (BuildContext context, bool isExpanded) {
+        return ListTile(
+          title: const Text("Übungen"),
+          onTap: () {
+            setExpansion(0);
+          },
+        );
+      },
+      body: BlocBuilder<ExerciseSearchBloc,
+          ListState<DefaultExercise, ParameterSet?>>(builder: (context, state) {
+        final List<ListTile> listTiles =
+            state.list //Liste mit allen default Übungen
+                .map((DefaultExercise e) => ListTile(
+                      key: Key(e.name),
+                      title: Text(e.name),
+                      onTap: () {
+                        context
+                            .read<DefaultExerciseBloc>()
+                            .add(ActiveExerciseChanged(e));
+                      },
+                    ))
+                .toList();
+        return AnimatedContainer(
+            // um die Höhe der Listen dynamisch anzupassen
+            height: _bodyHeight *
+                state.list.length, // Höhe anhand der Listenlänge berechnen
+            duration: const Duration(milliseconds: 500),
+            child: ListView(shrinkWrap: true, children: listTiles));
+      }),
+    );
+  }
+
+  ExpansionPanelRadio expansionexblock() {
+    return ExpansionPanelRadio(
+      value: 1,
+      headerBuilder: (BuildContext context, bool isExpanded) {
+        return ListTile(
+          title: const Text("Übungsblöcke"),
+          onTap: () {
+            setExpansion(1);
+          },
+        );
+      },
+      body: BlocBuilder<ExBlockSearchBloc,
+              ListState<ExerciseBlock, ParameterSet?>>(
+          //Liste mit allen Übungsblöcken
+          builder: (context, state) {
+        final List<ListTile> listTiles = state.list
+            .map((ExerciseBlock e) => ListTile(
+                  key: Key(e.name),
+                  title: Text(e.name),
+                  onTap: () {
+                    context
+                        .read<DefaultExerciseBloc>()
+                        .add(ActiveExBlockChanged(e));
+                  },
+                ))
+            .toList();
+        return AnimatedContainer(
+            // um die Höhe der Listen dynamisch anzupassen
+            height: _bodyHeight *
+                state.list.length, // Höhe anhand der Listenlänge berechnen
+            duration: const Duration(milliseconds: 500),
+            child: ListView(shrinkWrap: true, children: listTiles));
+      }),
+    );
   }
 }
 
@@ -146,12 +150,20 @@ class SearchBar extends StatelessWidget {
         //Weitergabe der Sucheingabe
         context.read<ExerciseSearchBloc>().add(SearchInputChanged(query));
       },
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         hintText: "Suche...",
+        prefixIcon: const Icon(Icons.search),
+        suffixIcon: IconButton(
+          // Icon zum Löschen der Sucheingabe
+          icon: const Icon(Icons.clear),
+          onPressed: () {
+            context
+                .read<ExerciseSearchBloc>()
+                .add(const SearchInputChanged(""));
+          },
+        ),
         enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(//color),
-                // Farblich muss das ganze noch angepasst werden
-                )),
+            borderSide: BorderSide(color: Theme.of(context).canvasColor)),
       ),
     );
   }

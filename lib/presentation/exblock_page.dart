@@ -15,16 +15,22 @@ class ExBlockPage extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "Block ${activeExBlock!.name}",
+          activeExBlock!.name,
           style: const TextStyle(
             fontSize: 36.0,
             decoration: TextDecoration.underline,
           ),
         ),
-        const Text(
-          "Übungen in diesem Block:",
-          style: TextStyle(
-            fontSize: 25.0,
+        const Divider(
+          height: 10,
+        ),
+        const Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            "Übungen in diesem Block:",
+            style: TextStyle(
+              fontSize: 25.0,
+            ),
           ),
         ),
         const Divider(
@@ -33,12 +39,14 @@ class ExBlockPage extends StatelessWidget {
         BlocBuilder<DefaultExerciseBloc, DefaultExerciseState>(
           builder: (context, state) {
             return Builder(builder: (BuildContext context) {
-              final List<Exercise> exercises = activeExBlock!.block;
+              final List<Exercise> exercises =
+                  activeExBlock!.block; //Liste der Übungen in diesem Block
               final List<ListTile> exerciseTiles = exercises.map((Exercise e) {
                 return ListTile(
                     key: Key(e.exerciseType.name),
                     title: Text(e.exerciseType.name),
                     onTap: () {
+                      // Weiterleitung zur Übung
                       context.read<DefaultExerciseBloc>().add(
                           ActiveBlocktoExercise(
                               activeExBlock!, e.exerciseType));

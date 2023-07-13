@@ -13,6 +13,7 @@ class ExBlockSearchBloc extends ListBloc<ExerciseBlock, ParameterSet> {
 
   @override
   Future<List<ExerciseBlock>> onRefresh() {
+    //TODO: aktuelle Liste aus Backend laden
     throw UnimplementedError();
   }
 
@@ -22,7 +23,7 @@ class ExBlockSearchBloc extends ListBloc<ExerciseBlock, ParameterSet> {
     String searchInput = event.query.toLowerCase();
 
     final filteredList = state.list.where((object) {
-    return object.name.toLowerCase().contains(searchInput);
+      return object.name.toLowerCase().contains(searchInput);
     });
 
     return filteredList.toList();
@@ -32,7 +33,7 @@ class ExBlockSearchBloc extends ListBloc<ExerciseBlock, ParameterSet> {
   Future<List<ExerciseBlock>> onSearchTagChanged(
       SearchTagChanged<ParameterSet> event,
       ListState<ExerciseBlock, ParameterSet> state) async {
-    return [];
+    return []; // Tag search macht bei der aktuellen Datenstruktur keinen Sinn
     // if (event.tag == null) {
     //   return state.baseList;
     // }
